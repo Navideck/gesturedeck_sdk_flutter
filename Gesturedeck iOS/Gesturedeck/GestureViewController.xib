@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Montserrat regular.ttf">
+            <string>Montserrat-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="GestureViewController" customModule="GesturedeckSDK" customModuleProvider="target">
+            <connections>
+                <outlet property="pauseHUD" destination="v3X-at-TNM" id="ytN-vm-8dL"/>
+                <outlet property="pauseIcon" destination="TWP-Yo-j3i" id="uQg-U9-aXj"/>
+                <outlet property="skipHUD" destination="GfQ-Pj-dfZ" id="Bxf-A0-wCC"/>
+                <outlet property="skipIcon" destination="WmI-7b-c7i" id="ePB-Ai-S1y"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="volumeBar" destination="y50-oT-dDm" id="Ony-QI-g8b"/>
+                <outlet property="volumeHUD" destination="ehf-Ee-7os" id="RAf-oL-OhB"/>
+                <outlet property="volumeIcon" destination="yht-sl-9Wk" id="C6u-9f-zsV"/>
+                <outlet property="volumeLabel" destination="JG0-XG-f17" id="hGM-gG-t00"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ehf-Ee-7os" userLabel="Volume HUD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y50-oT-dDm" userLabel="Volume Bar">
+                            <rect key="frame" x="0.0" y="350" width="27" height="0.0"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" red="0.1117365062" green="0.1158176437" blue="0.22518250349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </view>
+                        <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HsQ-eW-LYs" userLabel="Volume Value Stack View">
+                            <rect key="frame" x="122.5" y="50" width="130.5" height="39.5"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_volume" translatesAutoresizingMaskIntoConstraints="NO" id="yht-sl-9Wk" colorLabel="IBBuiltInLabel-Yellow">
+                                    <rect key="frame" x="0.0" y="0.0" width="60" height="39.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="60" id="j0v-OD-g21"/>
+                                    </constraints>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10.5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JG0-XG-f17" userLabel="Volume Label" colorLabel="IBBuiltInLabel-Yellow">
+                                    <rect key="frame" x="68" y="0.0" width="62.5" height="39.5"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="62" id="JIM-xE-9QZ"/>
+                                        <constraint firstAttribute="height" constant="39.5" id="uYc-6D-f4G"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="32"/>
+                                    <color key="textColor" red="0.1117365062" green="0.1158176437" blue="0.22518250349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="HsQ-eW-LYs" firstAttribute="centerX" secondItem="ehf-Ee-7os" secondAttribute="centerX" id="GTw-GF-4k5"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GfQ-Pj-dfZ" userLabel="Skip HUD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_skip" translatesAutoresizingMaskIntoConstraints="NO" id="WmI-7b-c7i">
+                            <rect key="frame" x="140" y="286" width="95" height="95"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="95" id="2TY-fr-D4m"/>
+                                <constraint firstAttribute="height" constant="95" id="j41-mz-W1B"/>
+                            </constraints>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="WmI-7b-c7i" secondAttribute="centerX" id="T0j-ra-8dz"/>
+                        <constraint firstAttribute="centerY" secondItem="WmI-7b-c7i" secondAttribute="centerY" id="icv-DK-kAl"/>
+                    </constraints>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="v3X-at-TNM" userLabel="Pause HUD">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pause" highlightedImage="icon_play" translatesAutoresizingMaskIntoConstraints="NO" id="TWP-Yo-j3i">
+                            <rect key="frame" x="140" y="286" width="95" height="95"/>
+                        </imageView>
+                    </subviews>
+                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="centerX" secondItem="TWP-Yo-j3i" secondAttribute="centerX" id="9Tg-P4-vk9"/>
+                        <constraint firstAttribute="centerY" secondItem="TWP-Yo-j3i" secondAttribute="centerY" id="emz-tI-0bo"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="rvg-U5-04h"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <gestureRecognizers/>
+            <constraints>
+                <constraint firstItem="GfQ-Pj-dfZ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="5Vh-tK-VMg"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7Yv-f5-eVr"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="leading" secondItem="rvg-U5-04h" secondAttribute="leading" id="INQ-sr-zze"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="top" secondItem="rvg-U5-04h" secondAttribute="top" id="XyM-IH-wgO"/>
+                <constraint firstItem="v3X-at-TNM" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="drV-10-Wos"/>
+                <constraint firstItem="HsQ-eW-LYs" firstAttribute="top" secondItem="rvg-U5-04h" secondAttribute="top" constant="50" id="eZh-O2-VJp"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="bottom" secondItem="rvg-U5-04h" secondAttribute="bottom" id="eto-nR-zje"/>
+                <constraint firstItem="v3X-at-TNM" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="iaO-47-bMS"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="top" secondItem="v3X-at-TNM" secondAttribute="top" id="kBV-fd-PxY"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="leading" secondItem="GfQ-Pj-dfZ" secondAttribute="leading" id="nlo-dm-iyX"/>
+                <constraint firstItem="GfQ-Pj-dfZ" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="uMX-YW-oYE"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="leading" secondItem="v3X-at-TNM" secondAttribute="leading" id="vJV-ff-mX3"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="top" secondItem="GfQ-Pj-dfZ" secondAttribute="top" id="xER-YG-t5n"/>
+            </constraints>
+            <point key="canvasLocation" x="140" y="155"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="icon_pause" width="95" height="95"/>
+        <image name="icon_play" width="95" height="95"/>
+        <image name="icon_skip" width="60" height="60"/>
+        <image name="icon_volume" width="60" height="61"/>
+    </resources>
+</document>
