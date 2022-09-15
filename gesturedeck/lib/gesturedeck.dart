@@ -10,5 +10,5 @@ class Gesturedeck {
   }
 }
 
-// TODO : add swipe right , swipe left
+// TODO: add swipe right, swipe left
 enum GestureType { swipe, tap }

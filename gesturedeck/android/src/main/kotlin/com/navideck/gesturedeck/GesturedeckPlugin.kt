@@ -26,7 +26,7 @@ class GesturedeckPlugin: FlutterPlugin, MethodCallHandler, ActivityAware , Event
   private var touchEventSink: EventChannel.EventSink? = null
 
   fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
-    // TODO : recheck if we still need to call dispatchTouchEvent
+    // TODO: recheck if we still need to call dispatchTouchEvent
     val isHandledByGesture = gesturedeck?.onTouchEvent(event)
   }
 

@@ -226,13 +226,13 @@ class Gesturedeck(activity: Activity) {
 
     private var previousGestureEvent:GestureEvent?=null
     private fun onGestureEventReceived(gestureEvent: GestureEvent){
-        //TODO : use previousGestureEvent to improve logic for recognizing gestureEvent
+        // TODO: use previousGestureEvent to improve logic for recognizing gestureEvent
         gestureCallback.invoke(gestureEvent)
 
         if(gestureEvent== GestureEvent.SWIPED_LEFT ||gestureEvent== GestureEvent.SWIPED_RIGHT){
             animateOverlay()
         }
-        //TODO : Imporve logic to manage audio
+        // TODO: Improve logic to manage audio
         if(gestureEvent == GestureEvent.SWIPING_UP){
            audioManager.setMediaVolume( audioManager.mediaCurrentVolume+1)
         }
@@ -268,6 +268,6 @@ val AudioManager.mediaMaxVolume:Int
 val AudioManager.mediaCurrentVolume:Int
     get() = this.getStreamVolume(AudioManager.STREAM_MUSIC)
 
-// TODO Fade in screen on touch
-// TODO Fade out screen on release
-// TODO Implement Window.Callback interface https://developer.android.com/reference/android/view/Window.Callback instead of overriding dispatchTouchEvent
+// TODO: Fade in screen on touch
+// TODO: Fade out screen on release
+// TODO: Implement Window.Callback interface https://developer.android.com/reference/android/view/Window.Callback instead of overriding dispatchTouchEvent
