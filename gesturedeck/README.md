@@ -1,15 +1,23 @@
 # gesturedeck
 
-A new flutter plugin project.
+Flutter plugin for Gesturedeck
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Android requires minimum version : 21
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Change `MainActivity.kt` of your native android project like this
 
+```kotlin
+import android.view.MotionEvent
+import io.flutter.embedding.android.FlutterActivity
+import  com.navideck.gesturedeck.GesturedeckPlugin
+
+class MainActivity: FlutterActivity() {
+
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        GesturedeckPlugin.instance?.dispatchTouchEvent(event, activity)
+        return super.dispatchTouchEvent(event)
+    }
+}
+```
