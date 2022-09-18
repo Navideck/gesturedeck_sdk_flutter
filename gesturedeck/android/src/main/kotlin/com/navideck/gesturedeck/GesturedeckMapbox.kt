@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.app.Activity
 import android.media.AudioManager
+import android.media.AudioManager.FLAG_SHOW_UI
 import android.util.DisplayMetrics
 import android.util.Log
 import android.view.MotionEvent
@@ -18,16 +19,25 @@ import com.mapbox.android.gestures.SidewaysShoveGestureDetector.SimpleOnSideways
 import com.mapbox.android.gestures.StandardGestureDetector.SimpleStandardOnGestureListener
 import com.mapbox.android.gestures.StandardScaleGestureDetector
 import com.mapbox.android.gestures.StandardScaleGestureDetector.SimpleStandardOnScaleGestureListener
+import java.lang.Math.round
 import java.util.*
+import kotlin.math.roundToInt
 
-class Gesturedeck(activity: Activity) {
+class GesturedeckMapbox(activity: Activity) {
     private lateinit var gestureCallback: (gestureEvent: GestureEvent) -> Unit
     constructor(activity: Activity, gestureCallbacks: (gestureEvent: GestureEvent) -> Unit) : this(activity) {
         this.gestureCallback = gestureCallbacks
     }
-
+    private var currentVolume:Double = 0.0
     lateinit var androidGesturesManager: AndroidGesturesManager
     private lateinit var overlayView: View
+
+    // base view with other Views
+    private lateinit var baseView: View
+    private lateinit var swipeRightView: View
+    private lateinit var swipeLeftView: View
+
+
     private lateinit var audioManager: AudioManager
 
     init {
@@ -41,19 +51,49 @@ class Gesturedeck(activity: Activity) {
         overlayView = activity.layoutInflater.inflate(R.layout.sample_overlay_view, null)
         measureAndLayout(activity, overlayView, 0)
         overlayView.visibility = View.GONE
+
+
+        baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
+        measureAndLayout(activity, baseView, 0)
+        // define all views
+        swipeRightView = baseView.findViewById(R.id.swipe_right_view)
+        swipeLeftView = baseView.findViewById(R.id.swipe_left_view)
+        // set all invisible
+        swipeRightView.visibility = View.GONE
+        baseView.visibility = View.GONE
+        swipeLeftView.visibility = View.GONE
+
         container.overlay.add(overlayView)
+        container.overlay.add(baseView)
         audioManager = activity.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager
+        currentVolume = audioManager.getCurrentVolumeInPercentage()
+    }
+
+    private fun animateBaseView(subView: View) {
+        baseView.alpha = 0f
+        baseView.visibility = View.VISIBLE
+        subView.visibility = View.VISIBLE
+        baseView.animate()
+                .alpha(1f)
+                .setDuration(2000)
+                .setListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        baseView.visibility = View.GONE
+                        subView.visibility = View.GONE
+                    }
+                })
+
     }
 
     private fun animateOverlay() {
+        baseView.alpha = 0f
+        baseView.visibility = View.VISIBLE
+
+
         overlayView.apply {
-            // Set the content view to 0% opacity but visible, so that it is visible
-            // (but fully transparent) during the animation.
             alpha = 0f
             visibility = View.VISIBLE
 
-            // Animate the content view to 100% opacity, and clear any animation
-            // listener set on the view.
             animate()
                 .alpha(1f)
                 .setDuration(2000)
@@ -142,26 +182,27 @@ class Gesturedeck(activity: Activity) {
             true
         }
 
+
         androidGesturesManager.setShoveGestureListener(object : SimpleOnShoveGestureListener() {
             override fun onShove(
                 detector: ShoveGestureDetector,
                 deltaPixelsSinceLast: Float,
                 deltaPixelsSinceStart: Float
             ): Boolean {
-//                if(detector.deltaPixelsSinceStart < 0){
-//                    onGestureEventReceived(GestureEvent.SWIPING_UP)
-//                }else{
-//                    onGestureEventReceived(GestureEvent.SWIPING_DOWN)
-//                }
-                return true
-            }
-
-            override fun onShoveBegin(detector: ShoveGestureDetector): Boolean {
                 if(detector.deltaPixelsSinceStart < 0){
                     onGestureEventReceived(GestureEvent.SWIPING_UP)
                 }else{
                     onGestureEventReceived(GestureEvent.SWIPING_DOWN)
                 }
+                return true
+            }
+
+            override fun onShoveBegin(detector: ShoveGestureDetector): Boolean {
+//                if(detector.deltaPixelsSinceStart < 0){
+//                    onGestureEventReceived(GestureEvent.SWIPING_UP)
+//                }else{
+//                    onGestureEventReceived(GestureEvent.SWIPING_DOWN)
+//                }
                 return super.onShoveBegin(detector)
             }
 
@@ -179,6 +220,7 @@ class Gesturedeck(activity: Activity) {
             }
         })
 
+        androidGesturesManager.shoveGestureDetector.maxShoveAngle = 90F
         androidGesturesManager.sidewaysShoveGestureDetector.maxShoveAngle = 90F
 
         androidGesturesManager.setSidewaysShoveGestureListener(
@@ -225,49 +267,91 @@ class Gesturedeck(activity: Activity) {
     }
 
     private var previousGestureEvent:GestureEvent?=null
-    private fun onGestureEventReceived(gestureEvent: GestureEvent){
-        // TODO: use previousGestureEvent to improve logic for recognizing gestureEvent
-        gestureCallback.invoke(gestureEvent)
+    private var  verticalSwipeEventCompletionTime:Date? = null
 
-        if(gestureEvent== GestureEvent.SWIPED_LEFT ||gestureEvent== GestureEvent.SWIPED_RIGHT){
-            animateOverlay()
+    private fun onGestureEventReceived(gestureEvent: GestureEvent){
+
+        if(gestureEvent== GestureEvent.SWIPED_LEFT && isValidHorizontalSwipe() ){
+            animateBaseView(swipeLeftView)
+        }else if(gestureEvent== GestureEvent.SWIPED_RIGHT && isValidHorizontalSwipe() ){
+            animateBaseView(swipeRightView)
+        }else if(gestureEvent == GestureEvent.SWIPING_UP){
+            currentVolume += 0.009
+            audioManager.setVolumeByPercentage(currentVolume,false)
+        }else if(gestureEvent == GestureEvent.SWIPING_DOWN){
+            currentVolume -= 0.009
+            audioManager.setVolumeByPercentage(currentVolume,false)
+        }else if (gestureEvent == GestureEvent.SWIPED_UP || gestureEvent == GestureEvent.SWIPED_DOWN){
+            verticalSwipeEventCompletionTime = Calendar.getInstance().time
         }
-        // TODO: Improve logic to manage audio
-        if(gestureEvent == GestureEvent.SWIPING_UP){
-           audioManager.setMediaVolume( audioManager.mediaCurrentVolume+1)
+
+        //Update callback if horizontal swipes are valid
+        if (gestureEvent == GestureEvent.SWIPED_LEFT || gestureEvent==GestureEvent.SWIPED_RIGHT ){
+            if(isValidHorizontalSwipe()){
+                gestureCallback.invoke(gestureEvent)
+            }
+        }else{
+            gestureCallback.invoke(gestureEvent)
         }
-        if(gestureEvent == GestureEvent.SWIPING_DOWN){
-            audioManager.setMediaVolume( audioManager.mediaCurrentVolume-1)
-        }
+
+        previousGestureEvent = gestureEvent
     }
 
-}
+    private fun isValidHorizontalSwipe():Boolean{
+        var isValidSwipe = !(previousGestureEvent == GestureEvent.SWIPING_UP || previousGestureEvent == GestureEvent.SWIPING_DOWN)
+        if(isValidSwipe && verticalSwipeEventCompletionTime != null){
+            val currentTime = Calendar.getInstance().time
+            val diffInMs: Long = currentTime.time - verticalSwipeEventCompletionTime!!.time
+            if(diffInMs < 200){
+                isValidSwipe = false
+            }
+        }
+        return isValidSwipe
+    }
 
 
-enum class GestureEvent {
-    SWIPING_LEFT, SWIPED_LEFT, SWIPING_RIGHT, SWIPED_RIGHT, SWIPING_UP, SWIPED_UP, SWIPING_DOWN, SWIPED_DOWN,DoubleTap,TwoFingerTap,SingleTapUp,SingleTapConfirmed,LongPress
-}
-
-// Extension function to change media volume programmatically
-fun AudioManager.setMediaVolume(volumeIndex:Int) {
-    // Set media volume level
-    this.setStreamVolume(
-        AudioManager.STREAM_MUSIC, // Stream type
-        volumeIndex, // Volume index
-        0// Flags
-    )
-}
 
 
-// Extension property to get media maximum volume index
-val AudioManager.mediaMaxVolume:Int
-    get() = this.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+    // Extension function to change media volume programmatically
+    fun AudioManager.setMediaVolume(volumeIndex:Int) {
+        Log.d("SettingAudio : ",volumeIndex.toString())
+        // Set media volume level
+        this.setStreamVolume(
+            AudioManager.STREAM_MUSIC, // Stream type
+            volumeIndex, // Volume index
+            0// Flags
+        )
+    }
+
+    fun AudioManager.setVolumeByPercentage(volume:Double, showSystemUI:Boolean) {
+        var volumePercentage:Double = volume
+        if (volume > 1) {
+            volumePercentage = volume
+        }
+        if (volume < 0) {
+            volumePercentage = 0.0
+        }
+        this.setMediaVolume((volumePercentage * this.mediaMaxVolume).roundToInt())
+    }
+
+    fun AudioManager.getCurrentVolumeInPercentage(): Double {
+        return (this.mediaCurrentVolume / this.mediaMaxVolume.toDouble() * 10000) / 10000
+    }
 
 
-// Extension property to get media/music current volume index
-val AudioManager.mediaCurrentVolume:Int
-    get() = this.getStreamVolume(AudioManager.STREAM_MUSIC)
+    // Extension property to get media maximum volume index
+    val AudioManager.mediaMaxVolume:Int
+        get() = this.getStreamMaxVolume(AudioManager.STREAM_MUSIC)
+
+
+    // Extension property to get media/music current volume index
+    val AudioManager.mediaCurrentVolume:Int
+        get() = this.getStreamVolume(AudioManager.STREAM_MUSIC)
 
 // TODO: Fade in screen on touch
 // TODO: Fade out screen on release
 // TODO: Implement Window.Callback interface https://developer.android.com/reference/android/view/Window.Callback instead of overriding dispatchTouchEvent
+
+}
+
+

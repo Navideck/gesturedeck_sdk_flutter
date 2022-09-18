@@ -4,7 +4,6 @@ import android.app.Activity
 import android.util.Log
 import android.view.MotionEvent
 import androidx.annotation.NonNull
-import com.navideck.gesturedeck.Gesturedeck
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -17,21 +16,25 @@ import kotlin.math.log
 
 /** GesturedeckPlugin */
 class GesturedeckPlugin: FlutterPlugin, MethodCallHandler, ActivityAware , EventChannel.StreamHandler {
-
   companion object {
     var instance: GesturedeckPlugin? = null
   }
 
-  var gesturedeck: Gesturedeck? = null
   private var touchEventSink: EventChannel.EventSink? = null
-
-  fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
-    // TODO: recheck if we still need to call dispatchTouchEvent
-    val isHandledByGesture = gesturedeck?.onTouchEvent(event)
-  }
-
   private lateinit var channel : MethodChannel
   private lateinit var touchEventResult : EventChannel
+
+  var gesturedeck: GesturedeckMapbox? = null
+  //var gesturedeck: GesturedeckIOS? = null
+  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+    gesturedeck = GesturedeckMapbox(binding.activity) { gesture: GestureEvent ->
+      onGesturesCallback(gesture)
+    }
+  }
+
+  fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
+    gesturedeck?.onTouchEvent(event)
+  }
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     channel = MethodChannel(flutterPluginBinding.binaryMessenger, "gesturedeck")
@@ -51,18 +54,20 @@ class GesturedeckPlugin: FlutterPlugin, MethodCallHandler, ActivityAware , Event
     instance = null
   }
 
-  override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    gesturedeck = Gesturedeck(binding.activity) { gesture: GestureEvent ->
-      onGesturesCallback(gesture)
-    }
-  }
+
 
   private fun onGesturesCallback(gesture: GestureEvent) {
     Log.d("FlutterGestureCallback", gesture.name)
-    if(gesture == GestureEvent.SWIPED_RIGHT || gesture == GestureEvent.SWIPED_LEFT){
-      touchEventSink?.success("swipe")
-    }else if (gesture == GestureEvent.LongPress){
-      touchEventSink?.success("tap")
+    when (gesture) {
+        GestureEvent.SWIPED_RIGHT -> {
+          touchEventSink?.success("swipedRight")
+        }
+        GestureEvent.SWIPED_LEFT -> {
+          touchEventSink?.success("swipedLeft")
+        }
+        GestureEvent.LongPress -> {
+          touchEventSink?.success("tap")
+        }
     }
   }
 
