@@ -8,15 +8,18 @@ public class SwiftGesturedeckPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         gesturedeck = Gesturedeck(tapAction: {_ in 
             events("tap")
-        }, swipeAction: {
-            events("swipe")
+        }, swipeLeftAction: {
+            events("swipe left")
+        }, swipeRightAction: {
+            events("swipe right")
         })
         return nil
     }
     
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
         gesturedeck?.tapAction = nil
-        gesturedeck?.swipeAction = nil
+        gesturedeck?.swipeLeftAction = nil
+        gesturedeck?.swipeRightAction = nil
         return nil
     }
     

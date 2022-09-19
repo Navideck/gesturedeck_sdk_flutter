@@ -1,0 +1,2981 @@
+{
+  "ABIRoot": {
+    "kind": "Root",
+    "name": "TopLevel",
+    "printedName": "TopLevel",
+    "children": [
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "InsomniaMode",
+        "printedName": "InsomniaMode",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "disabled",
+            "printedName": "disabled",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.InsomniaMode.Type) -> GesturedeckiOS.InsomniaMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.InsomniaMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "InsomniaMode",
+                        "printedName": "GesturedeckiOS.InsomniaMode",
+                        "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS12InsomniaModeO8disabledyA2CmF",
+            "mangledName": "$s14GesturedeckiOS12InsomniaModeO8disabledyA2CmF",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "always",
+            "printedName": "always",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.InsomniaMode.Type) -> GesturedeckiOS.InsomniaMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.InsomniaMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "InsomniaMode",
+                        "printedName": "GesturedeckiOS.InsomniaMode",
+                        "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS12InsomniaModeO6alwaysyA2CmF",
+            "mangledName": "$s14GesturedeckiOS12InsomniaModeO6alwaysyA2CmF",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "whenCharging",
+            "printedName": "whenCharging",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.InsomniaMode.Type) -> GesturedeckiOS.InsomniaMode",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.InsomniaMode.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "InsomniaMode",
+                        "printedName": "GesturedeckiOS.InsomniaMode",
+                        "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS12InsomniaModeO12whenChargingyA2CmF",
+            "mangledName": "$s14GesturedeckiOS12InsomniaModeO12whenChargingyA2CmF",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "RawDocComment"
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "InsomniaMode",
+                "printedName": "GesturedeckiOS.InsomniaMode",
+                "usr": "s:14GesturedeckiOS12InsomniaModeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "InsomniaMode",
+                "printedName": "GesturedeckiOS.InsomniaMode",
+                "usr": "s:14GesturedeckiOS12InsomniaModeO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:14GesturedeckiOS12InsomniaModeO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s14GesturedeckiOS12InsomniaModeO2eeoiySbAC_ACtFZ",
+            "moduleName": "GesturedeckiOS",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS12InsomniaModeO9hashValueSivp",
+            "mangledName": "$s14GesturedeckiOS12InsomniaModeO9hashValueSivp",
+            "moduleName": "GesturedeckiOS",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS12InsomniaModeO9hashValueSivg",
+                "mangledName": "$s14GesturedeckiOS12InsomniaModeO9hashValueSivg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:14GesturedeckiOS12InsomniaModeO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s14GesturedeckiOS12InsomniaModeO4hash4intoys6HasherVz_tF",
+            "moduleName": "GesturedeckiOS",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:14GesturedeckiOS12InsomniaModeO",
+        "mangledName": "$s14GesturedeckiOS12InsomniaModeO",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "BatteryStateReporting",
+        "printedName": "BatteryStateReporting",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "batteryStateHandler",
+            "printedName": "batteryStateHandler",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Swift.Bool) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.Bool) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvp",
+            "mangledName": "$s14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvp",
+            "moduleName": "GesturedeckiOS",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.Bool) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.Bool) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvg",
+                "mangledName": "$s14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvg",
+                "moduleName": "GesturedeckiOS",
+                "genericSig": "<τ_0_0 where τ_0_0 : GesturedeckiOS.BatteryStateReporting>",
+                "sugared_genericSig": "<Self where Self : GesturedeckiOS.BatteryStateReporting>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.Bool) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.Bool) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvs",
+                "mangledName": "$s14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvs",
+                "moduleName": "GesturedeckiOS",
+                "genericSig": "<τ_0_0 where τ_0_0 : GesturedeckiOS.BatteryStateReporting>",
+                "sugared_genericSig": "<Self where Self : GesturedeckiOS.BatteryStateReporting>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvM",
+                "mangledName": "$s14GesturedeckiOS21BatteryStateReportingP07batteryD7HandlerySbcSgvM",
+                "moduleName": "GesturedeckiOS",
+                "genericSig": "<τ_0_0 where τ_0_0 : GesturedeckiOS.BatteryStateReporting>",
+                "sugared_genericSig": "<Self where Self : GesturedeckiOS.BatteryStateReporting>",
+                "protocolReq": true,
+                "implicit": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:14GesturedeckiOS21BatteryStateReportingP",
+        "mangledName": "$s14GesturedeckiOS21BatteryStateReportingP",
+        "moduleName": "GesturedeckiOS",
+        "genericSig": "<τ_0_0 : AnyObject>",
+        "sugared_genericSig": "<Self : AnyObject>",
+        "declAttributes": [
+          "AccessControl",
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "InsomniaModeHaving",
+        "printedName": "InsomniaModeHaving",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "mode",
+            "printedName": "mode",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "InsomniaMode",
+                "printedName": "GesturedeckiOS.InsomniaMode",
+                "usr": "s:14GesturedeckiOS12InsomniaModeO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0Ovp",
+            "mangledName": "$s14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0Ovp",
+            "moduleName": "GesturedeckiOS",
+            "protocolReq": true,
+            "declAttributes": [
+              "RawDocComment"
+            ],
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0Ovg",
+                "mangledName": "$s14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0Ovg",
+                "moduleName": "GesturedeckiOS",
+                "genericSig": "<τ_0_0 where τ_0_0 : GesturedeckiOS.InsomniaModeHaving>",
+                "sugared_genericSig": "<Self where Self : GesturedeckiOS.InsomniaModeHaving>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0Ovs",
+                "mangledName": "$s14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0Ovs",
+                "moduleName": "GesturedeckiOS",
+                "genericSig": "<τ_0_0 where τ_0_0 : GesturedeckiOS.InsomniaModeHaving>",
+                "sugared_genericSig": "<Self where Self : GesturedeckiOS.InsomniaModeHaving>",
+                "protocolReq": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0OvM",
+                "mangledName": "$s14GesturedeckiOS18InsomniaModeHavingP4modeAA0cD0OvM",
+                "moduleName": "GesturedeckiOS",
+                "genericSig": "<τ_0_0 where τ_0_0 : GesturedeckiOS.InsomniaModeHaving>",
+                "sugared_genericSig": "<Self where Self : GesturedeckiOS.InsomniaModeHaving>",
+                "protocolReq": true,
+                "implicit": true,
+                "reqNewWitnessTableEntry": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          }
+        ],
+        "declKind": "Protocol",
+        "usr": "s:14GesturedeckiOS18InsomniaModeHavingP",
+        "mangledName": "$s14GesturedeckiOS18InsomniaModeHavingP",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "AccessControl"
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Insomnia",
+        "printedName": "Insomnia",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "mode",
+            "printedName": "mode",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "InsomniaMode",
+                "printedName": "GesturedeckiOS.InsomniaMode",
+                "usr": "s:14GesturedeckiOS12InsomniaModeO"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvp",
+            "mangledName": "$s14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvg",
+                "mangledName": "$s14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "InsomniaMode",
+                    "printedName": "GesturedeckiOS.InsomniaMode",
+                    "usr": "s:14GesturedeckiOS12InsomniaModeO"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvs",
+                "mangledName": "$s14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvM",
+                "mangledName": "$s14GesturedeckiOS8InsomniaC4modeAA0C4ModeOvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "batteryStateHandler",
+            "printedName": "batteryStateHandler",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((Swift.Bool) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(Swift.Bool) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Bool",
+                        "printedName": "Swift.Bool",
+                        "usr": "s:Sb"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvp",
+            "mangledName": "$s14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "HasInitialValue",
+              "Final",
+              "HasStorage",
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.Bool) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.Bool) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvg",
+                "mangledName": "$s14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((Swift.Bool) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.Bool) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvs",
+                "mangledName": "$s14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvM",
+                "mangledName": "$s14GesturedeckiOS8InsomniaC19batteryStateHandlerySbcSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "declAttributes": [
+                  "Final"
+                ],
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(mode:device:notificationCenter:application:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Insomnia",
+                "printedName": "GesturedeckiOS.Insomnia",
+                "usr": "s:14GesturedeckiOS8InsomniaC"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "InsomniaMode",
+                "printedName": "GesturedeckiOS.InsomniaMode",
+                "usr": "s:14GesturedeckiOS12InsomniaModeO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIDevice",
+                "printedName": "UIKit.UIDevice",
+                "hasDefaultArg": true,
+                "usr": "c:objc(cs)UIDevice"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "NotificationCenter",
+                "printedName": "Foundation.NotificationCenter",
+                "hasDefaultArg": true,
+                "usr": "c:objc(cs)NSNotificationCenter"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIApplication",
+                "printedName": "UIKit.UIApplication",
+                "hasDefaultArg": true,
+                "usr": "c:objc(cs)UIApplication"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:14GesturedeckiOS8InsomniaC4mode6device18notificationCenter11applicationAcA0C4ModeO_So8UIDeviceCSo014NSNotificationG0CSo13UIApplicationCtcfc",
+            "mangledName": "$s14GesturedeckiOS8InsomniaC4mode6device18notificationCenter11applicationAcA0C4ModeO_So8UIDeviceCSo014NSNotificationG0CSo13UIApplicationCtcfc",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "AccessControl",
+              "RawDocComment"
+            ],
+            "init_kind": "Designated"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "s:14GesturedeckiOS8InsomniaC",
+        "mangledName": "$s14GesturedeckiOS8InsomniaC",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "Final",
+          "AccessControl",
+          "RawDocComment"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "BatteryStateReporting",
+            "printedName": "BatteryStateReporting",
+            "usr": "s:14GesturedeckiOS21BatteryStateReportingP",
+            "mangledName": "$s14GesturedeckiOS21BatteryStateReportingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "InsomniaModeHaving",
+            "printedName": "InsomniaModeHaving",
+            "usr": "s:14GesturedeckiOS18InsomniaModeHavingP",
+            "mangledName": "$s14GesturedeckiOS18InsomniaModeHavingP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "MediaPlayer",
+        "printedName": "MediaPlayer",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Gesturedeck",
+        "printedName": "Gesturedeck",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "tapAction",
+            "printedName": "tapAction",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "((@escaping (Swift.Bool) -> ()) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "(@escaping (Swift.Bool) -> ()) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.Bool) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((@escaping (Swift.Bool) -> ()) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(@escaping (Swift.Bool) -> ()) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeFunc",
+                            "name": "Function",
+                            "printedName": "(Swift.Bool) -> ()",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Void",
+                                "printedName": "()"
+                              },
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Bool",
+                                "printedName": "Swift.Bool",
+                                "usr": "s:Sb"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "((@escaping (Swift.Bool) -> ()) -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(@escaping (Swift.Bool) -> ()) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeFunc",
+                            "name": "Function",
+                            "printedName": "(Swift.Bool) -> ()",
+                            "children": [
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Void",
+                                "printedName": "()"
+                              },
+                              {
+                                "kind": "TypeNominal",
+                                "name": "Bool",
+                                "printedName": "Swift.Bool",
+                                "usr": "s:Sb"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC9tapActionyySbccSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "swipeLeftAction",
+            "printedName": "swipeLeftAction",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC15swipeLeftActionyycSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "swipeRightAction",
+            "printedName": "swipeRightAction",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "(() -> ())?",
+                    "children": [
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "() -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          }
+                        ]
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC16swipeRightActionyycSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "strokeColor",
+            "printedName": "strokeColor",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "CGColor",
+                "printedName": "CoreGraphics.CGColor",
+                "usr": "c:@T@CGColorRef"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGColor",
+                    "printedName": "CoreGraphics.CGColor",
+                    "usr": "c:@T@CGColorRef"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "CGColor",
+                    "printedName": "CoreGraphics.CGColor",
+                    "usr": "c:@T@CGColorRef"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC11strokeColorSo10CGColorRefavM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "volumeIcon",
+            "printedName": "volumeIcon",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC10volumeIconSo7UIImageCSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "pauseIcon",
+            "printedName": "pauseIcon",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC9pauseIconSo7UIImageCSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "playIcon",
+            "printedName": "playIcon",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC8playIconSo7UIImageCSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "swipeLeftIcon",
+            "printedName": "swipeLeftIcon",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC13swipeLeftIconSo7UIImageCSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Var",
+            "name": "swipeRightIcon",
+            "printedName": "swipeRightIcon",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvp",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvp",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "HasInitialValue",
+              "HasStorage",
+              "AccessControl"
+            ],
+            "hasStorage": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvg",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Set",
+                "printedName": "Set()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Optional",
+                    "printedName": "UIKit.UIImage?",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "UIImage",
+                        "printedName": "UIKit.UIImage",
+                        "usr": "c:objc(cs)UIImage"
+                      }
+                    ],
+                    "usr": "s:Sq"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvs",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvs",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "set"
+              },
+              {
+                "kind": "Accessor",
+                "name": "Modify",
+                "printedName": "Modify()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Void",
+                    "printedName": "()"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvM",
+                "mangledName": "$s14GesturedeckiOS11GesturedeckC14swipeRightIconSo7UIImageCSgvM",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "_modify"
+              }
+            ]
+          },
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(on:tapAction:swipeLeftAction:swipeRightAction:volumeIcon:pauseIcon:playIcon:swipeLeftIcon:swipeRightIcon:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Gesturedeck",
+                "printedName": "GesturedeckiOS.Gesturedeck",
+                "usr": "c:@M@GesturedeckiOS@objc(cs)Gesturedeck"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIViewController?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIViewController",
+                    "printedName": "UIKit.UIViewController",
+                    "usr": "c:objc(cs)UIViewController"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(((Swift.Bool) -> ()) -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "((Swift.Bool) -> ()) -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeFunc",
+                        "name": "Function",
+                        "printedName": "(Swift.Bool) -> ()",
+                        "children": [
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Void",
+                            "printedName": "()"
+                          },
+                          {
+                            "kind": "TypeNominal",
+                            "name": "Bool",
+                            "printedName": "Swift.Bool",
+                            "usr": "s:Sb"
+                          }
+                        ],
+                        "typeAttributes": [
+                          "noescape"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "(() -> ())?",
+                "children": [
+                  {
+                    "kind": "TypeFunc",
+                    "name": "Function",
+                    "printedName": "() -> ()",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      },
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Void",
+                        "printedName": "()"
+                      }
+                    ]
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Optional",
+                "printedName": "UIKit.UIImage?",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "UIImage",
+                    "printedName": "UIKit.UIImage",
+                    "usr": "c:objc(cs)UIImage"
+                  }
+                ],
+                "hasDefaultArg": true,
+                "usr": "s:Sq"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:14GesturedeckiOS11GesturedeckC2on9tapAction09swipeLeftF00g5RightF010volumeIcon05pauseK004playK00ghK00giK0ACSo16UIViewControllerCSg_yySbXEcSgyycSgAQSo7UIImageCSgA4Ttcfc",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC2on9tapAction09swipeLeftF00g5RightF010volumeIcon05pauseK004playK00ghK00giK0ACSo16UIViewControllerCSg_yySbXEcSgyycSgAQSo7UIImageCSgA4Ttcfc",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "Custom",
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "gestureRecognizer",
+            "printedName": "gestureRecognizer(_:shouldRecognizeSimultaneouslyWith:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIGestureRecognizer",
+                "printedName": "UIKit.UIGestureRecognizer",
+                "usr": "c:objc(cs)UIGestureRecognizer"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIGestureRecognizer",
+                "printedName": "UIKit.UIGestureRecognizer",
+                "usr": "c:objc(cs)UIGestureRecognizer"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@GesturedeckiOS@objc(cs)Gesturedeck(im)gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC17gestureRecognizer_33shouldRecognizeSimultaneouslyWithSbSo09UIGestureE0C_AGtF",
+            "moduleName": "GesturedeckiOS",
+            "objc_name": "gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:",
+            "declAttributes": [
+              "ObjC",
+              "Custom",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Function",
+            "name": "gestureRecognizerShouldBegin",
+            "printedName": "gestureRecognizerShouldBegin(_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "UIGestureRecognizer",
+                "printedName": "UIKit.UIGestureRecognizer",
+                "usr": "c:objc(cs)UIGestureRecognizer"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "c:@M@GesturedeckiOS@objc(cs)Gesturedeck(im)gestureRecognizerShouldBegin:",
+            "mangledName": "$s14GesturedeckiOS11GesturedeckC28gestureRecognizerShouldBeginySbSo09UIGestureE0CF",
+            "moduleName": "GesturedeckiOS",
+            "objc_name": "gestureRecognizerShouldBegin:",
+            "declAttributes": [
+              "ObjC",
+              "Custom",
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Class",
+        "usr": "c:@M@GesturedeckiOS@objc(cs)Gesturedeck",
+        "mangledName": "$s14GesturedeckiOS11GesturedeckC",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "Custom",
+          "AccessControl",
+          "ObjC"
+        ],
+        "superclassUsr": "c:objc(cs)NSObject",
+        "hasMissingDesignatedInitializers": true,
+        "inheritsConvenienceInitializers": true,
+        "superclassNames": [
+          "ObjectiveC.NSObject"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CVarArg",
+            "printedName": "CVarArg",
+            "usr": "s:s7CVarArgP",
+            "mangledName": "$ss7CVarArgP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObservingPublishing",
+            "printedName": "_KeyValueCodingAndObservingPublishing",
+            "usr": "s:10Foundation37_KeyValueCodingAndObservingPublishingP",
+            "mangledName": "$s10Foundation37_KeyValueCodingAndObservingPublishingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "_KeyValueCodingAndObserving",
+            "printedName": "_KeyValueCodingAndObserving",
+            "usr": "s:10Foundation27_KeyValueCodingAndObservingP",
+            "mangledName": "$s10Foundation27_KeyValueCodingAndObservingP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomStringConvertible",
+            "printedName": "CustomStringConvertible",
+            "usr": "s:s23CustomStringConvertibleP",
+            "mangledName": "$ss23CustomStringConvertibleP"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CustomDebugStringConvertible",
+            "printedName": "CustomDebugStringConvertible",
+            "usr": "s:s28CustomDebugStringConvertibleP",
+            "mangledName": "$ss28CustomDebugStringConvertibleP"
+          }
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "UIKit",
+        "printedName": "UIKit",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "RawDocComment"
+        ]
+      },
+      {
+        "kind": "Import",
+        "name": "CoreHaptics",
+        "printedName": "CoreHaptics",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS"
+      },
+      {
+        "kind": "Import",
+        "name": "AudioToolbox",
+        "printedName": "AudioToolbox",
+        "declKind": "Import",
+        "moduleName": "GesturedeckiOS"
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "Style",
+        "printedName": "Style",
+        "children": [
+          {
+            "kind": "Var",
+            "name": "selection",
+            "printedName": "selection",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.Style.Type) -> GesturedeckiOS.Style",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Style",
+                    "printedName": "GesturedeckiOS.Style",
+                    "usr": "s:14GesturedeckiOS5StyleO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.Style.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Style",
+                        "printedName": "GesturedeckiOS.Style",
+                        "usr": "s:14GesturedeckiOS5StyleO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS5StyleO9selectionyA2CmF",
+            "mangledName": "$s14GesturedeckiOS5StyleO9selectionyA2CmF",
+            "moduleName": "GesturedeckiOS"
+          },
+          {
+            "kind": "Var",
+            "name": "impact",
+            "printedName": "impact",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.Style.Type) -> GesturedeckiOS.Style",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Style",
+                    "printedName": "GesturedeckiOS.Style",
+                    "usr": "s:14GesturedeckiOS5StyleO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.Style.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Style",
+                        "printedName": "GesturedeckiOS.Style",
+                        "usr": "s:14GesturedeckiOS5StyleO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS5StyleO6impactyA2CmF",
+            "mangledName": "$s14GesturedeckiOS5StyleO6impactyA2CmF",
+            "moduleName": "GesturedeckiOS"
+          },
+          {
+            "kind": "Var",
+            "name": "notification",
+            "printedName": "notification",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.Style.Type) -> GesturedeckiOS.Style",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Style",
+                    "printedName": "GesturedeckiOS.Style",
+                    "usr": "s:14GesturedeckiOS5StyleO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.Style.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Style",
+                        "printedName": "GesturedeckiOS.Style",
+                        "usr": "s:14GesturedeckiOS5StyleO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS5StyleO12notificationyA2CmF",
+            "mangledName": "$s14GesturedeckiOS5StyleO12notificationyA2CmF",
+            "moduleName": "GesturedeckiOS"
+          },
+          {
+            "kind": "Var",
+            "name": "custom",
+            "printedName": "custom",
+            "children": [
+              {
+                "kind": "TypeFunc",
+                "name": "Function",
+                "printedName": "(GesturedeckiOS.Style.Type) -> GesturedeckiOS.Style",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Style",
+                    "printedName": "GesturedeckiOS.Style",
+                    "usr": "s:14GesturedeckiOS5StyleO"
+                  },
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Metatype",
+                    "printedName": "GesturedeckiOS.Style.Type",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Style",
+                        "printedName": "GesturedeckiOS.Style",
+                        "usr": "s:14GesturedeckiOS5StyleO"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "declKind": "EnumElement",
+            "usr": "s:14GesturedeckiOS5StyleO6customyA2CmF",
+            "mangledName": "$s14GesturedeckiOS5StyleO6customyA2CmF",
+            "moduleName": "GesturedeckiOS"
+          },
+          {
+            "kind": "Function",
+            "name": "==",
+            "printedName": "==(_:_:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Bool",
+                "printedName": "Swift.Bool",
+                "usr": "s:Sb"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Style",
+                "printedName": "GesturedeckiOS.Style",
+                "usr": "s:14GesturedeckiOS5StyleO"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Style",
+                "printedName": "GesturedeckiOS.Style",
+                "usr": "s:14GesturedeckiOS5StyleO"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:14GesturedeckiOS5StyleO2eeoiySbAC_ACtFZ",
+            "mangledName": "$s14GesturedeckiOS5StyleO2eeoiySbAC_ACtFZ",
+            "moduleName": "GesturedeckiOS",
+            "static": true,
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "hashValue",
+            "printedName": "hashValue",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Int",
+                "printedName": "Swift.Int",
+                "usr": "s:Si"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS5StyleO9hashValueSivp",
+            "mangledName": "$s14GesturedeckiOS5StyleO9hashValueSivp",
+            "moduleName": "GesturedeckiOS",
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Int",
+                    "printedName": "Swift.Int",
+                    "usr": "s:Si"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS5StyleO9hashValueSivg",
+                "mangledName": "$s14GesturedeckiOS5StyleO9hashValueSivg",
+                "moduleName": "GesturedeckiOS",
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          },
+          {
+            "kind": "Function",
+            "name": "hash",
+            "printedName": "hash(into:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Hasher",
+                "printedName": "Swift.Hasher",
+                "paramValueOwnership": "InOut",
+                "usr": "s:s6HasherV"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:14GesturedeckiOS5StyleO4hash4intoys6HasherVz_tF",
+            "mangledName": "$s14GesturedeckiOS5StyleO4hash4intoys6HasherVz_tF",
+            "moduleName": "GesturedeckiOS",
+            "implicit": true,
+            "funcSelfKind": "NonMutating"
+          },
+          {
+            "kind": "Var",
+            "name": "allCases",
+            "printedName": "allCases",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Array",
+                "printedName": "[GesturedeckiOS.Style]",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Style",
+                    "printedName": "GesturedeckiOS.Style",
+                    "usr": "s:14GesturedeckiOS5StyleO"
+                  }
+                ],
+                "usr": "s:Sa"
+              }
+            ],
+            "declKind": "Var",
+            "usr": "s:14GesturedeckiOS5StyleO8allCasesSayACGvpZ",
+            "mangledName": "$s14GesturedeckiOS5StyleO8allCasesSayACGvpZ",
+            "moduleName": "GesturedeckiOS",
+            "static": true,
+            "implicit": true,
+            "accessors": [
+              {
+                "kind": "Accessor",
+                "name": "Get",
+                "printedName": "Get()",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[GesturedeckiOS.Style]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Style",
+                        "printedName": "GesturedeckiOS.Style",
+                        "usr": "s:14GesturedeckiOS5StyleO"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ],
+                "declKind": "Accessor",
+                "usr": "s:14GesturedeckiOS5StyleO8allCasesSayACGvgZ",
+                "mangledName": "$s14GesturedeckiOS5StyleO8allCasesSayACGvgZ",
+                "moduleName": "GesturedeckiOS",
+                "static": true,
+                "implicit": true,
+                "accessorKind": "get"
+              }
+            ]
+          }
+        ],
+        "declKind": "Enum",
+        "usr": "s:14GesturedeckiOS5StyleO",
+        "mangledName": "$s14GesturedeckiOS5StyleO",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "AccessControl"
+        ],
+        "conformances": [
+          {
+            "kind": "Conformance",
+            "name": "Equatable",
+            "printedName": "Equatable",
+            "usr": "s:SQ",
+            "mangledName": "$sSQ"
+          },
+          {
+            "kind": "Conformance",
+            "name": "Hashable",
+            "printedName": "Hashable",
+            "usr": "s:SH",
+            "mangledName": "$sSH"
+          },
+          {
+            "kind": "Conformance",
+            "name": "CaseIterable",
+            "printedName": "CaseIterable",
+            "children": [
+              {
+                "kind": "TypeWitness",
+                "name": "AllCases",
+                "printedName": "AllCases",
+                "children": [
+                  {
+                    "kind": "TypeNominal",
+                    "name": "Array",
+                    "printedName": "[GesturedeckiOS.Style]",
+                    "children": [
+                      {
+                        "kind": "TypeNominal",
+                        "name": "Style",
+                        "printedName": "GesturedeckiOS.Style",
+                        "usr": "s:14GesturedeckiOS5StyleO"
+                      }
+                    ],
+                    "usr": "s:Sa"
+                  }
+                ]
+              }
+            ],
+            "usr": "s:s12CaseIterableP",
+            "mangledName": "$ss12CaseIterableP"
+          }
+        ]
+      },
+      {
+        "kind": "TypeDecl",
+        "name": "UniHaptic",
+        "printedName": "UniHaptic",
+        "children": [
+          {
+            "kind": "Constructor",
+            "name": "init",
+            "printedName": "init(style:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "UniHaptic",
+                "printedName": "GesturedeckiOS.UniHaptic",
+                "usr": "s:14GesturedeckiOS9UniHapticV"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Style",
+                "printedName": "GesturedeckiOS.Style",
+                "hasDefaultArg": true,
+                "usr": "s:14GesturedeckiOS5StyleO"
+              }
+            ],
+            "declKind": "Constructor",
+            "usr": "s:14GesturedeckiOS9UniHapticV5styleAcA5StyleO_tcfc",
+            "mangledName": "$s14GesturedeckiOS9UniHapticV5styleAcA5StyleO_tcfc",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "init_kind": "Designated"
+          },
+          {
+            "kind": "Function",
+            "name": "vibrate",
+            "printedName": "vibrate(intensity:sharpness:)",
+            "children": [
+              {
+                "kind": "TypeNominal",
+                "name": "Void",
+                "printedName": "()"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Float",
+                "printedName": "Swift.Float",
+                "hasDefaultArg": true,
+                "usr": "s:Sf"
+              },
+              {
+                "kind": "TypeNominal",
+                "name": "Float",
+                "printedName": "Swift.Float",
+                "hasDefaultArg": true,
+                "usr": "s:Sf"
+              }
+            ],
+            "declKind": "Func",
+            "usr": "s:14GesturedeckiOS9UniHapticV7vibrate9intensity9sharpnessySf_SftF",
+            "mangledName": "$s14GesturedeckiOS9UniHapticV7vibrate9intensity9sharpnessySf_SftF",
+            "moduleName": "GesturedeckiOS",
+            "declAttributes": [
+              "AccessControl"
+            ],
+            "funcSelfKind": "NonMutating"
+          }
+        ],
+        "declKind": "Struct",
+        "usr": "s:14GesturedeckiOS9UniHapticV",
+        "mangledName": "$s14GesturedeckiOS9UniHapticV",
+        "moduleName": "GesturedeckiOS",
+        "declAttributes": [
+          "AccessControl"
+        ]
+      }
+    ],
+    "json_format_version": 8
+  },
+  "ConstValues": [
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/GestureViewControllerOverlay.swift",
+      "kind": "StringLiteral",
+      "offset": 175,
+      "length": 28,
+      "value": "\"GesturedeckiOS.GestureViewControllerOverlay\""
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "FloatLiteral",
+      "offset": 451,
+      "length": 4,
+      "value": "28.0"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "IntegerLiteral",
+      "offset": 456,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "FloatLiteral",
+      "offset": 468,
+      "length": 4,
+      "value": "30.0"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "IntegerLiteral",
+      "offset": 473,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "FloatLiteral",
+      "offset": 484,
+      "length": 4,
+      "value": "57.0"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "IntegerLiteral",
+      "offset": 489,
+      "length": 3,
+      "value": "255"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "FloatLiteral",
+      "offset": 501,
+      "length": 3,
+      "value": "0.9"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "IntegerLiteral",
+      "offset": 966,
+      "length": 1,
+      "value": "0"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1721,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 1930,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2148,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2308,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2392,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2498,
+      "length": 5,
+      "value": "false"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/Gesturedeck.swift",
+      "kind": "BooleanLiteral",
+      "offset": 2583,
+      "length": 4,
+      "value": "true"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/GestureViewController.swift",
+      "kind": "StringLiteral",
+      "offset": 344,
+      "length": 21,
+      "value": "\"GesturedeckiOS.GestureViewController\""
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/UniHaptic.swift",
+      "kind": "FloatLiteral",
+      "offset": 826,
+      "length": 3,
+      "value": "0.7"
+    },
+    {
+      "filePath": "\/Volumes\/X5\/Dev\/2-ND\/Tunedeck\/Gesturedeck\/Gesturedeck iOS\/gesturedeck-ios\/Gesturedeck\/UniHaptic.swift",
+      "kind": "FloatLiteral",
+      "offset": 850,
+      "length": 3,
+      "value": "0.7"
+    }
+  ]
+}

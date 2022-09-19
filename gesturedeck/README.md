@@ -1,6 +1,6 @@
-# gesturedeck
+# Gesturedeck Flutter
 
-Flutter plugin for Gesturedeck
+Flutter plugin for Gesturedeck. This plugin wraps the native iOS and Android SDKs
 
 ## Getting Started
 
