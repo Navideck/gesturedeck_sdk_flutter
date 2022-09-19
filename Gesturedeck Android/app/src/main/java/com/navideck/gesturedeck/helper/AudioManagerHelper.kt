@@ -11,16 +11,13 @@ class AudioManagerHelper(activity: Activity) {
       this.audioManager =  activity.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager
     }
 
-    fun setVolumeByPercentage(volume:Double) {
-        var volumePercentage:Double = volume
-        if (volume > 1) {
-            volumePercentage = volume
-        }
-        if (volume < 0) {
-            volumePercentage = 0.0
-        }
-        this.setMediaVolume((volumePercentage * this.mediaMaxVolume).roundToInt())
+    fun getValidPercentage(volume: Double):Double{
+        if (volume > 1) return 1.0
+        if(volume < 0) return  0.0
+        return  volume
     }
+
+    fun setVolumeByPercentage(volume:Double) = this.setMediaVolume((this.getValidPercentage(volume) * this.mediaMaxVolume).roundToInt())
 
     val mediaCurrentVolumeInPercentage: Double get() = (this.mediaCurrentVolume / this.mediaMaxVolume.toDouble() * 10000) / 10000
 

@@ -27,8 +27,9 @@ class GesturedeckMapbox(activity: Activity, gestureCallbacks:((gestureEvent: Ges
     private var currentVolume:Double = 0.0
     private val swipeMinValidDistance:Float = 100F
     private val swipeMaxValidDistance:Float = 600F
-    private val swipeThresholdVelocity = 5000
+    private val swipeThresholdVelocity = 1000
     private var touchFingerCount:Int = 1
+    private var volumeStep: Double = 0.03
 
     init {
         this.gestureCallback = gestureCallbacks
@@ -67,23 +68,43 @@ class GesturedeckMapbox(activity: Activity, gestureCallbacks:((gestureEvent: Ges
             GestureEvent.SWIPE_RIGHT -> {
                 overlayHelper.showSwipeRight()
             }
-            GestureEvent.PAN_UP -> {
-                currentVolume += 0.009
-                audioManagerHelper.setVolumeByPercentage(currentVolume)
-            }
-            GestureEvent.PAN_DOWN -> {
-                currentVolume -= 0.009
-                audioManagerHelper.setVolumeByPercentage(currentVolume)
-            }
+            else -> {}
         }
         // Send Gestures to the callback Listener
         gestureCallback?.invoke(gestureEvent)
     }
 
+    private fun panGestureAction(detector: ShoveGestureDetector,state: GestureState){
+       if(!detector.isVerticalGesture)return
+        when(state){
+            GestureState.BEGAN ->{
+                Log.e(TAG,"StartedPanning")
+                overlayHelper.showBaseView()
+            }
+            GestureState.CHANGED -> {
+                when(detector.getSwipeDirection){
+                    SwipeDirection.UP -> {
+                        currentVolume = audioManagerHelper.getValidPercentage(currentVolume + volumeStep)
+                    }
+                    SwipeDirection.DOWN->{
+                        currentVolume = audioManagerHelper.getValidPercentage(currentVolume - volumeStep)
+                    }else -> {}
+                }
+                overlayHelper.updateVolumeView(currentVolume.toFloat())
+                audioManagerHelper.setVolumeByPercentage(currentVolume)
+            }
+            GestureState.ENDED -> {
+                Log.e(TAG,"EndedPanning")
+                //TODO : FIX - Not getting always
+                overlayHelper.hideBaseView()
+            }
+        }
+    }
+
+
     private fun setupGesturesManager(activity: Activity) {
         androidGesturesManager = AndroidGesturesManager(activity)
         androidGesturesManager.shoveGestureDetector.maxShoveAngle = 90F
-
         androidGesturesManager.setStandardScaleGestureListener(
             object : SimpleStandardOnScaleGestureListener() {
                 override fun onScale(detector: StandardScaleGestureDetector): Boolean {
@@ -126,6 +147,7 @@ class GesturedeckMapbox(activity: Activity, gestureCallbacks:((gestureEvent: Ges
                 when (flingDirection) {
                     SwipeDirection.LEFT -> onGestureEvent(GestureEvent.SWIPE_LEFT)
                     SwipeDirection.RIGHT -> onGestureEvent(GestureEvent.SWIPE_RIGHT)
+                    else -> {}
                 }
                 return true
             }
@@ -155,19 +177,51 @@ class GesturedeckMapbox(activity: Activity, gestureCallbacks:((gestureEvent: Ges
                 deltaPixelsSinceLast: Float,
                 deltaPixelsSinceStart: Float
             ): Boolean {
-                var e1: MotionEvent = detector.previousEvent
-                var e2: MotionEvent = detector.currentEvent
-
-                var swipeDirection:SwipeDirection = SwipeDirection.direction(e1.x, e1.y, e2.x, e2.y)
-
-                when (swipeDirection) {
+                panGestureAction(detector,GestureState.CHANGED)
+                when (detector.getSwipeDirection) {
                     SwipeDirection.UP -> onGestureEvent(GestureEvent.PAN_UP)
                     SwipeDirection.DOWN -> onGestureEvent(GestureEvent.PAN_DOWN)
+                    else -> {}
                 }
                 return true
             }
+
+            override fun onShoveBegin(detector: ShoveGestureDetector): Boolean {
+                panGestureAction(detector,GestureState.BEGAN)
+                return true
+            }
+
+            override fun onShoveEnd(
+                detector: ShoveGestureDetector,
+                velocityX: Float,
+                velocityY: Float
+            ) {
+                // TODO FIX: Not Executing Everytime
+                panGestureAction(detector,GestureState.ENDED)
+            }
         })
+
+
     }
 
+    // ShoveGestureDetector Extension
+    private val ShoveGestureDetector.getSwipeDirection: SwipeDirection get(){
+        var e1: MotionEvent = this.previousEvent
+        var e2: MotionEvent = this.currentEvent
+        return SwipeDirection.direction(e1.x, e1.y, e2.x, e2.y)
+    }
+
+    private val ShoveGestureDetector.isVerticalGesture: Boolean get() {
+       var swipeDirection:SwipeDirection = this.getSwipeDirection
+        return  swipeDirection == SwipeDirection.UP ||swipeDirection ==  SwipeDirection.DOWN
+    }
+
+    private val ShoveGestureDetector.isHorizontalGesture: Boolean get() {
+        var swipeDirection:SwipeDirection = this.getSwipeDirection
+        return  swipeDirection == SwipeDirection.LEFT ||swipeDirection ==  SwipeDirection.RIGHT
+    }
+
+    enum class GestureState { BEGAN , CHANGED , ENDED }
 
 }
+

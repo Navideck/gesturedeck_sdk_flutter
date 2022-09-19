@@ -9,6 +9,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/audio_bar_view.xml" value="0.32083333333333336" />
         <entry key="app/src/main/res/layout/base_view.xml" value="0.24270833333333333" />
         <entry key="gesturedeck-android/src/main/res/layout/sample_overlay_view.xml" value="0.24375" />
       </map>
