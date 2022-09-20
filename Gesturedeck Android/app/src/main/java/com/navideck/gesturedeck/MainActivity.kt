@@ -16,10 +16,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var gestureText : TextView=  this.findViewById(R.id.txtGestureType)
-        var btnTestOverlay : Button =  this.findViewById(R.id.btnTestOverlay)
+        var gestureText: TextView = this.findViewById(R.id.txtGestureType)
+        var btnTestOverlay: Button = this.findViewById(R.id.btnTestOverlay)
 
-        btnTestOverlay.setOnClickListener{OverlayHelper(this).testOverlay()}
+        btnTestOverlay.setOnClickListener { OverlayHelper(this).testOverlay() }
 
         //  GesturedeckIOS(this) { gesture: GestureEvent ->
         //      Log.e(DEBUG_TAG,gesture.name)
@@ -27,8 +27,8 @@ class MainActivity : AppCompatActivity() {
         //  }.start()
 
         GesturedeckMapbox(this) { gesture: GestureEvent ->
-            Log.e(DEBUG_TAG,gesture.name)
-             gestureText.text = "GesturedeckMapbox : "+gesture.name
+            Log.e(DEBUG_TAG, gesture.name)
+            gestureText.text = "GesturedeckMapbox : " + gesture.name
         }
 
     }
