@@ -9,12 +9,15 @@ import it.sephiroth.android.library.uigestures.*
 
 private const val DEBUG_TAG = "GesturedeckIOS"
 
-class GesturedeckIOS(private val activity: Activity,gestureCallbacks: (gestureEvent: GestureEvent) -> Unit) {
-    private  var gestureCallback: (gestureEvent: GestureEvent) -> Unit
+class GesturedeckIOS(
+    private val activity: Activity,
+    gestureCallbacks: (gestureEvent: GestureEvent) -> Unit
+) {
+    private var gestureCallback: (gestureEvent: GestureEvent) -> Unit
 
     private var lastYPan: Float = 0.0F
-    private lateinit var baseView : View
-    private lateinit var rootView : View
+    private lateinit var baseView: View
+    private lateinit var rootView: View
     private lateinit var audioManager: AudioManager
 
     init {
@@ -24,12 +27,12 @@ class GesturedeckIOS(private val activity: Activity,gestureCallbacks: (gestureEv
 //        addGestureRecognizers(activity)
     }
 
-    fun start(){
+    fun start() {
         addGestureRecognizers(activity)
     }
 
-    // gesture recognizer actionlistener
-    private val panRecognizerAction =  { gestureRecognizer: UIGestureRecognizer ->
+    // gesture recognizer actionListener
+    private val panRecognizerAction = { gestureRecognizer: UIGestureRecognizer ->
         //TODO : configure Swipe up and down
         onGestureEventReceived(GestureEvent.PAN_UP)
         when (gestureRecognizer.state) {
@@ -49,29 +52,35 @@ class GesturedeckIOS(private val activity: Activity,gestureCallbacks: (gestureEv
         }
     }
 
-    private val rightSwipeAction =  { recognizer: UIGestureRecognizer ->onGestureEventReceived(
-        GestureEvent.SWIPE_RIGHT)}
+    private val rightSwipeAction = { recognizer: UIGestureRecognizer ->
+        onGestureEventReceived(
+            GestureEvent.SWIPE_RIGHT
+        )
+    }
 
-    private val leftSwipeAction =  { recognizer: UIGestureRecognizer -> onGestureEventReceived(
-        GestureEvent.SWIPE_LEFT)}
+    private val leftSwipeAction = { recognizer: UIGestureRecognizer ->
+        onGestureEventReceived(
+            GestureEvent.SWIPE_LEFT
+        )
+    }
 
 
-    private fun onGestureEventReceived(gestureEvent: GestureEvent){
+    private fun onGestureEventReceived(gestureEvent: GestureEvent) {
         // Log.e(DEBUG_TAG,gestureEvent.name)
         gestureCallback.invoke(gestureEvent)
     }
 
 
-    private fun addGestureRecognizers(activity: Activity){
-        var context:Context = activity.applicationContext
+    private fun addGestureRecognizers(activity: Activity) {
+        var context: Context = activity.applicationContext
         val delegate = UIGestureRecognizerDelegate()
-        val recognizer1 =  UITapGestureRecognizer(context)
+        val recognizer1 = UITapGestureRecognizer(context)
         recognizer1.actionListener = panRecognizerAction
 
         // add pan Gestures
-        val panRecognizer =  UIPanGestureRecognizer(context)
-        panRecognizer.maximumNumberOfTouches=2
-        panRecognizer.minimumNumberOfTouches=2
+        val panRecognizer = UIPanGestureRecognizer(context)
+        panRecognizer.maximumNumberOfTouches = 2
+        panRecognizer.minimumNumberOfTouches = 2
         panRecognizer.cancelsTouchesInView = false
         panRecognizer.actionListener = panRecognizerAction
 
@@ -111,14 +120,15 @@ class GesturedeckIOS(private val activity: Activity,gestureCallbacks: (gestureEv
 //            }
         }
 
-        delegate.shouldRecognizeSimultaneouslyWithGestureRecognizer = { gestureRecognizer, otherGestureRecognizer ->
-            !(// either its Tap + Pan
-                    (gestureRecognizer is UITapGestureRecognizer && otherGestureRecognizer is UIPanGestureRecognizer) ||
-                            (gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer is UITapGestureRecognizer) ||
-                            // or Tap + Swipe
-                            (gestureRecognizer is UITapGestureRecognizer && otherGestureRecognizer is UISwipeGestureRecognizer) ||
-                            (gestureRecognizer is UISwipeGestureRecognizer && otherGestureRecognizer is UITapGestureRecognizer))
-        }
+        delegate.shouldRecognizeSimultaneouslyWithGestureRecognizer =
+            { gestureRecognizer, otherGestureRecognizer ->
+                !(// either its Tap + Pan
+                        (gestureRecognizer is UITapGestureRecognizer && otherGestureRecognizer is UIPanGestureRecognizer) ||
+                                (gestureRecognizer is UIPanGestureRecognizer && otherGestureRecognizer is UITapGestureRecognizer) ||
+                                // or Tap + Swipe
+                                (gestureRecognizer is UITapGestureRecognizer && otherGestureRecognizer is UISwipeGestureRecognizer) ||
+                                (gestureRecognizer is UISwipeGestureRecognizer && otherGestureRecognizer is UITapGestureRecognizer))
+            }
     }
 
 
