@@ -8,9 +8,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/circular_ring.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/dim_window.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/filled_circular_ring.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/icon_pause.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/icon_play.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/icon_skip_next.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/icon_skip_previous.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/icon_volume.xml" value="0.1525" />
+        <entry key="app/src/main/res/drawable/icon_volume_outlined.xml" value="0.153" />
+        <entry key="app/src/main/res/drawable/progress_drawable_vertical.xml" value="0.1525" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="app/src/main/res/layout/audio_bar_view.xml" value="0.32083333333333336" />
-        <entry key="app/src/main/res/layout/base_view.xml" value="0.24270833333333333" />
+        <entry key="app/src/main/res/layout/base_view.xml" value="0.22" />
         <entry key="gesturedeck-android/src/main/res/layout/sample_overlay_view.xml" value="0.24375" />
       </map>
     </option>
@@ -20,5 +32,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.22103004291845493" />
+      </ProjectState>
+    </option>
   </component>
 </project>

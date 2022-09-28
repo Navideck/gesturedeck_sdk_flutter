@@ -1,1 +1,3 @@
 rootProject.name = 'gesturedeck'
+include ':gesturedeck_android'
+project(":gesturedeck_android").projectDir = file("../../Gesturedeck Android/gesturedeck_android")

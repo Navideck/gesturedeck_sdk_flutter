@@ -1,8 +1,8 @@
 package com.navideck.gesturedeck_example
 
 import android.view.MotionEvent
+import com.navideck.gesturedeck.GesturedeckPlugin
 import io.flutter.embedding.android.FlutterActivity
-import  com.navideck.gesturedeck.GesturedeckPlugin
 
 class MainActivity: FlutterActivity() {
 
