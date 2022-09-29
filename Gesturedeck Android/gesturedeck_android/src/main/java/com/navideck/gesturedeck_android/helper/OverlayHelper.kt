@@ -4,8 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.view.MotionEvent
@@ -20,8 +20,6 @@ import com.navideck.gesturedeck_android.R
 import com.navideck.gesturedeck_android.model.GestureState
 import com.navideck.gesturedeck_android.model.SwipeDirection
 import com.navideck.gesturedeck_android.model.BackgroundMode
-import eightbitlab.com.blurview.BlurView
-import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -34,6 +32,7 @@ class OverlayHelper(
     var blurSampling: Int = 5,
     var dimRadius: Int = 100,
     private var canUseRenderEffect: Boolean = false,
+    private var setBitmapUpdater: (() -> Bitmap?)? = null,
 ) {
 
     private lateinit var baseView: View
@@ -98,10 +97,6 @@ class OverlayHelper(
     }
 
     private fun initBackgroundMode(backgroundMode: BackgroundMode, baseView: View) {
-        val container = activity.window.decorView.rootView as ViewGroup
-        var blurView = baseView.findViewById<BlurView>(R.id.blurView)
-        blurView.setupWith(container, RenderScriptBlur(activity)).setBlurRadius(25f)
-
         when (backgroundMode) {
             BackgroundMode.BLUR -> {
                 blurEffect =
@@ -111,7 +106,9 @@ class OverlayHelper(
                         blurSampling,
                         canUseRenderEffect,
                         fadeInAnimationDuration,
-                        fadeOutAnimationDuration
+                        fadeOutAnimationDuration,
+                        baseView,
+                        setBitmapUpdater
                     )
             }
             BackgroundMode.DIM -> {
