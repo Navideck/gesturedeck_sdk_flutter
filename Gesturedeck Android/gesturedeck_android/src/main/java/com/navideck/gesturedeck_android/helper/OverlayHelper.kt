@@ -20,6 +20,8 @@ import com.navideck.gesturedeck_android.R
 import com.navideck.gesturedeck_android.model.GestureState
 import com.navideck.gesturedeck_android.model.SwipeDirection
 import com.navideck.gesturedeck_android.model.BackgroundMode
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderScriptBlur
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -96,6 +98,10 @@ class OverlayHelper(
     }
 
     private fun initBackgroundMode(backgroundMode: BackgroundMode, baseView: View) {
+        val container = activity.window.decorView.rootView as ViewGroup
+        var blurView = baseView.findViewById<BlurView>(R.id.blurView)
+        blurView.setupWith(container, RenderScriptBlur(activity)).setBlurRadius(25f)
+
         when (backgroundMode) {
             BackgroundMode.BLUR -> {
                 blurEffect =
@@ -135,7 +141,6 @@ class OverlayHelper(
     }
 
 
-
     fun showSwipeLeft() = showMiddleLayout(iconDrawableId = R.drawable.icon_skip_previous)
     fun showSwipeRight() = showMiddleLayout(iconDrawableId = R.drawable.icon_skip_next)
     fun showPause() = showMiddleLayout(iconDrawableId = R.drawable.icon_pause)
@@ -153,7 +158,7 @@ class OverlayHelper(
         var isEmptyBlurViewActive =
             (baseView.visibility == View.VISIBLE) &&
                     (audioBarLayout.visibility != View.VISIBLE || midIconLayout.visibility != View.VISIBLE)
-        if (isEmptyBlurViewActive){
+        if (isEmptyBlurViewActive) {
             fadeOutAnimation?.start()
         }
     }
@@ -329,6 +334,7 @@ class OverlayHelper(
             override fun onAnimationStart(animation: Animator) {
                 blurEffect?.remove()
             }
+
             override fun onAnimationEnd(animation: Animator) {
                 baseView.visibility = View.GONE
             }
@@ -338,6 +344,7 @@ class OverlayHelper(
             override fun onAnimationStart(animation: Animator) {
                 blurEffect?.remove()
             }
+
             override fun onAnimationEnd(a: Animator) {
                 baseView.visibility = View.GONE
             }

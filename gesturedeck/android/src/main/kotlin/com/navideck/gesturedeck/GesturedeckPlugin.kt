@@ -32,8 +32,8 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, ActivityAware,
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         gesturedeck = GesturedeckMapbox(
             binding.activity,
-            canUseRenderEffect = true,
-            backgroundMode = BackgroundMode.DIM,
+            canUseRenderEffect = false,
+            backgroundMode = BackgroundMode.BLUR,
         ) { gesture: GestureEvent ->
             when (gesture) {
                 GestureEvent.SWIPE_RIGHT -> {

@@ -43,4 +43,6 @@ dependencies {
     implementation 'it.sephiroth.android.library.uigestures:uigesture-recognizer-kotlin:1.2.7'
     // Blur View
     implementation 'jp.wasabeef:blurry:4.0.1'
+    implementation 'com.github.Dimezis:BlurView:version-2.0.2' // add jitpack in Main Project
+
 }
