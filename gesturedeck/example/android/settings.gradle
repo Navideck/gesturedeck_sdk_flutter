@@ -13,3 +13,4 @@ apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gra
 // Find Proper Solution of Importing localLibrary into Main Project
 include ':gesturedeck_android'
 project(":gesturedeck_android").projectDir = file("../../../Gesturedeck Android/gesturedeck_android")
+

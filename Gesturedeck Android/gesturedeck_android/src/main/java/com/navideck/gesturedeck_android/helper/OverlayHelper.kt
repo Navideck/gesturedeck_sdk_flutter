@@ -4,8 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
 import android.view.MotionEvent
@@ -32,6 +32,7 @@ class OverlayHelper(
     var blurSampling: Int = 5,
     var dimRadius: Int = 100,
     private var canUseRenderEffect: Boolean = false,
+    private var setBitmapUpdater: (() -> Bitmap?)? = null,
 ) {
 
     private lateinit var baseView: View
@@ -105,7 +106,9 @@ class OverlayHelper(
                         blurSampling,
                         canUseRenderEffect,
                         fadeInAnimationDuration,
-                        fadeOutAnimationDuration
+                        fadeOutAnimationDuration,
+                        baseView,
+                        setBitmapUpdater
                     )
             }
             BackgroundMode.DIM -> {
@@ -135,7 +138,6 @@ class OverlayHelper(
     }
 
 
-
     fun showSwipeLeft() = showMiddleLayout(iconDrawableId = R.drawable.icon_skip_previous)
     fun showSwipeRight() = showMiddleLayout(iconDrawableId = R.drawable.icon_skip_next)
     fun showPause() = showMiddleLayout(iconDrawableId = R.drawable.icon_pause)
@@ -153,7 +155,7 @@ class OverlayHelper(
         var isEmptyBlurViewActive =
             (baseView.visibility == View.VISIBLE) &&
                     (audioBarLayout.visibility != View.VISIBLE || midIconLayout.visibility != View.VISIBLE)
-        if (isEmptyBlurViewActive){
+        if (isEmptyBlurViewActive) {
             fadeOutAnimation?.start()
         }
     }
@@ -329,6 +331,7 @@ class OverlayHelper(
             override fun onAnimationStart(animation: Animator) {
                 blurEffect?.remove()
             }
+
             override fun onAnimationEnd(animation: Animator) {
                 baseView.visibility = View.GONE
             }
@@ -338,6 +341,7 @@ class OverlayHelper(
             override fun onAnimationStart(animation: Animator) {
                 blurEffect?.remove()
             }
+
             override fun onAnimationEnd(a: Animator) {
                 baseView.visibility = View.GONE
             }

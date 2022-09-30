@@ -1,6 +1,7 @@
 package com.navideck.gesturedeck_android.gesturedeckVariants
 
 import android.app.Activity
+import android.graphics.Bitmap
 import android.util.Log
 import android.view.MotionEvent
 import com.mapbox.android.gestures.AndroidGesturesManager
@@ -20,19 +21,18 @@ private const val TAG = "GesturedeckMapbox"
 
 class GesturedeckMapbox(
     private var activity: Activity,
-    backgroundMode: BackgroundMode = BackgroundMode.BLUR,
+    var backgroundMode: BackgroundMode = BackgroundMode.BLUR,
     blurRadius: Int = 25,
     blurSampling: Int = 5,
     dimRadius: Int = 100,
-    canUseRenderEffect: Boolean = false,
+    var canUseRenderEffect: Boolean = false,
+    setBitmapUpdater: (() -> Bitmap?)? = null,
     gestureCallbacks: ((gestureEvent: GestureEvent) -> Unit)? = null,
 ) {
-
     // TODO : avoid initialising twice from same activity
     companion object {
         val activityLists = arrayListOf<Activity>()
     }
-
 
     // optional Callback Method
     private var gestureCallback: ((gestureEvent: GestureEvent) -> Unit)?
@@ -53,7 +53,13 @@ class GesturedeckMapbox(
     init {
         this.gestureCallback = gestureCallbacks
         overlayHelper = OverlayHelper(
-            activity, backgroundMode, blurRadius, blurSampling, dimRadius, canUseRenderEffect
+            activity,
+            backgroundMode,
+            blurRadius,
+            blurSampling,
+            dimRadius,
+            canUseRenderEffect,
+            setBitmapUpdater
         )
         setupGesturesManager(activity)
     }
@@ -99,6 +105,7 @@ class GesturedeckMapbox(
         }
         androidGesturesManager.onTouchEvent(event)
     }
+
 
     private fun isValidTowFingersTouch(): Boolean {
         return if (touchFingerCount != 2) false else {
