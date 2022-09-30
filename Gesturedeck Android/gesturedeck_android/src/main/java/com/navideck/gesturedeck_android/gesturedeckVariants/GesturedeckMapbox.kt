@@ -3,7 +3,6 @@ package com.navideck.gesturedeck_android.gesturedeckVariants
 import android.app.Activity
 import android.graphics.Bitmap
 import android.util.Log
-import android.view.KeyEvent
 import android.view.MotionEvent
 import com.mapbox.android.gestures.AndroidGesturesManager
 import com.mapbox.android.gestures.ShoveGestureDetector
@@ -11,12 +10,11 @@ import com.mapbox.android.gestures.ShoveGestureDetector.SimpleOnShoveGestureList
 import com.mapbox.android.gestures.StandardGestureDetector.SimpleStandardOnGestureListener
 import com.mapbox.android.gestures.StandardScaleGestureDetector
 import com.mapbox.android.gestures.StandardScaleGestureDetector.SimpleStandardOnScaleGestureListener
-import com.navideck.gesturedeck_android.helper.CustomTimer
 import com.navideck.gesturedeck_android.helper.OverlayHelper
 import com.navideck.gesturedeck_android.model.BackgroundMode
+import com.navideck.gesturedeck_android.model.SwipeDirection
 import com.navideck.gesturedeck_android.model.GestureEvent
 import com.navideck.gesturedeck_android.model.GestureState
-import com.navideck.gesturedeck_android.model.SwipeDirection
 import kotlin.math.abs
 
 private const val TAG = "GesturedeckMapbox"
@@ -51,8 +49,6 @@ class GesturedeckMapbox(
     private var touchFingerCount: Int = 1
     private var currentPanGestureState = GestureState.ENDED
     private var previousGestureEvent: GestureEvent = GestureEvent.DOUBLE_TAP
-    private var previousKeyEvent: KeyEvent? = null
-    private var keyEventTimer: CustomTimer = CustomTimer()
 
     init {
         this.gestureCallback = gestureCallbacks
@@ -73,55 +69,15 @@ class GesturedeckMapbox(
         overlayHelper.dispose()
     }
 
+    private fun configureTouchEvent() {
+        // Experimental : To avoid reliance on dispatchTouchEvent from MainActivity
+        // TODO: FIX - Failed when there are Clickable and Scrollable Views on Top of Root View
 
-    fun onKeyEvents(event: KeyEvent): Boolean {
-        val swipeDirection: SwipeDirection? = when (event.keyCode) {
-            KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                SwipeDirection.DOWN
-            }
-            KeyEvent.KEYCODE_VOLUME_UP -> {
-                SwipeDirection.UP
-            }
-            else -> null
-        }
-
-        var gestureState: GestureState? = when (event.action) {
-            KeyEvent.ACTION_DOWN -> {
-                if (event.repeatCount == 0) {
-                    GestureState.BEGAN
-                } else {
-                    GestureState.CHANGED
-                }
-            }
-            KeyEvent.ACTION_UP -> {
-                GestureState.ENDED
-            }
-            else -> {
-                null
-            }
-        }
-
-        if (gestureState == null || swipeDirection == null) return false
-
-        if (gestureState == GestureState.BEGAN && keyEventTimer.isActive) {
-            gestureState = GestureState.CHANGED
-        }
-
-        val isSingleKeyPressed = gestureState == GestureState.ENDED &&
-                previousKeyEvent?.action == KeyEvent.ACTION_DOWN && previousKeyEvent?.repeatCount == 0
-        if (isSingleKeyPressed) {
-            keyEventTimer.start(duration = 500) {
-                overlayHelper.updateVolumeViewFromKeyEvents(
-                    gestureState, swipeDirection
-                )
-            }
-        } else {
-            keyEventTimer.cancel()
-            overlayHelper.updateVolumeViewFromKeyEvents(gestureState, swipeDirection)
-        }
-
-        previousKeyEvent = event
-        return true
+        //        activity.window.decorView.rootView.setOnTouchListener { v: View, event ->
+        //            v.performClick()
+        //            onTouchEvents(event)
+        //            true
+        //        }
     }
 
     fun onTouchEvents(event: MotionEvent) {
@@ -131,6 +87,7 @@ class GesturedeckMapbox(
                 // Show an Empty BlurView if Someone Put Fingers on the Screen
                 if (event.pointerCount == 2) {
                     //TODO : Fix TwoFingerTouch conflicting with horizontal Swipes
+
                     // onGestureEvent(GestureEvent.TWO_FINGER_TOUCH)
                 }
             }
@@ -148,6 +105,7 @@ class GesturedeckMapbox(
         }
         androidGesturesManager.onTouchEvent(event)
     }
+
 
     private fun isValidTowFingersTouch(): Boolean {
         return if (touchFingerCount != 2) false else {

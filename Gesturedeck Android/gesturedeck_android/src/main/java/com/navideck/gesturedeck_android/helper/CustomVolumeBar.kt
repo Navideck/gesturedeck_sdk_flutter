@@ -21,8 +21,7 @@ class CustomVolumeBar(context: Context?, attrs: AttributeSet? = null) : View(con
 
     init {
         mPaint.style = Paint.Style.STROKE
-        mPaint.color =
-            context?.let { ContextCompat.getColor(it, R.color.colorPrimary) } ?: Color.BLUE
+        mPaint.color = context?.let { ContextCompat.getColor(it, R.color.colorPrimary) } ?: Color.BLUE
         mPaint.strokeWidth = 150f
     }
 
@@ -31,15 +30,15 @@ class CustomVolumeBar(context: Context?, attrs: AttributeSet? = null) : View(con
         super.onDraw(canvas)
     }
 
-    fun onTouchEvent(yAxis: Float, gestureState: GestureState) {
+    fun onTouchEvent(event: MotionEvent, gestureState: GestureState) {
         when (gestureState) {
             GestureState.BEGAN -> {
-                startY = yAxis
-                endY = yAxis
+                startY = event.y
+                endY = event.y
                 invalidate()
             }
             GestureState.CHANGED -> {
-                endY = yAxis
+                endY = event.y
                 invalidate()
             }
             GestureState.ENDED -> {

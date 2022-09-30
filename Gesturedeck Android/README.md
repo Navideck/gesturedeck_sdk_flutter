@@ -24,19 +24,3 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(event)
     }
 ```
-
-- and to handle device's volume key action with Gesturedeck library , feed keyEvents as well
-
-```
-class MainActivity : AppCompatActivity() {
-    ......
-    
-    override fun dispatchKeyEvent(event: KeyEvent): Boolean {    
-        // To hide device native volume Dialog , and Show only Gesturedeck UI
-        return gesturedeckMapbox?.onKeyEvents(event) ?: false
-        
-        // To show both , Device native dialog , as well as GesturedeckUI
-        // gesturedeckMapbox?.onKeyEvents(event)
-        // return false
-    }
-```
