@@ -4,6 +4,7 @@ package com.navideck.gesturedeckapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
@@ -72,6 +73,11 @@ class MainActivity : AppCompatActivity() {
         return super.dispatchTouchEvent(ev)
     }
 
+    override fun dispatchKeyEvent(event: KeyEvent?): Boolean {
+        if (event != null) return gesturedeckMapbox?.onKeyEvents(event) ?: false
+        return false
+    }
+
     private fun dragView(ev: MotionEvent?) {
         when (ev?.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
@@ -99,9 +105,9 @@ class MainActivity : AppCompatActivity() {
         val blurSeekBar: SeekBar = this.findViewById(R.id.blurSeekBar)
         val blurSampleSeekbar: SeekBar = this.findViewById(R.id.blurSampleSeekbar)
         val btnAllowRenderEffect: Button = this.findViewById(R.id.btnAllowRenderEffect)
-        val btnNavigateTest : Button = this.findViewById(R.id.btnNavigateTest)
+        val btnNavigateTest: Button = this.findViewById(R.id.btnNavigateTest)
 
-        btnNavigateTest.setOnClickListener{
+        btnNavigateTest.setOnClickListener {
             val k = Intent(this@MainActivity, TestActivity::class.java)
             startActivity(k)
         }

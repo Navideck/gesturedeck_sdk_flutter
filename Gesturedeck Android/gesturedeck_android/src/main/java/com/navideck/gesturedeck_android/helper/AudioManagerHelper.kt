@@ -1,10 +1,16 @@
 package com.navideck.gesturedeck_android.helper
 
 import android.app.Activity
+import android.content.Context.VIBRATOR_MANAGER_SERVICE
+import android.content.Context.VIBRATOR_SERVICE
 import android.media.AudioManager
-import android.view.HapticFeedbackConstants
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.roundToInt
+
 
 class AudioManagerHelper(private var activity: Activity) {
     private var audioManager: AudioManager =
@@ -28,15 +34,23 @@ class AudioManagerHelper(private var activity: Activity) {
 
     private val mediaCurrentVolume: Int get() = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
 
-
-    fun vibrate() {
-        // perform Haptic Feedback on RootView
-        // TODO : Test on Android V 5-10
-        val view = activity.window.decorView.rootView
-        if (!view.isHapticFeedbackEnabled) view.isHapticFeedbackEnabled = true
-        view.performHapticFeedback(
-            HapticFeedbackConstants.VIRTUAL_KEY,
-            HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING
-        )
+    fun vibrate(vibrationDuration: Long = 150) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= 31) {
+                val vibratorManager =
+                    activity.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                vibratorManager.defaultVibrator
+            } else {
+                activity.getSystemService(VIBRATOR_SERVICE) as Vibrator
+            }
+            vibrator.vibrate(
+                VibrationEffect.createOneShot(
+                    vibrationDuration,
+                    VibrationEffect.EFFECT_HEAVY_CLICK
+                )
+            )
+        } else {
+            (activity.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(vibrationDuration)
+        }
     }
 }

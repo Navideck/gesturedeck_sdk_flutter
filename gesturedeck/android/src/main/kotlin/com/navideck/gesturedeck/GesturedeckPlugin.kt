@@ -1,18 +1,23 @@
 package com.navideck.gesturedeck
 
 import android.app.Activity
+import android.util.Log
+import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.annotation.NonNull
 import com.navideck.gesturedeck_android.gesturedeckVariants.GesturedeckMapbox
 import com.navideck.gesturedeck_android.model.BackgroundMode
 import com.navideck.gesturedeck_android.model.GestureEvent
+import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.renderer.FlutterRenderer
+import io.flutter.embedding.engine.systemchannels.PlatformViewsChannel.PlatformViewTouch
 import io.flutter.plugin.common.*
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.platform.PlatformViewsController
 
 /** GesturedeckPlugin */
 class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler,
@@ -61,6 +66,10 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
 
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
         gesturedeck?.onTouchEvents(event)
+    }
+
+    fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        return gesturedeck?.onKeyEvents(event) ?: false
     }
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {

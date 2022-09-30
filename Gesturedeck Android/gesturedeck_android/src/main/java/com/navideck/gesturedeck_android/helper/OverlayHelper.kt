@@ -8,6 +8,7 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -218,7 +219,7 @@ class OverlayHelper(
         return false
     }
 
-    private fun updateDeviceVolume(swipeDirection: SwipeDirection) {
+    private fun updateDeviceVolume(swipeDirection: SwipeDirection): Double {
         when (swipeDirection) {
             SwipeDirection.UP -> {
                 currentVolume =
@@ -231,7 +232,9 @@ class OverlayHelper(
             else -> {}
         }
         audioManagerHelper.setVolumeByPercentage(currentVolume)
+        return currentVolume
     }
+
 
     fun updateVolumeView(
         state: GestureState,
@@ -279,7 +282,54 @@ class OverlayHelper(
             }
         }
         // Send Touch Events to The CustomVolumeBarUI
-        customVolumeBar.onTouchEvent(event, state)
+        customVolumeBar.onTouchEvent(event.y, state)
+    }
+
+
+    fun updateVolumeViewFromKeyEvents(
+        state: GestureState,
+        swipeDirection: SwipeDirection
+    ) {
+        updateDeviceVolume(swipeDirection)
+        //  val centreYAxis: Float = audioBarLayout.y + audioBarLayout.height / 2;
+        //  val volumePercentage: Float = (currentVolume * 100).toFloat()
+        // val currentYAxis: Float = (centreYAxis / 100) * volumePercentage
+        //        var progressYAxis: Float = when (swipeDirection) {
+        //            SwipeDirection.DOWN -> {
+        //                (2 * centreYAxis) - currentYAxis
+        //            }
+        //            else -> {
+        //                centreYAxis - currentYAxis
+        //            }
+        //        }
+
+        // Set Volume Text in UI
+        val roundedVolume =
+            ((((currentVolume * 100) * 10.0) / 100) * 2.0).roundToInt() / 2.0
+
+        when (state) {
+            GestureState.BEGAN -> {
+                midIconLayout.visibility = View.GONE
+                audioBarLayout.visibility = View.VISIBLE
+
+                // Cancel ALl Animations
+                midIconFadeInAnimation?.cancel()
+                midIconFadeOutAnimation?.cancel()
+                fadeOutAnimation?.cancel()
+                // Start New Animation
+                fadeInAnimation?.start()
+
+                txtVolumeLevel.text = "$roundedVolume"
+               // progressYAxis = centreYAxis
+            }
+            GestureState.CHANGED -> {
+                txtVolumeLevel.text = "$roundedVolume"
+            }
+            GestureState.ENDED -> {
+                fadeOutAnimation?.start()
+            }
+        }
+        customVolumeBar.onTouchEvent(0f, state)
     }
 
 
@@ -311,10 +361,7 @@ class OverlayHelper(
         fadeInAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 0.0f, 1f)
         fadeOutAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 1f, 0.0f)
 
-        midIconFadeInAnimation?.duration = fadeInAnimationDuration.toLong()
-        midIconFadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
-        fadeInAnimation?.duration = fadeInAnimationDuration.toLong()
-        fadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
+
 
         midIconFadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
@@ -334,6 +381,7 @@ class OverlayHelper(
 
             override fun onAnimationEnd(animation: Animator) {
                 baseView.visibility = View.GONE
+                setDefaultDuration()
             }
         })
 
@@ -344,6 +392,7 @@ class OverlayHelper(
 
             override fun onAnimationEnd(a: Animator) {
                 baseView.visibility = View.GONE
+                setDefaultDuration()
             }
         })
 
@@ -353,6 +402,13 @@ class OverlayHelper(
                 baseView.visibility = View.VISIBLE
             }
         })
+    }
+
+    private fun setDefaultDuration() {
+        midIconFadeInAnimation?.duration = fadeInAnimationDuration.toLong()
+        midIconFadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
+        fadeInAnimation?.duration = fadeInAnimationDuration.toLong()
+        fadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
     }
 
     // Helper Methods
