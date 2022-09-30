@@ -49,9 +49,6 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
                     GestureEvent.TWO_FINGER_TAP -> {
                         touchEventSink?.success("tap")
                     }
-                    GestureEvent.DOUBLE_TAP -> {
-                        //   FlutterScreenshot().takeScreenshot(activity, renderer)
-                    }
                     else -> {}
                 }
             }

@@ -14,16 +14,3 @@ apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gra
 include ':gesturedeck_android'
 project(":gesturedeck_android").projectDir = file("../../../Gesturedeck Android/gesturedeck_android")
 
-// TODO : Try this Alternative of Importing GesturedeckAndroid localLib
-//def flutterProjectRoot = rootProject.projectDir.parentFile.toPath()
-//def plugins = new Properties()
-//def pluginsFile = new File(flutterProjectRoot.toFile(), '.flutter-plugins')
-//if (pluginsFile.exists()) {
-//    pluginsFile.withReader('UTF-8') { reader -> plugins.load(reader) }
-//}
-//plugins.each { name, path ->
-//    def pluginDirectory = flutterProjectRoot.resolve(path).resolve('android').toFile()
-//    logger.lifecycle(name + " " + pluginDirectory.path)
-//}
-
-
