@@ -16,13 +16,13 @@ enum GestureType: Equatable {
 }
 
 class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
-
+    
     @IBOutlet weak var volumeHUD: UIView!
     @IBOutlet weak var volumeBar: UIView?
     @IBOutlet weak var volumeLabel: UILabel!
     
     @IBOutlet weak var skipHUD: UIView!
-
+    
     @IBOutlet weak var pauseHUD: UIView!
     
     @IBOutlet weak var volumeIconOutlet: UIImageView?
@@ -39,7 +39,7 @@ class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     var gestureType: GestureType?
-
+    
     init(gestureType: GestureType? = nil,
          volumeIcon: UIImage? = nil,
          pauseIcon: UIImage? = nil,
@@ -55,16 +55,21 @@ class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
         super.init(coder: aDecoder)
     }
     
-    func setVolume(with barHeight: Float, volumeLevel: Float){
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        adjustForNotch()
+        super.willTransition(to: newCollection, with: coordinator)
+    }
+    
+    func setVolume(with distance: Float, volumeLevel: Float){
         guard let volumeBar = volumeBar else { return }
-        var VolumeBarY = volumeBar.frame.origin.y
-        if barHeight < 0 {
-            VolumeBarY += volumeBar.frame.size.height
+        var volumeBarY = volumeBar.frame.origin.y
+        if distance < 0 {
+            volumeBarY += volumeBar.frame.size.height
         }
         volumeLabel.text = String(format: "%1.1f", round(volumeLevel * 10 * 2.0) / 2.0) //round to 0 and 0.5
-        if volumeLevel != 0 && volumeLevel != 1 {
+        if volumeLevel < 1.00 - volumeStep && volumeLevel > volumeStep {
             UIView.animate(withDuration: 0.1, animations: {() -> Void in
-                self.volumeBar?.frame = CGRect(x: 0, y: VolumeBarY, width: volumeBar.frame.size.width, height: CGFloat(barHeight))
+                self.volumeBar?.frame = CGRect(x: volumeBar.frame.origin.x, y: volumeBarY, width: volumeBar.frame.size.width, height: CGFloat(distance))
                 //TODO: Check if calling animation continuously is correct
             })
         } else {
@@ -113,6 +118,11 @@ class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        adjustForNotch()
+        super.viewDidLayoutSubviews()
+    }
+    
     private func loadIcons() {
         if let volumeIcon = volumeIcon {
             self.volumeIconOutlet?.image = volumeIcon
@@ -149,4 +159,19 @@ class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
      // Pass the selected object to the new view controller.
      }
      */
+    
+    private func adjustForNotch() {
+        guard let volumeBar = volumeBar else {
+            return
+        }
+        if #available(iOS 13.0, *) {
+            if (self.view.window?.windowScene?.interfaceOrientation == .landscapeRight) {
+                var volumeBarX: CGFloat = 0
+                
+                volumeBarX = view.frame.width - volumeBar.frame.width
+                
+                volumeBar.frame.origin.x = volumeBarX
+            }
+        }
+    }
 }

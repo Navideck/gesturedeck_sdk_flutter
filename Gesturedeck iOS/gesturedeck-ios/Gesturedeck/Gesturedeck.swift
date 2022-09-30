@@ -9,6 +9,8 @@
 import UIKit
 import MediaPlayer
 
+var volumeStep: Float = 0.02
+
 public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
     
     public var tapAction: ((@escaping (Bool) -> Void) -> Void)?
@@ -30,10 +32,6 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
     private lazy var rightSwipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(swipedRight))
     private lazy var dualTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(tapped))
     private let insomnia = Insomnia(mode: .whenCharging)
-    
-    override init() {
-        super.init()
-    }
     
     public init(on hostViewController: UIViewController? = nil,
                 tapAction: (((Bool) -> Void) -> Void)? = { callback in
@@ -72,7 +70,7 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
         super.init()
         self.tapAction = tapAction
         self.swipeLeftAction = swipeLeftAction
-      self.swipeRightAction = swipeRightAction
+        self.swipeRightAction = swipeRightAction
         self.volumeIcon = volumeIcon
         self.pauseIcon = pauseIcon
         self.playIcon = playIcon
@@ -148,7 +146,8 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
     }
     
     @objc func panned(gestureRecognizer: UIPanGestureRecognizer) {
-        if gestureRecognizer.state == .began {
+        switch gestureRecognizer.state {
+        case .began:
             lastYPan = 0
             let panPoint: CGPoint = gestureRecognizer.location(in: hostViewController.view)
             gestureViewController = GestureViewController(
@@ -157,15 +156,17 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
             )
             overlayGestureViewController.animateAppearance(on: hostViewController)
             gestureViewController?.animateAppearance(on: hostViewController)
-        }
-        else if gestureRecognizer.state == .changed {
+        case .changed:
             let YPan: Float = Float(gestureRecognizer.translation(in: hostViewController.view).y)
             guard abs(abs(lastYPan) - abs(YPan)) > 20 else { return }
-            volumeSlider.value -= copysign(0.02, YPan - lastYPan)
-            volumeSlider.sendActions(for: .touchUpInside)
+            let newVolume = volumeSlider.value - copysign(volumeStep, YPan - lastYPan)
+            if (0...1).contains(newVolume) {    // Only set new volume if it is within range
+                volumeSlider.value = newVolume
+                volumeSlider.sendActions(for: .touchUpInside)
+            }
             gestureViewController?.setVolume(with: YPan, volumeLevel: volumeSlider.value)
             lastYPan = YPan
-        } else if gestureRecognizer.state == .ended {
+        default:
             //All fingers are lifted.
             if let gestureViewController = gestureViewController {
                 overlayGestureViewController.animateDisappearance(from: hostViewController)

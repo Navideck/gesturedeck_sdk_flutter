@@ -41,7 +41,7 @@
                             <color key="backgroundColor" red="0.1117365062" green="0.1158176437" blue="0.22518250349999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="HsQ-eW-LYs" userLabel="Volume Value Stack View">
-                            <rect key="frame" x="122.5" y="50" width="130.5" height="39.5"/>
+                            <rect key="frame" x="122.5" y="80" width="130.5" height="39.5"/>
                             <subviews>
                                 <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_volume" translatesAutoresizingMaskIntoConstraints="NO" id="yht-sl-9Wk" colorLabel="IBBuiltInLabel-Yellow">
                                     <rect key="frame" x="0.0" y="0.0" width="60" height="39.5"/>
@@ -49,7 +49,7 @@
                                         <constraint firstAttribute="width" constant="60" id="j0v-OD-g21"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10.5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JG0-XG-f17" userLabel="Volume Label" colorLabel="IBBuiltInLabel-Yellow">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10.5" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JG0-XG-f17" userLabel="Volume Label" colorLabel="IBBuiltInLabel-Yellow">
                                     <rect key="frame" x="68" y="0.0" width="62.5" height="39.5"/>
                                     <constraints>
                                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="62" id="JIM-xE-9QZ"/>
@@ -64,13 +64,16 @@
                     </subviews>
                     <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
+                        <constraint firstItem="HsQ-eW-LYs" firstAttribute="top" secondItem="ehf-Ee-7os" secondAttribute="top" constant="80" id="ALw-K8-aWP">
+                            <variation key="heightClass=compact" constant="20"/>
+                        </constraint>
                         <constraint firstItem="HsQ-eW-LYs" firstAttribute="centerX" secondItem="ehf-Ee-7os" secondAttribute="centerX" id="GTw-GF-4k5"/>
                     </constraints>
                 </view>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GfQ-Pj-dfZ" userLabel="Swipe HUD">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_volume" translatesAutoresizingMaskIntoConstraints="NO" id="WmI-7b-c7i">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_skip" translatesAutoresizingMaskIntoConstraints="NO" id="WmI-7b-c7i">
                             <rect key="frame" x="140" y="286" width="95" height="95"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="95" id="2TY-fr-D4m"/>
@@ -98,17 +101,16 @@
                     </constraints>
                 </view>
             </subviews>
-            <viewLayoutGuide key="safeArea" id="rvg-U5-04h"/>
+            <viewLayoutGuide key="safeArea" id="v1q-4q-HnX"/>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="GfQ-Pj-dfZ" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="5Vh-tK-VMg"/>
                 <constraint firstItem="ehf-Ee-7os" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="7Yv-f5-eVr"/>
-                <constraint firstItem="ehf-Ee-7os" firstAttribute="leading" secondItem="rvg-U5-04h" secondAttribute="leading" id="INQ-sr-zze"/>
-                <constraint firstItem="ehf-Ee-7os" firstAttribute="top" secondItem="rvg-U5-04h" secondAttribute="top" id="XyM-IH-wgO"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="INQ-sr-zze"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="XyM-IH-wgO"/>
                 <constraint firstItem="v3X-at-TNM" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="drV-10-Wos"/>
-                <constraint firstItem="HsQ-eW-LYs" firstAttribute="top" secondItem="rvg-U5-04h" secondAttribute="top" constant="50" id="eZh-O2-VJp"/>
-                <constraint firstItem="ehf-Ee-7os" firstAttribute="bottom" secondItem="rvg-U5-04h" secondAttribute="bottom" id="eto-nR-zje"/>
+                <constraint firstItem="ehf-Ee-7os" firstAttribute="bottom" secondItem="i5M-Pr-FkT" secondAttribute="bottom" id="eto-nR-zje"/>
                 <constraint firstItem="v3X-at-TNM" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="iaO-47-bMS"/>
                 <constraint firstItem="ehf-Ee-7os" firstAttribute="top" secondItem="v3X-at-TNM" secondAttribute="top" id="kBV-fd-PxY"/>
                 <constraint firstItem="ehf-Ee-7os" firstAttribute="leading" secondItem="GfQ-Pj-dfZ" secondAttribute="leading" id="nlo-dm-iyX"/>
@@ -122,6 +124,7 @@
     <resources>
         <image name="icon_pause" width="95" height="95"/>
         <image name="icon_play" width="95" height="95"/>
+        <image name="icon_skip" width="60" height="60"/>
         <image name="icon_volume" width="60" height="61"/>
     </resources>
 </document>
