@@ -3,22 +3,17 @@ package com.navideck.gesturedeck_android
 import android.os.Bundle
 import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
-import com.navideck.gesturedeck_android.gesturedeckVariants.GesturedeckMapbox
 import com.navideck.gesturedeck_android.model.GestureEvent
-
 
 open class GesturedeckActivity : AppCompatActivity() {
 
-    private lateinit var gesturedeck: GesturedeckMapbox
+    private lateinit var gesturedeck: Gesturedeck
 
     private var gestureCallbacks: ((gestureEvent: GestureEvent) -> Unit)? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gesturedeck = GesturedeckMapbox(
-            this,
-            canUseRenderEffect = true,
-            gestureCallbacks = { gestureCallbacks?.invoke(it) })
+        gesturedeck = Gesturedeck { gestureCallbacks?.invoke(it) }
     }
 
     // To access GestureEvents in Activity which is overriding [GesturedeckActivity]

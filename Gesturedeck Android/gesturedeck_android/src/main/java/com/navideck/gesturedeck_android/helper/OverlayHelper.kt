@@ -5,35 +5,40 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.GradientDrawable
+import android.graphics.drawable.LayerDrawable
+import android.os.Build
 import android.util.DisplayMetrics
-import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.navideck.gesturedeck_android.R
+import com.navideck.gesturedeck_android.model.BackgroundMode
 import com.navideck.gesturedeck_android.model.GestureState
 import com.navideck.gesturedeck_android.model.SwipeDirection
-import com.navideck.gesturedeck_android.model.BackgroundMode
 import kotlin.math.abs
 import kotlin.math.roundToInt
+
 
 private const val TAG = "OverlayHelper"
 
 class OverlayHelper(
     private val activity: Activity,
-    backgroundMode: BackgroundMode = BackgroundMode.BLUR,
-    var blurRadius: Int = 25,
-    var blurSampling: Int = 5,
-    var dimRadius: Int = 100,
-    private var canUseRenderEffect: Boolean = false,
-    private var setBitmapUpdater: (() -> Bitmap?)? = null,
+    private var bitmapCallback: (() -> Bitmap?)? = null,
+    private var tintColor: Int? = null,
+    private var volumeIconDrawable: Drawable? = null,
+    private var iconSwipeLeftDrawable: Drawable? = null,
+    private var iconSwipeRightDrawable: Drawable? = null,
+    private var iconTapDrawable: Drawable? = null,
+    private var iconTapToggledDrawable: Drawable? = null,
 ) {
 
     private lateinit var baseView: View
@@ -43,17 +48,23 @@ class OverlayHelper(
     private var lastYPan: Float = 0f
     private var yAxisOfZero: Float = 0f
     private var yAxisOfHundred: Float = 0f
+    private var backgroundMode: BackgroundMode = BackgroundMode.BLUR
+    private var blurRadius: Int = 25
+    private var blurSampling: Int = 5
+    private var dimRadius: Int = 100
+    private var canUseRenderEffect: Boolean = false
 
     // AudioBar Layout
     private lateinit var audioBarLayout: ConstraintLayout
-    private lateinit var customVolumeBar: CustomVolumeBar
+    private lateinit var volumeBar: VolumeBar
     private lateinit var txtVolumeLevel: TextView
     private lateinit var audioBaParams: ViewGroup.LayoutParams
 
-    // Middle Icon Layout
-    private lateinit var midIconLayout: ConstraintLayout
-    private lateinit var middleIconView: View
-    private lateinit var middleIconImageView: ImageView
+    // Center Icon Layout
+    private lateinit var centerIconLayout: ConstraintLayout
+    private lateinit var centerIconView: View
+    private lateinit var centerIconImageView: ImageView
+    private var centerIconBackgroundDrawable: Drawable? = null
 
     // BlurEffect
     private var blurEffect: BlurEffectHelper? = null
@@ -63,10 +74,11 @@ class OverlayHelper(
     private val fadeOutAnimationDuration: Int = 500
 
     private val zoomOutAnimation: ValueAnimator = ValueAnimator.ofFloat(1f, 2f)
-    private var midIconFadeInAnimation: ObjectAnimator? = null
-    private var midIconFadeOutAnimation: ObjectAnimator? = null
+    private var centerIconFadeInAnimation: ObjectAnimator? = null
+    private var centerIconFadeOutAnimation: ObjectAnimator? = null
     private var fadeInAnimation: ObjectAnimator? = null
     private var fadeOutAnimation: ObjectAnimator? = null
+
 
 
     init {
@@ -82,35 +94,40 @@ class OverlayHelper(
         zoomOutAnimation.removeAllUpdateListeners()
         fadeOutAnimation?.removeAllUpdateListeners()
         fadeInAnimation?.removeAllUpdateListeners()
-        midIconFadeInAnimation?.removeAllUpdateListeners()
-        midIconFadeOutAnimation?.removeAllUpdateListeners()
+        centerIconFadeInAnimation?.removeAllUpdateListeners()
+        centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
     private fun configureOverlay(backgroundMode: BackgroundMode) {
         val container = activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
-        measureAndLayout(activity, baseView, 0)
+        measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
         initBackgroundMode(backgroundMode, baseView)
         initLayouts(baseView)
         container.overlay.add(baseView)
         initFadeInOutAnimation()
+
+        // Initialise Center Icon Colors
+        initCenterIcon()
+
+        // Initialise VolumeUi Colors
+        initVolumeUI()
     }
 
     private fun initBackgroundMode(backgroundMode: BackgroundMode, baseView: View) {
         when (backgroundMode) {
             BackgroundMode.BLUR -> {
-                blurEffect =
-                    BlurEffectHelper(
-                        activity,
-                        blurRadius,
-                        blurSampling,
-                        canUseRenderEffect,
-                        fadeInAnimationDuration,
-                        fadeOutAnimationDuration,
-                        baseView,
-                        setBitmapUpdater
-                    )
+                blurEffect = BlurEffectHelper(
+                    activity,
+                    blurRadius,
+                    blurSampling,
+                    canUseRenderEffect,
+                    fadeInAnimationDuration,
+                    fadeOutAnimationDuration,
+                    baseView,
+                    bitmapCallback
+                )
             }
             BackgroundMode.DIM -> {
                 val dimBackground: Drawable? =
@@ -124,29 +141,127 @@ class OverlayHelper(
 
     private fun initLayouts(view: View) {
         audioBarLayout = view.findViewById(R.id.audioBarLayout)
-        customVolumeBar = view.findViewById(R.id.audioBar)
+        volumeBar = view.findViewById(R.id.audioBar)
         txtVolumeLevel = view.findViewById(R.id.txtVolumeLevel)
-        audioBaParams = customVolumeBar.layoutParams
+        audioBaParams = volumeBar.layoutParams
 
-        midIconLayout = baseView.findViewById(R.id.midIconLayout)
-        middleIconView = baseView.findViewById(R.id.middleIconView)
-        middleIconImageView = baseView.findViewById(R.id.middleIconImageView)
+        centerIconLayout = baseView.findViewById(R.id.midIconLayout)
+        centerIconView = baseView.findViewById(R.id.middleIconView)
+        centerIconImageView = baseView.findViewById(R.id.middleIconImageView)
 
         view.visibility = View.GONE
         audioBarLayout.visibility = View.GONE
-        midIconLayout.visibility = View.GONE
+        centerIconLayout.visibility = View.GONE
 
     }
 
+    private fun initCenterIcon() {
+        val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+        val secondaryColor = ContextCompat.getColor(activity, R.color.colorSecondary)
+        val circularFilledBackground = DrawableCompat.wrap(
+            AppCompatResources.getDrawable(
+                activity, R.drawable.circular_filled_background
+            )!!
+        )
 
-    fun showSwipeLeft() = showMiddleLayout(iconDrawableId = R.drawable.icon_skip_previous)
-    fun showSwipeRight() = showMiddleLayout(iconDrawableId = R.drawable.icon_skip_next)
-    fun showPause() = showMiddleLayout(iconDrawableId = R.drawable.icon_pause)
-    fun showResume() = showMiddleLayout(iconDrawableId = R.drawable.icon_play)
+        val circularOuterBackground = DrawableCompat.wrap(
+            AppCompatResources.getDrawable(
+                activity, R.drawable.circular_outer_background
+            )!!
+        )
+        DrawableCompat.setTint(
+            circularOuterBackground,
+            tintColor ?: primaryColor
+        )
+        DrawableCompat.setTint(
+            circularFilledBackground,
+            secondaryColor
+        )
+        val layerDrawable =
+            LayerDrawable(arrayOf(circularFilledBackground, circularOuterBackground))
+        var outerRingWidth = 10
+        layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+        layerDrawable.setLayerInset(
+            1, outerRingWidth, outerRingWidth, outerRingWidth, outerRingWidth
+        )
+
+        centerIconImageView.setColorFilter(secondaryColor)
+        centerIconBackgroundDrawable = layerDrawable
+    }
+
+    private fun initVolumeUI() {
+        val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+        val volumeIcon = baseView.findViewById<ImageView>(R.id.volumeTopIconImage)
+        val viDrawable: Drawable =
+            volumeIconDrawable ?: ContextCompat.getDrawable(
+                activity,
+                R.drawable.icon_volume
+            )
+            ?: return
+        val outerRing: Drawable =
+            ContextCompat.getDrawable(activity, R.drawable.circular_ring) ?: return
+
+        volumeIcon.background = outerRing
+        volumeIcon.setImageDrawable(viDrawable)
+        volumeIcon.setColorFilter(primaryColor)
+        val color = tintColor
+        if (color != null) {
+            volumeBar.setColor(color)
+            txtVolumeLevel.setTextColor(color)
+            volumeIcon.setColorFilter(color)
+            val myGrad: GradientDrawable = volumeIcon.background as GradientDrawable
+            val width = (2 * Resources.getSystem().displayMetrics.density).toInt()
+            myGrad.setStroke(width, color)
+        }
+    }
+
+    fun showSwipeLeft() {
+        var iconDrawable: Drawable? = iconSwipeLeftDrawable
+        if (iconDrawable == null) {
+            iconDrawable = ContextCompat.getDrawable(
+                activity,
+                R.drawable.icon_skip_previous
+            )
+        }
+        animateActionIcon(iconDrawable)
+    }
+
+    fun showSwipeRight() {
+        var iconDrawable: Drawable? = iconSwipeRightDrawable
+        if (iconDrawable == null) {
+            iconDrawable = ContextCompat.getDrawable(
+                activity,
+                R.drawable.icon_skip_next
+            )
+        }
+        animateActionIcon(iconDrawable)
+    }
+
+    private fun showPause() {
+        var iconDrawable: Drawable? = iconTapDrawable
+        if (iconDrawable == null) {
+            iconDrawable = ContextCompat.getDrawable(
+                activity,
+                R.drawable.icon_pause
+            )
+        }
+        animateActionIcon(iconDrawable)
+    }
+
+    private fun showResume() {
+        var iconDrawable: Drawable? = iconTapToggledDrawable
+        if (iconDrawable == null) {
+            iconDrawable = ContextCompat.getDrawable(
+                activity,
+                R.drawable.icon_play
+            )
+        }
+        animateActionIcon(iconDrawable)
+    }
 
     fun showEmptyBlurView() {
         audioBarLayout.visibility = View.GONE
-        midIconLayout.visibility = View.GONE
+        centerIconLayout.visibility = View.GONE
         fadeInAnimation?.start()
     }
 
@@ -154,35 +269,43 @@ class OverlayHelper(
         // Check if Both AudioBar and MidLayout are inVisible
         // and only Base View is Visible
         var isEmptyBlurViewActive =
-            (baseView.visibility == View.VISIBLE) &&
-                    (audioBarLayout.visibility != View.VISIBLE || midIconLayout.visibility != View.VISIBLE)
+            (baseView.visibility == View.VISIBLE) && (audioBarLayout.visibility != View.VISIBLE || centerIconLayout.visibility != View.VISIBLE)
         if (isEmptyBlurViewActive) {
             fadeOutAnimation?.start()
         }
     }
 
     fun testOverlay() {
-        showMiddleLayout(animationDuration = 1500)
+        animateActionIcon()
+    }
+
+    fun onTwoFingerTap() {
+        if (audioManagerHelper.isAudioPlaying()) {
+            showPause()
+        } else {
+            showResume()
+        }
     }
 
 
-    private fun showMiddleLayout(iconDrawableId: Int? = null, animationDuration: Long? = null) {
+    private fun animateActionIcon(iconDrawable: Drawable? = null) {
         audioBarLayout.visibility = View.GONE
-        if (iconDrawableId != null) middleIconImageView.setImageResource(iconDrawableId)
+        if (iconDrawable != null) centerIconImageView.setImageDrawable(iconDrawable)
 
-        middleIconImageView.setColorFilter(ContextCompat.getColor(activity, R.color.colorSecondary))
-        middleIconImageView.setBackgroundResource(R.drawable.filled_circular_ring)
+        if (centerIconBackgroundDrawable != null) {
+            centerIconImageView.background = centerIconBackgroundDrawable
+        }
 
-        midIconLayout.visibility = View.VISIBLE
-        animateZoomOut(middleIconImageView)
+        centerIconLayout.visibility = View.VISIBLE
+        animateZoomOut(centerIconImageView)
 
         // cancel all animations first
-        midIconFadeOutAnimation?.cancel()
-        midIconFadeInAnimation?.cancel()
+        centerIconFadeOutAnimation?.cancel()
+        centerIconFadeInAnimation?.cancel()
         fadeInAnimation?.cancel()
         fadeOutAnimation?.cancel()
         // start new Animation
-        midIconFadeInAnimation?.start()
+        centerIconFadeInAnimation?.start()
     }
 
 
@@ -222,12 +345,10 @@ class OverlayHelper(
     private fun updateDeviceVolume(swipeDirection: SwipeDirection): Double {
         when (swipeDirection) {
             SwipeDirection.UP -> {
-                currentVolume =
-                    audioManagerHelper.getValidPercentage(currentVolume + volumeStep)
+                currentVolume = audioManagerHelper.getValidPercentage(currentVolume + volumeStep)
             }
             SwipeDirection.DOWN -> {
-                currentVolume =
-                    audioManagerHelper.getValidPercentage(currentVolume - volumeStep)
+                currentVolume = audioManagerHelper.getValidPercentage(currentVolume - volumeStep)
             }
             else -> {}
         }
@@ -247,19 +368,19 @@ class OverlayHelper(
                 yAxisOfHundred = 0F
                 yAxisOfZero = 0F
 
-                midIconLayout.visibility = View.GONE
+                centerIconLayout.visibility = View.GONE
                 audioBarLayout.visibility = View.VISIBLE
 
                 // Cancel ALl Animations
-                midIconFadeInAnimation?.cancel()
-                midIconFadeOutAnimation?.cancel()
+                centerIconFadeInAnimation?.cancel()
+                centerIconFadeOutAnimation?.cancel()
                 fadeOutAnimation?.cancel()
                 // Start New Animation
                 fadeInAnimation?.start()
             }
             GestureState.CHANGED -> {
                 // To Reduce Sensitivity , recognize gesture with gap of 25 Events
-                var yPan: Float = event.y
+                val yPan: Float = event.y
                 if (abs(lastYPan - yPan) < 25) return
 
                 // Check if Current Y axis of Fingers exceeded the required Volume Level
@@ -281,14 +402,12 @@ class OverlayHelper(
                 fadeOutAnimation?.start()
             }
         }
-        // Send Touch Events to The CustomVolumeBarUI
-        customVolumeBar.onTouchEvent(event.y, state)
+        volumeBar.onTouchEvent(event.y, state)
     }
 
 
     fun updateVolumeViewFromKeyEvents(
-        state: GestureState,
-        swipeDirection: SwipeDirection
+        state: GestureState, swipeDirection: SwipeDirection
     ) {
         updateDeviceVolume(swipeDirection)
         //  val centreYAxis: Float = audioBarLayout.y + audioBarLayout.height / 2;
@@ -304,23 +423,22 @@ class OverlayHelper(
         //        }
 
         // Set Volume Text in UI
-        val roundedVolume =
-            ((((currentVolume * 100) * 10.0) / 100) * 2.0).roundToInt() / 2.0
+        val roundedVolume = ((((currentVolume * 100) * 10.0) / 100) * 2.0).roundToInt() / 2.0
 
         when (state) {
             GestureState.BEGAN -> {
-                midIconLayout.visibility = View.GONE
+                centerIconLayout.visibility = View.GONE
                 audioBarLayout.visibility = View.VISIBLE
 
                 // Cancel ALl Animations
-                midIconFadeInAnimation?.cancel()
-                midIconFadeOutAnimation?.cancel()
+                centerIconFadeInAnimation?.cancel()
+                centerIconFadeOutAnimation?.cancel()
                 fadeOutAnimation?.cancel()
                 // Start New Animation
                 fadeInAnimation?.start()
 
                 txtVolumeLevel.text = "$roundedVolume"
-               // progressYAxis = centreYAxis
+                // progressYAxis = centreYAxis
             }
             GestureState.CHANGED -> {
                 txtVolumeLevel.text = "$roundedVolume"
@@ -329,7 +447,7 @@ class OverlayHelper(
                 fadeOutAnimation?.start()
             }
         }
-        customVolumeBar.onTouchEvent(0f, state)
+        volumeBar.onTouchEvent(0f, state)
     }
 
 
@@ -356,25 +474,25 @@ class OverlayHelper(
 
 
     private fun initFadeInOutAnimation() {
-        midIconFadeInAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 0.0f, 1f)
-        midIconFadeOutAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 1f, 0.0f)
+        centerIconFadeInAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 0.0f, 1f)
+        centerIconFadeOutAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 1f, 0.0f)
         fadeInAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 0.0f, 1f)
         fadeOutAnimation = ObjectAnimator.ofFloat(baseView, "alpha", 1f, 0.0f)
 
 
 
-        midIconFadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
+        centerIconFadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 blurEffect?.show()
                 baseView.visibility = View.VISIBLE
             }
 
             override fun onAnimationEnd(animation: Animator) {
-                midIconFadeOutAnimation?.start()
+                centerIconFadeOutAnimation?.start()
             }
         })
 
-        midIconFadeOutAnimation?.addListener(object : AnimatorListenerAdapter() {
+        centerIconFadeOutAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
                 blurEffect?.remove()
             }
@@ -405,29 +523,35 @@ class OverlayHelper(
     }
 
     private fun setDefaultDuration() {
-        midIconFadeInAnimation?.duration = fadeInAnimationDuration.toLong()
-        midIconFadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
+        centerIconFadeInAnimation?.duration = fadeInAnimationDuration.toLong()
+        centerIconFadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
         fadeInAnimation?.duration = fadeInAnimationDuration.toLong()
         fadeOutAnimation?.duration = fadeOutAnimationDuration.toLong()
     }
 
+
     // Helper Methods
-    private fun measureAndLayout(activity: Activity, toMeasure: View, statusBarHeight: Int) {
-        val displayMetrics = DisplayMetrics()
-        activity.windowManager.defaultDisplay.getMetrics(displayMetrics)
+    private fun measureAndLayout(activity: Activity, toMeasure: View) {
+        val dpHeight: Int
+        val dpWidth: Int
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val metrics: WindowMetrics =
+                activity.getSystemService(WindowManager::class.java).currentWindowMetrics
+            dpHeight = metrics.bounds.height()
+            dpWidth = metrics.bounds.width()
+        } else {
+            val outMetrics = DisplayMetrics()
+            @Suppress("DEPRECATION") activity.windowManager.defaultDisplay.getMetrics(outMetrics)
+            dpHeight = outMetrics.heightPixels
+            dpWidth = outMetrics.widthPixels
+        }
+
         toMeasure.measure(
-            View.MeasureSpec.makeMeasureSpec(displayMetrics.widthPixels, View.MeasureSpec.EXACTLY),
-            View.MeasureSpec.makeMeasureSpec(
-                displayMetrics.heightPixels - statusBarHeight,
-                View.MeasureSpec.EXACTLY
-            )
+            View.MeasureSpec.makeMeasureSpec(dpWidth, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(dpHeight, View.MeasureSpec.EXACTLY)
         )
-        toMeasure.layout(
-            0,
-            statusBarHeight,
-            displayMetrics.widthPixels,
-            displayMetrics.heightPixels
-        )
+        toMeasure.layout(0, 0, dpWidth, dpHeight)
     }
 
 }

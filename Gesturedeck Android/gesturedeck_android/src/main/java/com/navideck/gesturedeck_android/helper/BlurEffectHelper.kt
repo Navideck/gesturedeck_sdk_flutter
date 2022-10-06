@@ -28,7 +28,7 @@ class BlurEffectHelper(
     private var blurInAnimationDuration: Int = 100,
     private val blurOutAnimationDuration: Int = 500,
     private var baseView: View,
-    private var setBitmapUpdater: (() -> Bitmap?)? = null,
+    private var bitmapCallback: (() -> Bitmap?)? = null,
 ) {
     private var rootView: ViewGroup = activity.window.decorView.rootView as ViewGroup
     private var firstViewOnRoot: View? = null
@@ -63,28 +63,29 @@ class BlurEffectHelper(
         if (isBlurFadeInProgress) {
             blurFadeOutAnimation?.reverse()
         } else {
-            //TODO : Change UI Colour Accordingly
-            var darkOpacity = if (activity.isDarkThemeOn()) 100 else 0
-
             //TODO : Reduce delay in getting bitmap from flutter as much as possible
-            var bitmap: Bitmap? = setBitmapUpdater?.invoke()
+            val color = Color.argb(120, 100, 100, 100)
+            val bitmap: Bitmap? = bitmapCallback?.invoke()
             if (bitmap != null) {
                 val imageView: ImageView = baseView.findViewById(R.id.backgroundImageView)
                 Blurry.with(activity)
+                    .radius(blurRadius)
+                    .sampling(blurSampling)
+                    .color(color)
                     .animate(blurInAnimationDuration)
                     .from(bitmap)
                     .into(imageView)
             } else {
-                Blurry.with(activity).radius(blurRadius).sampling(blurSampling)
-                    .color(Color.argb(darkOpacity, 0, 0, 0)).animate(blurInAnimationDuration)
+                Blurry.with(activity)
+                    .radius(blurRadius)
+                    .sampling(blurSampling)
+                    .color(color)
+                    .animate(blurInAnimationDuration)
                     .onto(rootView)
             }
         }
     }
 
-    private fun Context.isDarkThemeOn(): Boolean {
-        return resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
-    }
 
 
     fun remove() {

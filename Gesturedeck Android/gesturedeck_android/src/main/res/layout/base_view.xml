@@ -54,10 +54,9 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/volumeTopIconImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:background="@drawable/icon_volume"
                 app:srcCompat="@drawable/icon_volume" />
 
             <TextView
@@ -71,8 +70,7 @@
                 android:textSize="25sp" />
         </LinearLayout>
 
-
-        <com.navideck.gesturedeck_android.helper.CustomVolumeBar
+        <com.navideck.gesturedeck_android.helper.VolumeBar
             android:id="@+id/audioBar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -2,8 +2,8 @@ package com.navideck.gesturedeck_android.helper
 
 import android.os.CountDownTimer
 
-/// [CustomTimer] maintains a Single Timer Instance , and manage state of that Timer
-class CustomTimer {
+/// [KeyEventTimer] maintains a Single Timer Instance , and manage state of that Timer
+class KeyEventTimer {
     private var timer: CountDownTimer? = null
 
     var isActive: Boolean = false
@@ -26,6 +26,5 @@ class CustomTimer {
             timer?.cancel()
             isActive = false
         }
-
     }
 }

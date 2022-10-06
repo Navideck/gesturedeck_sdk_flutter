@@ -22,6 +22,10 @@ class AudioManagerHelper(private var activity: Activity) {
         return volume
     }
 
+    fun isAudioPlaying(): Boolean {
+        return audioManager.isMusicActive
+    }
+
     fun setVolumeByPercentage(volume: Double) =
         this.setMediaVolume((this.getValidPercentage(volume) * this.mediaMaxVolume).roundToInt())
 
@@ -41,6 +45,7 @@ class AudioManagerHelper(private var activity: Activity) {
                     activity.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 vibratorManager.defaultVibrator
             } else {
+                @Suppress("DEPRECATION")
                 activity.getSystemService(VIBRATOR_SERVICE) as Vibrator
             }
             vibrator.vibrate(
@@ -51,6 +56,7 @@ class AudioManagerHelper(private var activity: Activity) {
             )
 
         } else {
+            @Suppress("DEPRECATION")
             (activity.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(vibrationDuration)
         }
     }

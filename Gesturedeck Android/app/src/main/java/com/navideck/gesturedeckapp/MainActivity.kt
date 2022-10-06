@@ -2,6 +2,7 @@ package com.navideck.gesturedeckapp
 
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
@@ -10,7 +11,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.navideck.gesturedeck_android.gesturedeckVariants.GesturedeckMapbox
+import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.helper.OverlayHelper
 import com.navideck.gesturedeck_android.model.BackgroundMode
 import com.navideck.gesturedeck_android.model.GestureEvent
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dragView: View
 
     // Gesturedeck Variables
-    private var gesturedeckMapbox: GesturedeckMapbox? = null
+    private var gesturedeckMapbox: Gesturedeck? = null
     private var backgroundMode: BackgroundMode = BackgroundMode.BLUR
     private var blurSample = 5
     private var blurRadius = 25
@@ -51,15 +52,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initGesturedeck() {
-
         gesturedeckMapbox?.dispose()
-        gesturedeckMapbox = GesturedeckMapbox(
+        gesturedeckMapbox = Gesturedeck(
             this,
-            backgroundMode = backgroundMode,
-            blurRadius = blurRadius,
-            blurSampling = blurSample,
-            dimRadius = dimRadius,
-            canUseRenderEffect = canUseRenderEffect,
+            // tintColor = Color.RED,
             gestureCallbacks = { gesture: GestureEvent ->
                 Log.e(DEBUG_TAG, gesture.name)
                 gestureText.text = "GesturedeckMapbox : " + gesture.name
@@ -80,16 +76,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun dragView(ev: MotionEvent?) {
         when (ev?.actionMasked) {
-            MotionEvent.ACTION_DOWN -> {
-                var topWidgetHeight = 500
-            }
+            MotionEvent.ACTION_DOWN -> {}
             MotionEvent.ACTION_MOVE -> {
-                var statusBarHeight = 50
-                var topLayoutHeight = topLayout.height + statusBarHeight
+                val statusBarHeight = 50
+                val topLayoutHeight = topLayout.height + statusBarHeight
                 dragView.x = ev.x
                 dragView.y = ev.y - topLayoutHeight
             }
-            else -> false
+            else -> {}
         }
     }
 
@@ -179,12 +173,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnTestOverlay.setOnClickListener {
-            OverlayHelper(
-                this,
-                backgroundMode = backgroundMode
-            ).testOverlay()
+            OverlayHelper(this).testOverlay()
         }
-
 
         btnDim.setOnClickListener {
             backgroundMode = BackgroundMode.DIM

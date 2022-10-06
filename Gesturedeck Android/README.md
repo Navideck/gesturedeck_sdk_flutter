@@ -1,12 +1,12 @@
 - You can either make your MainActivity to subclass GesturedeckActivity
 
-```
+```kotlin
 class MainActivity : GesturedeckActivity()
 ```
 
 - Or feed all touchEvents to Gesturedeck manually
 
-```
+```kotlin
 class MainActivity : AppCompatActivity() {
 
     private lateinit var gesturedeck: Gesturedeck
@@ -23,14 +23,14 @@ class MainActivity : AppCompatActivity() {
         gesturedeck.onTouchEvent(event)
         return super.dispatchTouchEvent(event)
     }
+}
 ```
 
 - and to handle device's volume key action with Gesturedeck library , feed keyEvents as well
 
-```
+```kotlin
 class MainActivity : AppCompatActivity() {
-    ......
-    
+
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {    
         // To hide device native volume Dialog , and Show only Gesturedeck UI
         return gesturedeckMapbox?.onKeyEvents(event) ?: false
@@ -39,4 +39,27 @@ class MainActivity : AppCompatActivity() {
         // gesturedeckMapbox?.onKeyEvents(event)
         // return false
     }
+}
+```
+
+To initialize Gesturedeck manually, we have two options:
+
+- Either pass activity in Gesturedeck constructor like this
+
+```kotlin
+    gesturedeck = Gesturedeck(this)
+```
+
+- or add this tag in the Manifest file
+
+```xml
+    <application
+        android:name="com.navideck.gesturedeck_android.globalActivity.GlobalApplication"
+    />
+```
+
+and initialize without passing activity
+
+```kotlin
+    gesturedeck = Gesturedeck()
 ```
