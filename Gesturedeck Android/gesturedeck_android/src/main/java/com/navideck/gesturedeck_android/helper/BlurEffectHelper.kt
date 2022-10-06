@@ -2,9 +2,6 @@ package com.navideck.gesturedeck_android.helper
 
 import android.animation.ValueAnimator
 import android.app.Activity
-import android.content.Context
-import android.content.res.Configuration
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.RenderEffect
@@ -85,7 +82,6 @@ class BlurEffectHelper(
             }
         }
     }
-
 
 
     fun remove() {

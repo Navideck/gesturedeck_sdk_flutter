@@ -48,7 +48,6 @@ class OverlayHelper(
     private var lastYPan: Float = 0f
     private var yAxisOfZero: Float = 0f
     private var yAxisOfHundred: Float = 0f
-    private var backgroundMode: BackgroundMode = BackgroundMode.BLUR
     private var blurRadius: Int = 25
     private var blurSampling: Int = 5
     private var dimRadius: Int = 100
@@ -82,7 +81,7 @@ class OverlayHelper(
 
 
     init {
-        configureOverlay(backgroundMode)
+        configureOverlay()
         initZoomOutAnimation()
         audioManagerHelper = AudioManagerHelper(activity)
         currentVolume = audioManagerHelper.mediaCurrentVolumeInPercentage
@@ -98,12 +97,18 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
-    private fun configureOverlay(backgroundMode: BackgroundMode) {
+    private fun configureOverlay() {
         val container = activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
-        initBackgroundMode(backgroundMode, baseView)
+
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            initBackgroundMode(BackgroundMode.DIM, baseView)
+        }else{
+            initBackgroundMode(BackgroundMode.BLUR, baseView)
+        }
+
         initLayouts(baseView)
         container.overlay.add(baseView)
         initFadeInOutAnimation()
@@ -152,7 +157,6 @@ class OverlayHelper(
         view.visibility = View.GONE
         audioBarLayout.visibility = View.GONE
         centerIconLayout.visibility = View.GONE
-
     }
 
     private fun initCenterIcon() {
