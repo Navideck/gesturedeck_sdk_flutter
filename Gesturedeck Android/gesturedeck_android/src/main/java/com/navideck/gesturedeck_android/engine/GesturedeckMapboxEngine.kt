@@ -21,7 +21,7 @@ open class GesturedeckMapboxEngine(
     private lateinit var androidGesturesManager: AndroidGesturesManager
     private var touchFingerCount: Int = 1
     private var currentPanGestureState = GestureState.ENDED
-    private var previousGestureEvent: GestureEvent = GestureEvent.DOUBLE_TAP_HOLD
+    private var previousGestureEvent: GestureEvent? = null
     private val swipeMinValidDistance: Float = 50F
     private val swipeThresholdVelocity = 700
     private var minimumValidPanEvents: Int = 6

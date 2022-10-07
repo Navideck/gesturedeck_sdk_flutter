@@ -4,7 +4,7 @@ import android.app.Activity
 import android.app.Application
 import android.os.Bundle
 
-class GlobalActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
+class GlobalActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
     var currentActivity: Activity? = null
 
@@ -24,9 +24,9 @@ class GlobalActivityLifecycleCallbacks: Application.ActivityLifecycleCallbacks {
         currentActivity = activity
     }
 
-    override fun onActivityStopped(p0: Activity) { }
+    override fun onActivityStopped(p0: Activity) {}
 
     override fun onActivitySaveInstanceState(p0: Activity, p1: Bundle) {}
 
-    override fun onActivityDestroyed(p0: Activity) { }
+    override fun onActivityDestroyed(p0: Activity) {}
 }

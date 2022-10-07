@@ -1,6 +1,7 @@
 package com.navideck.gesturedeck
 
 import android.app.Activity
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.annotation.NonNull

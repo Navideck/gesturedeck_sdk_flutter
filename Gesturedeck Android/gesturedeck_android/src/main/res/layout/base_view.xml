@@ -31,7 +31,7 @@
                 android:layout_width="136dp"
                 android:layout_height="130dp"
                 android:background="@drawable/circular_ring"
-                app:srcCompat="@drawable/icon_skip_next" />
+                app:srcCompat="@drawable/icon_skip_next_material" />
 
         </LinearLayout>
 
@@ -57,7 +57,7 @@
                 android:id="@+id/volumeTopIconImage"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                app:srcCompat="@drawable/icon_volume" />
+                app:srcCompat="@drawable/icon_volume_material" />
 
             <TextView
                 android:id="@+id/txtVolumeLevel"

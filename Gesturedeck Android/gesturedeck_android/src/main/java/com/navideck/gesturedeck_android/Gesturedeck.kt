@@ -3,6 +3,7 @@ package com.navideck.gesturedeck_android
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import com.navideck.gesturedeck_android.engine.GesturedeckMapboxEngine
@@ -32,7 +33,7 @@ class Gesturedeck(
 
 
     init {
-        var currentActivity :Activity? = activity ?: GlobalApplication.currentActivity()
+        var currentActivity: Activity? = activity ?: GlobalApplication.currentActivity()
         if (currentActivity != null) {
             overlayHelper = OverlayHelper(
                 currentActivity,
@@ -118,19 +119,21 @@ class Gesturedeck(
     private fun getGesturedeckInterface(): GesturedeckInterface {
         return object : GesturedeckInterface {
             override fun onGestureEvent(gestureEvent: GestureEvent) {
-                gestureCallbacks?.invoke(gestureEvent)
+                var recognizedGestureEvent = gestureEvent
                 when (gestureEvent) {
                     GestureEvent.TWO_FINGER_TAP -> {
                         overlayHelper.onTwoFingerTap()
                     }
+                    GestureEvent.DOUBLE_TAP_LIFT -> {
+                        overlayHelper.onTwoFingerTap()
+                        recognizedGestureEvent = GestureEvent.TWO_FINGER_TAP
+                    }
                     GestureEvent.DOUBLE_TAP_HOLD -> {
                         overlayHelper.showEmptyBlurView()
                     }
-                    GestureEvent.DOUBLE_TAP_LIFT -> {
-                        overlayHelper.hideEmptyBlurView()
-                    }
                     else -> {}
                 }
+                gestureCallbacks?.invoke(recognizedGestureEvent)
             }
 
             override fun onSwipeGestureAction(swipeDirection: SwipeDirection) {

@@ -12,6 +12,7 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -50,7 +51,7 @@ class OverlayHelper(
     private var yAxisOfHundred: Float = 0f
     private var blurRadius: Int = 25
     private var blurSampling: Int = 5
-    private var dimRadius: Int = 100
+    private var dimAlpha: Int = 240
     private var canUseRenderEffect: Boolean = false
 
     // AudioBar Layout
@@ -79,7 +80,6 @@ class OverlayHelper(
     private var fadeOutAnimation: ObjectAnimator? = null
 
 
-
     init {
         configureOverlay()
         initZoomOutAnimation()
@@ -103,9 +103,9 @@ class OverlayHelper(
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
 
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             initBackgroundMode(BackgroundMode.DIM, baseView)
-        }else{
+        } else {
             initBackgroundMode(BackgroundMode.BLUR, baseView)
         }
 
@@ -137,7 +137,7 @@ class OverlayHelper(
             BackgroundMode.DIM -> {
                 val dimBackground: Drawable? =
                     ResourcesCompat.getDrawable(activity.resources, R.drawable.dim_window, null);
-                dimBackground?.alpha = dimRadius
+                dimBackground?.alpha = dimAlpha
                 baseView.background = dimBackground
             }
         }
@@ -174,12 +174,10 @@ class OverlayHelper(
             )!!
         )
         DrawableCompat.setTint(
-            circularOuterBackground,
-            tintColor ?: primaryColor
+            circularOuterBackground, tintColor ?: primaryColor
         )
         DrawableCompat.setTint(
-            circularFilledBackground,
-            secondaryColor
+            circularFilledBackground, secondaryColor
         )
         val layerDrawable =
             LayerDrawable(arrayOf(circularFilledBackground, circularOuterBackground))
@@ -196,12 +194,9 @@ class OverlayHelper(
     private fun initVolumeUI() {
         val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
         val volumeIcon = baseView.findViewById<ImageView>(R.id.volumeTopIconImage)
-        val viDrawable: Drawable =
-            volumeIconDrawable ?: ContextCompat.getDrawable(
-                activity,
-                R.drawable.icon_volume
-            )
-            ?: return
+        val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
+            activity, R.drawable.icon_volume_material
+        ) ?: return
         val outerRing: Drawable =
             ContextCompat.getDrawable(activity, R.drawable.circular_ring) ?: return
 
@@ -223,8 +218,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconSwipeLeftDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity,
-                R.drawable.icon_skip_previous
+                activity, R.drawable.icon_skip_previous_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -234,8 +228,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconSwipeRightDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity,
-                R.drawable.icon_skip_next
+                activity, R.drawable.icon_skip_next_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -245,8 +238,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconTapDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity,
-                R.drawable.icon_pause
+                activity, R.drawable.icon_pause_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -256,8 +248,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconTapToggledDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity,
-                R.drawable.icon_play
+                activity, R.drawable.icon_play_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -280,7 +271,8 @@ class OverlayHelper(
     }
 
     fun testOverlay() {
-        animateActionIcon()
+        // animateActionIcon()
+        showResume()
     }
 
     fun onTwoFingerTap() {
@@ -309,7 +301,12 @@ class OverlayHelper(
         fadeInAnimation?.cancel()
         fadeOutAnimation?.cancel()
         // start new Animation
-        centerIconFadeInAnimation?.start()
+        if (baseView.visibility == View.VISIBLE) {
+            centerIconFadeOutAnimation?.start()
+        } else {
+            centerIconFadeOutAnimation?.duration = 1000
+            centerIconFadeInAnimation?.start()
+        }
     }
 
 
@@ -380,7 +377,9 @@ class OverlayHelper(
                 centerIconFadeOutAnimation?.cancel()
                 fadeOutAnimation?.cancel()
                 // Start New Animation
-                fadeInAnimation?.start()
+                if (baseView.visibility != View.VISIBLE) {
+                    fadeInAnimation?.start()
+                }
             }
             GestureState.CHANGED -> {
                 // To Reduce Sensitivity , recognize gesture with gap of 25 Events
@@ -493,6 +492,7 @@ class OverlayHelper(
 
             override fun onAnimationEnd(animation: Animator) {
                 centerIconFadeOutAnimation?.start()
+                setDefaultDuration()
             }
         })
 
