@@ -8,8 +8,8 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import com.navideck.gesturedeck_android.engine.GesturedeckMapboxEngine
 import com.navideck.gesturedeck_android.globalActivity.GlobalApplication
+import com.navideck.gesturedeck_android.helper.EventTimer
 import com.navideck.gesturedeck_android.helper.GesturedeckInterface
-import com.navideck.gesturedeck_android.helper.KeyEventTimer
 import com.navideck.gesturedeck_android.helper.OverlayHelper
 import com.navideck.gesturedeck_android.model.*
 
@@ -28,7 +28,7 @@ class Gesturedeck(
 ) {
     private var overlayHelper: OverlayHelper
     private var previousKeyEvent: KeyEvent? = null
-    private var keyEventTimer: KeyEventTimer = KeyEventTimer()
+    private var keyEventTimer: EventTimer = EventTimer()
     private var gesturedeckMapboxEngine: GesturedeckMapboxEngine? = null
 
 
@@ -124,12 +124,17 @@ class Gesturedeck(
                     GestureEvent.TWO_FINGER_TAP -> {
                         overlayHelper.onTwoFingerTap()
                     }
-                    GestureEvent.DOUBLE_TAP_LIFT -> {
-                        overlayHelper.onTwoFingerTap()
-                        recognizedGestureEvent = GestureEvent.TWO_FINGER_TAP
-                    }
                     GestureEvent.DOUBLE_TAP_HOLD -> {
                         overlayHelper.showEmptyBlurView()
+                    }
+                    GestureEvent.DOUBLE_TAP_LIFT -> {
+                        overlayHelper.onTwoFingerTap()
+                    }
+                    GestureEvent.TWO_FINGER_HOLD -> {
+                        overlayHelper.showEmptyBlurView()
+                    }
+                    GestureEvent.TWO_FINGER_LIFT -> {
+                        overlayHelper.hideEmptyBlurView()
                     }
                     else -> {}
                 }

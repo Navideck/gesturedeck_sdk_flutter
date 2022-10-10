@@ -6,6 +6,7 @@ import com.mapbox.android.gestures.AndroidGesturesManager
 import com.mapbox.android.gestures.ShoveGestureDetector
 import com.mapbox.android.gestures.StandardGestureDetector
 import com.mapbox.android.gestures.StandardScaleGestureDetector
+import com.navideck.gesturedeck_android.helper.EventTimer
 import com.navideck.gesturedeck_android.helper.GesturedeckInterface
 import com.navideck.gesturedeck_android.model.GestureEvent
 import com.navideck.gesturedeck_android.model.GestureState
@@ -26,6 +27,10 @@ open class GesturedeckMapboxEngine(
     private val swipeThresholdVelocity = 700
     private var minimumValidPanEvents: Int = 6
     private var currentPanEventCount = 0
+    private var minimumDoubleTapPressDuration: Long = 100
+    private var doubleTapTimer: EventTimer = EventTimer()
+    private var minimumTwoFingerPressDuration: Long = 150
+    private var twoFingerTapTimer: EventTimer = EventTimer()
 
     init {
         setupGesturesManager(activity)
@@ -41,17 +46,13 @@ open class GesturedeckMapboxEngine(
     }
 
     fun onScaleGestureAction(
-        event: MotionEvent,
-        swipeDirection: SwipeDirection,
-        state: GestureState
+        event: MotionEvent, swipeDirection: SwipeDirection, state: GestureState
     ) {
         gesturedeckInterface.onScaleGestureAction(event, swipeDirection, state)
     }
 
     fun onPanGestureAction(
-        event: MotionEvent,
-        swipeDirection: SwipeDirection,
-        state: GestureState
+        event: MotionEvent, swipeDirection: SwipeDirection, state: GestureState
     ) {
         var recognizedState: GestureState = state
         if (currentPanGestureState == GestureState.ENDED && state == GestureState.CHANGED) {
@@ -63,23 +64,34 @@ open class GesturedeckMapboxEngine(
 
 
     fun onTouchEvents(event: MotionEvent) {
+
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_MOVE -> {
                 // TODO : add oneFinger DoubleTap and Swipe
             }
             MotionEvent.ACTION_POINTER_DOWN -> {
                 touchFingerCount = event.pointerCount
-                // Show an Empty BlurView if Someone Put Fingers on the Screen
                 if (event.pointerCount == 2) {
-                    //TODO : Fix TwoFingerTouch conflicting with horizontal Swipes
-                    // onGestureEvent(GestureEvent.TWO_FINGER_TOUCH)
+                    onGestureEvent(GestureEvent.TWO_FINGER_TOUCH)
+                    twoFingerTapTimer.start(duration = minimumTwoFingerPressDuration) {
+                        if (previousGestureEvent == GestureEvent.TWO_FINGER_TOUCH) {
+                            onGestureEvent(GestureEvent.TWO_FINGER_HOLD)
+                        }
+                    }
                 }
             }
             MotionEvent.ACTION_UP -> {
                 currentPanEventCount = 0
-                if (previousGestureEvent == GestureEvent.TWO_FINGER_TOUCH || previousGestureEvent == GestureEvent.DOUBLE_TAP_HOLD) {
-                    // TODO : Fix hideView conflicting with horizontal Swipes
-                    onGestureEvent(GestureEvent.DOUBLE_TAP_LIFT)
+                if (twoFingerTapTimer.isActive) twoFingerTapTimer.cancel()
+                if (doubleTapTimer.isActive) doubleTapTimer.cancel()
+                when (previousGestureEvent) {
+                    GestureEvent.TWO_FINGER_HOLD -> {
+                        onGestureEvent(GestureEvent.TWO_FINGER_LIFT)
+                    }
+                    GestureEvent.DOUBLE_TAP_HOLD -> {
+                        onGestureEvent(GestureEvent.DOUBLE_TAP_LIFT)
+                    }
+                    else -> {}
                 }
             }
         }
@@ -107,9 +119,7 @@ open class GesturedeckMapboxEngine(
                         if (detector.isScalingOut) GestureEvent.SCALE_OUT else GestureEvent.SCALE_IN
                     onGestureEvent(gestureEvent)
                     onScaleGestureAction(
-                        detector.currentEvent,
-                        detector.getSwipeDirection,
-                        GestureState.CHANGED
+                        detector.currentEvent, detector.getSwipeDirection, GestureState.CHANGED
                     )
                 }
                 return true
@@ -118,9 +128,7 @@ open class GesturedeckMapboxEngine(
             override fun onScaleBegin(detector: StandardScaleGestureDetector): Boolean {
                 if (detector.pointersCount == 1) {
                     onScaleGestureAction(
-                        detector.currentEvent,
-                        detector.getSwipeDirection,
-                        GestureState.BEGAN
+                        detector.currentEvent, detector.getSwipeDirection, GestureState.BEGAN
                     )
                 }
                 return super.onScaleBegin(detector)
@@ -131,9 +139,7 @@ open class GesturedeckMapboxEngine(
             ) {
                 if (detector.pointersCount + 1 == 1) {
                     onScaleGestureAction(
-                        detector.currentEvent,
-                        detector.getSwipeDirection,
-                        GestureState.ENDED
+                        detector.currentEvent, detector.getSwipeDirection, GestureState.ENDED
                     )
                 }
                 super.onScaleEnd(detector, velocityX, velocityY)
@@ -182,7 +188,13 @@ open class GesturedeckMapboxEngine(
             }
 
             override fun onDoubleTap(e: MotionEvent): Boolean {
-                onGestureEvent(GestureEvent.DOUBLE_TAP_HOLD)
+                onGestureEvent(GestureEvent.DOUBLE_TAP)
+                // recognize it as DOUBLE_TAP_HOLD if no other event occurred within given duration
+                doubleTapTimer.start(duration = minimumDoubleTapPressDuration) {
+                    if (previousGestureEvent == GestureEvent.DOUBLE_TAP) {
+                        onGestureEvent(GestureEvent.DOUBLE_TAP_HOLD)
+                    }
+                }
                 return true
             }
         })
@@ -212,9 +224,7 @@ open class GesturedeckMapboxEngine(
                     if (currentPanEventCount < minimumValidPanEvents) return true
 
                     onPanGestureAction(
-                        detector.currentEvent,
-                        detector.getSwipeDirection,
-                        GestureState.CHANGED
+                        detector.currentEvent, detector.getSwipeDirection, GestureState.CHANGED
                     )
                     when (direction) {
                         SwipeDirection.UP -> onGestureEvent(GestureEvent.PAN_UP)
@@ -230,9 +240,7 @@ open class GesturedeckMapboxEngine(
             ) {
                 if (currentPanGestureState != GestureState.ENDED) {
                     onPanGestureAction(
-                        detector.currentEvent,
-                        detector.getSwipeDirection,
-                        GestureState.ENDED
+                        detector.currentEvent, detector.getSwipeDirection, GestureState.ENDED
                     )
                 }
 

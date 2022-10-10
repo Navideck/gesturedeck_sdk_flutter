@@ -302,9 +302,10 @@ class OverlayHelper(
         fadeOutAnimation?.cancel()
         // start new Animation
         if (baseView.visibility == View.VISIBLE) {
+            centerIconFadeOutAnimation?.duration =
+                (fadeInAnimationDuration + fadeOutAnimationDuration).toLong()
             centerIconFadeOutAnimation?.start()
         } else {
-            centerIconFadeOutAnimation?.duration = 1000
             centerIconFadeInAnimation?.start()
         }
     }
@@ -382,6 +383,9 @@ class OverlayHelper(
                 }
             }
             GestureState.CHANGED -> {
+                if (audioBarLayout.visibility == View.GONE) {
+                    audioBarLayout.visibility = View.VISIBLE
+                }
                 // To Reduce Sensitivity , recognize gesture with gap of 25 Events
                 val yPan: Float = event.y
                 if (abs(lastYPan - yPan) < 25) return
