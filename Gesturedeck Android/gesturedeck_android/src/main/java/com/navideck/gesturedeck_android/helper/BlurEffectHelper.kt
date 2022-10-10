@@ -60,10 +60,8 @@ class BlurEffectHelper(
         if (isBlurFadeInProgress) {
             blurFadeOutAnimation?.reverse()
         } else {
-            val blurryView: View? = rootView.findViewWithTag(Blurry::class.java.simpleName)
-            if (blurryView != null) {
-                Blurry.delete(rootView)
-            }
+            if (isEmptyBlurViewActive()) Blurry.delete(rootView)
+
             //TODO : Reduce delay in getting bitmap from flutter as much as possible
             val color = Color.argb(120, 100, 100, 100)
             val bitmap: Bitmap? = bitmapCallback?.invoke()
@@ -85,6 +83,14 @@ class BlurEffectHelper(
                     .onto(rootView)
             }
         }
+    }
+
+    private fun isEmptyBlurViewActive(): Boolean {
+        val blurryView: View =
+            rootView.findViewWithTag(Blurry::class.java.simpleName) ?: return false
+        val audioBarLayout: View = baseView.findViewById(R.id.audioBarLayout)
+        val centerIconLayout: View = baseView.findViewById(R.id.midIconLayout)
+        return (baseView.visibility == View.VISIBLE) && (audioBarLayout.visibility != View.VISIBLE || centerIconLayout.visibility != View.VISIBLE)
     }
 
 
