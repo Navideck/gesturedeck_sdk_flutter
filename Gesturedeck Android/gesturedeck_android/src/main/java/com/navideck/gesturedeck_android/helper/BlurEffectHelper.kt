@@ -60,6 +60,10 @@ class BlurEffectHelper(
         if (isBlurFadeInProgress) {
             blurFadeOutAnimation?.reverse()
         } else {
+            val blurryView: View? = rootView.findViewWithTag(Blurry::class.java.simpleName)
+            if (blurryView != null) {
+                Blurry.delete(rootView)
+            }
             //TODO : Reduce delay in getting bitmap from flutter as much as possible
             val color = Color.argb(120, 100, 100, 100)
             val bitmap: Bitmap? = bitmapCallback?.invoke()
