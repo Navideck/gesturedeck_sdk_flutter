@@ -2,10 +2,7 @@ package com.navideck.gesturedeck_android.engine
 
 import android.app.Activity
 import android.view.MotionEvent
-import com.mapbox.android.gestures.AndroidGesturesManager
-import com.mapbox.android.gestures.ShoveGestureDetector
-import com.mapbox.android.gestures.StandardGestureDetector
-import com.mapbox.android.gestures.StandardScaleGestureDetector
+import com.mapbox.android.gestures.*
 import com.navideck.gesturedeck_android.helper.EventTimer
 import com.navideck.gesturedeck_android.helper.GesturedeckInterface
 import com.navideck.gesturedeck_android.model.GestureEvent
@@ -13,6 +10,7 @@ import com.navideck.gesturedeck_android.model.GestureState
 import com.navideck.gesturedeck_android.model.SwipeDirection
 import kotlin.math.abs
 
+private const val TAG = "GesturedeckMapboxEngine"
 
 open class GesturedeckMapboxEngine(
     activity: Activity,
@@ -31,6 +29,8 @@ open class GesturedeckMapboxEngine(
     private var doubleTapTimer: EventTimer = EventTimer()
     private var minimumTwoFingerPressDuration: Long = 150
     private var twoFingerTapTimer: EventTimer = EventTimer()
+    private var twoFingerLiftDelay: Long = 150
+    private var twoFingerLiftDelayTimer: EventTimer = EventTimer()
 
     init {
         setupGesturesManager(activity)
@@ -86,7 +86,11 @@ open class GesturedeckMapboxEngine(
                 if (doubleTapTimer.isActive) doubleTapTimer.cancel()
                 when (previousGestureEvent) {
                     GestureEvent.TWO_FINGER_HOLD -> {
-                        onGestureEvent(GestureEvent.TWO_FINGER_LIFT)
+                        twoFingerLiftDelayTimer.start(duration = twoFingerLiftDelay) {
+                            if (previousGestureEvent == GestureEvent.TWO_FINGER_HOLD) {
+                                onGestureEvent(GestureEvent.TWO_FINGER_LIFT)
+                            }
+                        }
                     }
                     GestureEvent.DOUBLE_TAP_HOLD -> {
                         onGestureEvent(GestureEvent.DOUBLE_TAP_LIFT)

@@ -255,6 +255,13 @@ class OverlayHelper(
     }
 
     fun showEmptyBlurView() {
+        // cancel all animations first
+        centerIconFadeOutAnimation?.cancel()
+        centerIconFadeInAnimation?.cancel()
+        fadeInAnimation?.cancel()
+        fadeOutAnimation?.cancel()
+
+        // show Empty Overlay View
         audioBarLayout.visibility = View.GONE
         centerIconLayout.visibility = View.GONE
         fadeInAnimation?.start()
