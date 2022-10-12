@@ -29,8 +29,8 @@ open class GesturedeckMapboxEngine(
     private var doubleTapTimer: EventTimer = EventTimer()
     private var minimumTwoFingerPressDuration: Long = 150
     private var twoFingerTapTimer: EventTimer = EventTimer()
-    private var twoFingerLiftConfirmationTimerDuration: Long = 150
-    private var twoFingerLiftConfirmationTimer: EventTimer = EventTimer()
+    private var twoFingerLiftDelay: Long = 150
+    private var twoFingerLiftDelayTimer: EventTimer = EventTimer()
 
     init {
         setupGesturesManager(activity)
@@ -86,7 +86,7 @@ open class GesturedeckMapboxEngine(
                 if (doubleTapTimer.isActive) doubleTapTimer.cancel()
                 when (previousGestureEvent) {
                     GestureEvent.TWO_FINGER_HOLD -> {
-                        twoFingerLiftConfirmationTimer.start(duration = twoFingerLiftConfirmationTimerDuration) {
+                        twoFingerLiftDelayTimer.start(duration = twoFingerLiftDelay) {
                             if (previousGestureEvent == GestureEvent.TWO_FINGER_HOLD) {
                                 onGestureEvent(GestureEvent.TWO_FINGER_LIFT)
                             }
