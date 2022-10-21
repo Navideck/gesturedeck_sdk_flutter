@@ -5,6 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
+import android.app.UiModeManager
+import android.content.Context
+import android.content.res.Configuration
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -12,9 +15,9 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -59,6 +62,7 @@ class OverlayHelper(
     private lateinit var volumeBar: VolumeBar
     private lateinit var txtVolumeLevel: TextView
     private lateinit var audioBaParams: ViewGroup.LayoutParams
+    private lateinit var volumeIcon: ImageView
 
     // Center Icon Layout
     private lateinit var centerIconLayout: ConstraintLayout
@@ -145,9 +149,22 @@ class OverlayHelper(
 
 
     private fun initLayouts(view: View) {
+        val volumeLinearLayout = baseView.findViewById<LinearLayout>(R.id.volumeLinearLayout)
+        val carVolumeLinearLayout =
+            baseView.findViewById<LinearLayout>(R.id.carVolumeLinearLayout)
+
+        if (isRunningOnCar(activity)) {
+            volumeLinearLayout.visibility = View.GONE
+            carVolumeLinearLayout.visibility = View.VISIBLE
+            txtVolumeLevel = carVolumeLinearLayout.findViewById(R.id.txtVolumeLevel)
+            volumeIcon = carVolumeLinearLayout.findViewById(R.id.volumeTopIconImage)
+        } else {
+            txtVolumeLevel = volumeLinearLayout.findViewById(R.id.txtVolumeLevel)
+            volumeIcon = volumeLinearLayout.findViewById(R.id.volumeTopIconImage)
+        }
+
         audioBarLayout = view.findViewById(R.id.audioBarLayout)
         volumeBar = view.findViewById(R.id.audioBar)
-        txtVolumeLevel = view.findViewById(R.id.txtVolumeLevel)
         audioBaParams = volumeBar.layoutParams
 
         centerIconLayout = baseView.findViewById(R.id.midIconLayout)
@@ -158,6 +175,9 @@ class OverlayHelper(
         audioBarLayout.visibility = View.GONE
         centerIconLayout.visibility = View.GONE
     }
+
+    private fun isRunningOnCar(context: Context): Boolean =
+        (context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_CAR
 
     private fun initCenterIcon() {
         val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
@@ -193,7 +213,7 @@ class OverlayHelper(
 
     private fun initVolumeUI() {
         val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
-        val volumeIcon = baseView.findViewById<ImageView>(R.id.volumeTopIconImage)
+
         val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
             activity, R.drawable.icon_volume_material
         ) ?: return
