@@ -64,10 +64,12 @@ open class GesturedeckMapboxEngine(
 
 
     fun onTouchEvents(event: MotionEvent) {
-
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_MOVE -> {
                 // TODO : add oneFinger DoubleTap and Swipe
+            }
+            MotionEvent.ACTION_DOWN -> {
+                touchFingerCount = event.pointerCount
             }
             MotionEvent.ACTION_POINTER_DOWN -> {
                 touchFingerCount = event.pointerCount
@@ -220,7 +222,7 @@ open class GesturedeckMapboxEngine(
                 deltaPixelsSinceLast: Float,
                 deltaPixelsSinceStart: Float
             ): Boolean {
-                var direction: SwipeDirection = detector.getSwipeDirection
+                val direction: SwipeDirection = detector.getSwipeDirection
                 if (direction == SwipeDirection.UP || direction == SwipeDirection.DOWN) {
                     // TODO : Check with Multiple devices
                     currentPanEventCount += 1
