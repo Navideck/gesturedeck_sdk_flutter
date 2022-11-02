@@ -3,7 +3,6 @@ package com.navideck.gesturedeck_android
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import com.navideck.gesturedeck_android.engine.GesturedeckMapboxEngine
@@ -24,7 +23,7 @@ class Gesturedeck(
     iconTapDrawable: Drawable? = null,
     iconTapToggledDrawable: Drawable? = null,
     bitmapCallback: (() -> Bitmap?)? = null,
-    var gestureCallbacks: ((gestureEvent: GestureEvent) -> Unit)? = null,
+    var gestureCallbacks: ((gesturedeckEvent: GesturedeckEvent) -> Unit)? = null,
 ) {
     private var overlayHelper: OverlayHelper
     private var previousKeyEvent: KeyEvent? = null
@@ -33,7 +32,7 @@ class Gesturedeck(
 
 
     init {
-        var currentActivity: Activity? = activity ?: GlobalApplication.currentActivity()
+        val currentActivity: Activity? = activity ?: GlobalApplication.currentActivity()
         if (currentActivity != null) {
             overlayHelper = OverlayHelper(
                 currentActivity,
@@ -119,16 +118,24 @@ class Gesturedeck(
     private fun getGesturedeckInterface(): GesturedeckInterface {
         return object : GesturedeckInterface {
             override fun onGestureEvent(gestureEvent: GestureEvent) {
-                var recognizedGestureEvent = gestureEvent
+                var gesturedeckEvent: GesturedeckEvent? = null
                 when (gestureEvent) {
+                    GestureEvent.SWIPE_RIGHT -> {
+                        gesturedeckEvent = GesturedeckEvent.SWIPE_RIGHT
+                    }
+                    GestureEvent.SWIPE_LEFT -> {
+                        gesturedeckEvent = GesturedeckEvent.SWIPE_LEFT
+                    }
                     GestureEvent.TWO_FINGER_TAP -> {
                         overlayHelper.onTwoFingerTap()
+                        gesturedeckEvent = GesturedeckEvent.TAP
                     }
                     GestureEvent.DOUBLE_TAP_HOLD -> {
                         overlayHelper.showEmptyBlurView()
                     }
                     GestureEvent.DOUBLE_TAP_LIFT -> {
                         overlayHelper.onTwoFingerTap()
+                        gesturedeckEvent = GesturedeckEvent.TAP
                     }
                     GestureEvent.TWO_FINGER_HOLD -> {
                         overlayHelper.showEmptyBlurView()
@@ -138,7 +145,7 @@ class Gesturedeck(
                     }
                     else -> {}
                 }
-                gestureCallbacks?.invoke(recognizedGestureEvent)
+                if (gesturedeckEvent != null) gestureCallbacks?.invoke(gesturedeckEvent)
             }
 
             override fun onSwipeGestureAction(swipeDirection: SwipeDirection) {

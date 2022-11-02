@@ -15,6 +15,7 @@ import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.helper.OverlayHelper
 import com.navideck.gesturedeck_android.model.BackgroundMode
 import com.navideck.gesturedeck_android.model.GestureEvent
+import com.navideck.gesturedeck_android.model.GesturedeckEvent
 
 
 private const val DEBUG_TAG = "Gestures"
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         gesturedeckMapbox = Gesturedeck(
             this,
             // tintColor = Color.RED,
-            gestureCallbacks = { gesture: GestureEvent ->
+            gestureCallbacks = { gesture: GesturedeckEvent ->
                 Log.e(DEBUG_TAG, gesture.name)
                 gestureText.text = "GesturedeckMapbox : " + gesture.name
             }
