@@ -2,10 +2,8 @@ package com.navideck.gesturedeckapp
 
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.widget.TextView
 import com.navideck.gesturedeck_android.GesturedeckActivity
-import com.navideck.gesturedeck_android.Gesturedeck
 
 private const val TAG = "TestActivityData2"
 
@@ -18,15 +16,13 @@ class TestActivity2 : GesturedeckActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
         actionBar?.title = "TestActivity 2"
 
-        var txtGestureEvent = this.findViewById<TextView>(R.id.txtGestureEvent)
+        val txtGestureEvent = this.findViewById<TextView>(R.id.txtGestureEvent)
 
         this.setGestureEventListener {
             Log.e(TAG, it.name)
             txtGestureEvent.text = it.name
         }
     }
-
-
 
     override fun onSupportNavigateUp(): Boolean {
         finish()

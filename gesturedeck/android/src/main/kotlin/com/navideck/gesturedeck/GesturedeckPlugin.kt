@@ -1,13 +1,11 @@
 package com.navideck.gesturedeck
 
 import android.app.Activity
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.annotation.NonNull
 import com.navideck.gesturedeck_android.Gesturedeck
-import com.navideck.gesturedeck_android.model.BackgroundMode
-import com.navideck.gesturedeck_android.model.GestureEvent
+import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -36,16 +34,13 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
             bitmapCallback = { renderer.bitmap },
             gestureCallbacks = {
                 when (it) {
-                    GestureEvent.SWIPE_RIGHT -> {
+                    GesturedeckEvent.SWIPE_RIGHT -> {
                         touchEventSink?.success("swipedRight")
                     }
-                    GestureEvent.SWIPE_LEFT -> {
+                    GesturedeckEvent.SWIPE_LEFT -> {
                         touchEventSink?.success("swipedLeft")
                     }
-                    GestureEvent.TWO_FINGER_TAP -> {
-                        touchEventSink?.success("tap")
-                    }
-                    GestureEvent.DOUBLE_TAP_LIFT -> {
+                    GesturedeckEvent.TAP -> {
                         touchEventSink?.success("tap")
                     }
                     else -> {}

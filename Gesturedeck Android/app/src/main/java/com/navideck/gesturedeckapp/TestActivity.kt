@@ -16,9 +16,9 @@ class TestActivity : GesturedeckActivity() {
         actionBar?.title = "TestActivity"
         setContentView(R.layout.activity_test)
 
-        var btnNavigate: Button = this.findViewById(R.id.btnNavigate)
+        val btnNavigate: Button = this.findViewById(R.id.btnNavigate)
 
-        btnNavigate.setOnClickListener{
+        btnNavigate.setOnClickListener {
             startActivity(Intent(this@TestActivity, TestActivity2::class.java))
         }
 
