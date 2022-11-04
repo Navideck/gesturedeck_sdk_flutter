@@ -43,6 +43,7 @@ class OverlayHelper(
     private var iconSwipeRightDrawable: Drawable? = null,
     private var iconTapDrawable: Drawable? = null,
     private var iconTapToggledDrawable: Drawable? = null,
+    rootView: ViewGroup? = null
 ) {
 
     private lateinit var baseView: View
@@ -85,7 +86,7 @@ class OverlayHelper(
 
 
     init {
-        configureOverlay()
+        configureOverlay(rootView)
         initZoomOutAnimation()
         audioManagerHelper = AudioManagerHelper(activity)
         currentVolume = audioManagerHelper.mediaCurrentVolumeInPercentage
@@ -101,16 +102,18 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
-    private fun configureOverlay() {
-        val container = activity.window.decorView.rootView as ViewGroup
+    private fun configureOverlay(rootView: ViewGroup? = null) {
+        val container = rootView ?: activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            initBackgroundMode(BackgroundMode.DIM, baseView)
-        } else {
-            initBackgroundMode(BackgroundMode.BLUR, baseView)
+        if (rootView == null) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                initBackgroundMode(BackgroundMode.DIM, baseView)
+            } else {
+                initBackgroundMode(BackgroundMode.BLUR, baseView)
+            }
         }
 
         initLayouts(baseView)
@@ -218,7 +221,7 @@ class OverlayHelper(
             activity, R.drawable.icon_volume_material
         ) ?: return
         val outerRing: Drawable =
-            ContextCompat.getDrawable(activity, R.drawable.circular_ring) ?: return
+            ContextCompat.getDrawable(activity, R.drawable.circular_ring)?.mutate() ?: return
 
         volumeIcon.background = outerRing
         volumeIcon.setImageDrawable(viDrawable)

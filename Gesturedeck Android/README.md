@@ -63,3 +63,12 @@ and initialize without passing activity
 ```kotlin
     gesturedeck = Gesturedeck()
 ```
+
+To render the Gesturedeck UI on your own view, pass the `rootView` parameter.
+The SDK will only render UI elements (e.g. volume bar and icons) without any background color. It is up to you to add your own background as part of the `rootView`. It is generally a good idea to set a semi-transparent color.
+```kotlin
+    gesturedeck = Gesturedeck(
+        this,
+        rootView = YOUR_VIEW_GROUP,
+    )
+```
