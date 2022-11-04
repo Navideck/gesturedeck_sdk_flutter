@@ -64,7 +64,7 @@ and initialize without passing activity
     gesturedeck = Gesturedeck()
 ```
 
-To render gesturedeck ui on your own view , pass rootView parameter
+To render Gesturedeck UI on your own view, pass the `rootView` parameter.
 
 Note : If we pass rootView parameter , then there will be no `Blur` or `Dim` effect on that view
 ```kotlin
