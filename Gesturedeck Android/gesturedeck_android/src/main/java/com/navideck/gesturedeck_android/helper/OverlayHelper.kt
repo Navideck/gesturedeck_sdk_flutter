@@ -108,7 +108,9 @@ class OverlayHelper(
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (rootView != null) {
+            // show no effect when root view passed from user end
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             initBackgroundMode(BackgroundMode.DIM, baseView)
         } else {
             initBackgroundMode(BackgroundMode.BLUR, baseView)
