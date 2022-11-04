@@ -221,7 +221,7 @@ class OverlayHelper(
             activity, R.drawable.icon_volume_material
         ) ?: return
         val outerRing: Drawable =
-            ContextCompat.getDrawable(activity, R.drawable.circular_ring) ?: return
+            ContextCompat.getDrawable(activity, R.drawable.circular_ring)?.mutate() ?: return
 
         volumeIcon.background = outerRing
         volumeIcon.setImageDrawable(viDrawable)
