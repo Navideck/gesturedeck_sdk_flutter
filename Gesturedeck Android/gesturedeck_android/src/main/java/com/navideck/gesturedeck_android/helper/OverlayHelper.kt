@@ -43,6 +43,7 @@ class OverlayHelper(
     private var iconSwipeRightDrawable: Drawable? = null,
     private var iconTapDrawable: Drawable? = null,
     private var iconTapToggledDrawable: Drawable? = null,
+    rootView: ViewGroup? = null
 ) {
 
     private lateinit var baseView: View
@@ -85,7 +86,7 @@ class OverlayHelper(
 
 
     init {
-        configureOverlay()
+        configureOverlay(rootView)
         initZoomOutAnimation()
         audioManagerHelper = AudioManagerHelper(activity)
         currentVolume = audioManagerHelper.mediaCurrentVolumeInPercentage
@@ -101,8 +102,8 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
-    private fun configureOverlay() {
-        val container = activity.window.decorView.rootView as ViewGroup
+    private fun configureOverlay(rootView: ViewGroup? = null) {
+        val container = rootView ?: activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView

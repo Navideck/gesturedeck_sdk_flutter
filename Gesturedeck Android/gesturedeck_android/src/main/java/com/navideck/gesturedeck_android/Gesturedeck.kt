@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.ViewGroup
 import com.navideck.gesturedeck_android.engine.GesturedeckMapboxEngine
 import com.navideck.gesturedeck_android.globalActivity.GlobalApplication
 import com.navideck.gesturedeck_android.helper.EventTimer
@@ -23,6 +24,7 @@ class Gesturedeck(
     iconTapDrawable: Drawable? = null,
     iconTapToggledDrawable: Drawable? = null,
     bitmapCallback: (() -> Bitmap?)? = null,
+    rootView: ViewGroup? = null,
     var gestureCallbacks: ((gesturedeckEvent: GesturedeckEvent) -> Unit)? = null,
 ) {
     private var overlayHelper: OverlayHelper
@@ -43,6 +45,7 @@ class Gesturedeck(
                 iconSwipeRightDrawable,
                 iconTapDrawable,
                 iconTapToggledDrawable,
+                rootView,
             )
 
             val gesturedeckInterface: GesturedeckInterface = getGesturedeckInterface()
