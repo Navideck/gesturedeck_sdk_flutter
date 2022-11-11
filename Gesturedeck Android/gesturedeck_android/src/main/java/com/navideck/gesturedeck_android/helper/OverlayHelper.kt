@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.UiModeManager
 import android.content.Context
@@ -14,7 +15,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
-import android.util.DisplayMetrics
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -32,8 +32,6 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
-private const val TAG = "OverlayHelper"
-
 class OverlayHelper(
     private val activity: Activity,
     private var bitmapCallback: (() -> Bitmap?)? = null,
@@ -43,7 +41,7 @@ class OverlayHelper(
     private var iconSwipeRightDrawable: Drawable? = null,
     private var iconTapDrawable: Drawable? = null,
     private var iconTapToggledDrawable: Drawable? = null,
-    rootView: ViewGroup? = null
+    private var rootView: ViewGroup? = null
 ) {
 
     private lateinit var baseView: View
@@ -90,6 +88,7 @@ class OverlayHelper(
         initZoomOutAnimation()
         audioManagerHelper = AudioManagerHelper(activity)
         currentVolume = audioManagerHelper.mediaCurrentVolumeInPercentage
+        initFadeInOutAnimation()
     }
 
     fun dispose() {
@@ -102,12 +101,14 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
+
     private fun configureOverlay(rootView: ViewGroup? = null) {
         val container = rootView ?: activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
+
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
-
+        @SuppressLint("ObsoleteSdkInt")
         if (rootView == null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 initBackgroundMode(BackgroundMode.DIM, baseView)
@@ -118,13 +119,21 @@ class OverlayHelper(
 
         initLayouts(baseView)
         container.overlay.add(baseView)
-        initFadeInOutAnimation()
 
         // Initialise Center Icon Colors
         initCenterIcon()
 
         // Initialise VolumeUi Colors
         initVolumeUI()
+    }
+
+    private fun showBlurView() {
+        configureOverlay(rootView)
+        blurEffect?.show()
+    }
+
+    private fun removeBlurView() {
+        blurEffect?.remove()
     }
 
     private fun initBackgroundMode(backgroundMode: BackgroundMode, baseView: View) {
@@ -143,7 +152,7 @@ class OverlayHelper(
             }
             BackgroundMode.DIM -> {
                 val dimBackground: Drawable? =
-                    ResourcesCompat.getDrawable(activity.resources, R.drawable.dim_window, null);
+                    ResourcesCompat.getDrawable(activity.resources, R.drawable.dim_window, null)
                 dimBackground?.alpha = dimAlpha
                 baseView.background = dimBackground
             }
@@ -204,8 +213,8 @@ class OverlayHelper(
         )
         val layerDrawable =
             LayerDrawable(arrayOf(circularFilledBackground, circularOuterBackground))
-        var outerRingWidth = 10
-        layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+        val outerRingWidth = 10
+        layerDrawable.setLayerInset(0, 0, 0, 0, 0)
         layerDrawable.setLayerInset(
             1, outerRingWidth, outerRingWidth, outerRingWidth, outerRingWidth
         )
@@ -216,6 +225,8 @@ class OverlayHelper(
 
     private fun initVolumeUI() {
         val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+        // volumeBar.width = ScreenInfo.getScreenSize(activity).width / 4 // make volume width dynamic
+        volumeBar.width = 150
 
         val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
             activity, R.drawable.icon_volume_material
@@ -293,7 +304,7 @@ class OverlayHelper(
     fun hideEmptyBlurView() {
         // Check if Both AudioBar and MidLayout are inVisible
         // and only Base View is Visible
-        var isEmptyBlurViewActive =
+        val isEmptyBlurViewActive =
             (baseView.visibility == View.VISIBLE) && (audioBarLayout.visibility != View.VISIBLE || centerIconLayout.visibility != View.VISIBLE)
         if (isEmptyBlurViewActive) {
             fadeOutAnimation?.start()
@@ -520,7 +531,7 @@ class OverlayHelper(
 
         centerIconFadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.show()
+                showBlurView()
                 baseView.visibility = View.VISIBLE
             }
 
@@ -532,7 +543,7 @@ class OverlayHelper(
 
         centerIconFadeOutAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.remove()
+                removeBlurView()
             }
 
             override fun onAnimationEnd(animation: Animator) {
@@ -543,7 +554,7 @@ class OverlayHelper(
 
         fadeOutAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.remove()
+                removeBlurView()
             }
 
             override fun onAnimationEnd(a: Animator) {
@@ -554,7 +565,7 @@ class OverlayHelper(
 
         fadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.show()
+                showBlurView()
                 baseView.visibility = View.VISIBLE
             }
         })
@@ -570,21 +581,8 @@ class OverlayHelper(
 
     // Helper Methods
     private fun measureAndLayout(activity: Activity, toMeasure: View) {
-        val dpHeight: Int
-        val dpWidth: Int
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val metrics: WindowMetrics =
-                activity.getSystemService(WindowManager::class.java).currentWindowMetrics
-            dpHeight = metrics.bounds.height()
-            dpWidth = metrics.bounds.width()
-        } else {
-            val outMetrics = DisplayMetrics()
-            @Suppress("DEPRECATION") activity.windowManager.defaultDisplay.getMetrics(outMetrics)
-            dpHeight = outMetrics.heightPixels
-            dpWidth = outMetrics.widthPixels
-        }
-
+        val dpHeight: Int = ScreenSizeInfo.getScreenSize(activity).height
+        val dpWidth: Int = ScreenSizeInfo.getScreenSize(activity).width
         toMeasure.measure(
             View.MeasureSpec.makeMeasureSpec(dpWidth, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(dpHeight, View.MeasureSpec.EXACTLY)
