@@ -56,7 +56,7 @@ class OverlayHelper(
     private var blurSampling: Int = 5
     private var dimAlpha: Int = 240
     private var canUseRenderEffect: Boolean = false
-    private var oldScreenSize: Size? = null
+    private var screenSize: Size? = null
 
     // AudioBar Layout
     private lateinit var audioBarLayout: ConstraintLayout
@@ -126,18 +126,18 @@ class OverlayHelper(
         // Initialise VolumeUi Colors
         initVolumeUI()
 
-        oldScreenSize = ScreenSizeInfo.getScreenSize(activity)
+        screenSize = ScreenSizeInfo.getScreenSize(activity)
     }
 
-    private fun tryReConfigOverlay() {
+    private fun configureOverlayIfNeeded() {
         // try to reconfigure , if screenSize changes
-        if (oldScreenSize != ScreenSizeInfo.getScreenSize(activity)) {
+        if (screenSize != ScreenSizeInfo.getScreenSize(activity)) {
             configureOverlay(rootView)
         }
     }
 
     private fun showBlurView() {
-        tryReConfigOverlay()
+        configureOverlayIfNeeded()
         blurEffect?.show()
     }
 
