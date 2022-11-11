@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
+import android.util.Size
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -55,6 +56,7 @@ class OverlayHelper(
     private var blurSampling: Int = 5
     private var dimAlpha: Int = 240
     private var canUseRenderEffect: Boolean = false
+    private var oldScreenSize: Size? = null
 
     // AudioBar Layout
     private lateinit var audioBarLayout: ConstraintLayout
@@ -116,19 +118,26 @@ class OverlayHelper(
                 initBackgroundMode(BackgroundMode.BLUR, baseView)
             }
         }
-
         initLayouts(baseView)
         container.overlay.add(baseView)
 
         // Initialise Center Icon Colors
         initCenterIcon()
-
         // Initialise VolumeUi Colors
         initVolumeUI()
+
+        oldScreenSize = ScreenSizeInfo.getScreenSize(activity)
+    }
+
+    private fun tryReConfigOverlay() {
+        // try to reconfigure , if screenSize changes
+        if (oldScreenSize != ScreenSizeInfo.getScreenSize(activity)) {
+            configureOverlay(rootView)
+        }
     }
 
     private fun showBlurView() {
-        configureOverlay(rootView)
+        tryReConfigOverlay()
         blurEffect?.show()
     }
 
