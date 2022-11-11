@@ -130,7 +130,7 @@ class OverlayHelper(
     }
 
     private fun configureOverlayIfNeeded() {
-        // Try to reconfigure , if screenSize changes
+        // Try to reconfigure if screenSize changes
         if (screenSize != ScreenSizeInfo.getScreenSize(activity)) {
             configureOverlay(rootView)
         }
