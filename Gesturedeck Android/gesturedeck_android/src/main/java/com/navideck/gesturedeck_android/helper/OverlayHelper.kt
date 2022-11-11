@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.UiModeManager
 import android.content.Context
@@ -14,7 +15,6 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
-import android.util.DisplayMetrics
 import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -101,12 +101,14 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
+
     private fun configureOverlay(rootView: ViewGroup? = null) {
         val container = rootView ?: activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
+
         measureAndLayout(activity, baseView)
         // Initialise baseView and blurView
-
+        @SuppressLint("ObsoleteSdkInt")
         if (rootView == null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 initBackgroundMode(BackgroundMode.DIM, baseView)
@@ -223,6 +225,8 @@ class OverlayHelper(
 
     private fun initVolumeUI() {
         val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+        // volumeBar.width = ScreenInfo.getScreenSize(activity).width / 4 // make volume width dynamic
+        volumeBar.width = 150
 
         val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
             activity, R.drawable.icon_volume_material
@@ -577,21 +581,8 @@ class OverlayHelper(
 
     // Helper Methods
     private fun measureAndLayout(activity: Activity, toMeasure: View) {
-        val dpHeight: Int
-        val dpWidth: Int
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val metrics: WindowMetrics =
-                activity.getSystemService(WindowManager::class.java).currentWindowMetrics
-            dpHeight = metrics.bounds.height()
-            dpWidth = metrics.bounds.width()
-        } else {
-            val outMetrics = DisplayMetrics()
-            @Suppress("DEPRECATION") activity.windowManager.defaultDisplay.getMetrics(outMetrics)
-            dpHeight = outMetrics.heightPixels
-            dpWidth = outMetrics.widthPixels
-        }
-
+        val dpHeight: Int = ScreenSizeInfo.getScreenSize(activity).height
+        val dpWidth: Int = ScreenSizeInfo.getScreenSize(activity).width
         toMeasure.measure(
             View.MeasureSpec.makeMeasureSpec(dpWidth, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(dpHeight, View.MeasureSpec.EXACTLY)

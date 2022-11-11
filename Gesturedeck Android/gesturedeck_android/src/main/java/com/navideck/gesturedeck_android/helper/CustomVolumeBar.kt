@@ -22,12 +22,15 @@ class VolumeBar(
     private var startY = 0f
     private var endY = 0f
 
-
     init {
         mPaint.style = Paint.Style.STROKE
         mPaint.color =
             context?.let { ContextCompat.getColor(it, R.color.colorPrimary) } ?: Color.BLUE
         mPaint.strokeWidth = 150f
+    }
+
+    fun setWidth(width: Int) {
+        mPaint.strokeWidth = width.toFloat()
     }
 
     fun setColor(color: Int) {
