@@ -32,8 +32,6 @@ import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
-private const val TAG = "OverlayHelper"
-
 class OverlayHelper(
     private val activity: Activity,
     private var bitmapCallback: (() -> Bitmap?)? = null,
@@ -43,7 +41,7 @@ class OverlayHelper(
     private var iconSwipeRightDrawable: Drawable? = null,
     private var iconTapDrawable: Drawable? = null,
     private var iconTapToggledDrawable: Drawable? = null,
-    rootView: ViewGroup? = null
+    private var rootView: ViewGroup? = null
 ) {
 
     private lateinit var baseView: View
@@ -90,6 +88,7 @@ class OverlayHelper(
         initZoomOutAnimation()
         audioManagerHelper = AudioManagerHelper(activity)
         currentVolume = audioManagerHelper.mediaCurrentVolumeInPercentage
+        initFadeInOutAnimation()
     }
 
     fun dispose() {
@@ -118,13 +117,21 @@ class OverlayHelper(
 
         initLayouts(baseView)
         container.overlay.add(baseView)
-        initFadeInOutAnimation()
 
         // Initialise Center Icon Colors
         initCenterIcon()
 
         // Initialise VolumeUi Colors
         initVolumeUI()
+    }
+
+    private fun showBlurView() {
+        configureOverlay(rootView)
+        blurEffect?.show()
+    }
+
+    private fun removeBlurView() {
+        blurEffect?.remove()
     }
 
     private fun initBackgroundMode(backgroundMode: BackgroundMode, baseView: View) {
@@ -143,7 +150,7 @@ class OverlayHelper(
             }
             BackgroundMode.DIM -> {
                 val dimBackground: Drawable? =
-                    ResourcesCompat.getDrawable(activity.resources, R.drawable.dim_window, null);
+                    ResourcesCompat.getDrawable(activity.resources, R.drawable.dim_window, null)
                 dimBackground?.alpha = dimAlpha
                 baseView.background = dimBackground
             }
@@ -204,8 +211,8 @@ class OverlayHelper(
         )
         val layerDrawable =
             LayerDrawable(arrayOf(circularFilledBackground, circularOuterBackground))
-        var outerRingWidth = 10
-        layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+        val outerRingWidth = 10
+        layerDrawable.setLayerInset(0, 0, 0, 0, 0)
         layerDrawable.setLayerInset(
             1, outerRingWidth, outerRingWidth, outerRingWidth, outerRingWidth
         )
@@ -293,7 +300,7 @@ class OverlayHelper(
     fun hideEmptyBlurView() {
         // Check if Both AudioBar and MidLayout are inVisible
         // and only Base View is Visible
-        var isEmptyBlurViewActive =
+        val isEmptyBlurViewActive =
             (baseView.visibility == View.VISIBLE) && (audioBarLayout.visibility != View.VISIBLE || centerIconLayout.visibility != View.VISIBLE)
         if (isEmptyBlurViewActive) {
             fadeOutAnimation?.start()
@@ -520,7 +527,7 @@ class OverlayHelper(
 
         centerIconFadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.show()
+                showBlurView()
                 baseView.visibility = View.VISIBLE
             }
 
@@ -532,7 +539,7 @@ class OverlayHelper(
 
         centerIconFadeOutAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.remove()
+                removeBlurView()
             }
 
             override fun onAnimationEnd(animation: Animator) {
@@ -543,7 +550,7 @@ class OverlayHelper(
 
         fadeOutAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.remove()
+                removeBlurView()
             }
 
             override fun onAnimationEnd(a: Animator) {
@@ -554,7 +561,7 @@ class OverlayHelper(
 
         fadeInAnimation?.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationStart(animation: Animator) {
-                blurEffect?.show()
+                showBlurView()
                 baseView.visibility = View.VISIBLE
             }
         })
