@@ -13,8 +13,7 @@ import kotlin.math.abs
 private const val TAG = "GesturedeckMapboxEngine"
 
 open class GesturedeckMapboxEngine(
-    activity: Activity,
-    private var gesturedeckInterface: GesturedeckInterface
+    activity: Activity, private var gesturedeckInterface: GesturedeckInterface
 ) {
 
     private lateinit var androidGesturesManager: AndroidGesturesManager
@@ -196,7 +195,7 @@ open class GesturedeckMapboxEngine(
             }
 
             override fun onLongPress(e: MotionEvent) {
-                if(previousGestureEvent == GestureEvent.DOUBLE_TAP){
+                if (previousGestureEvent == GestureEvent.DOUBLE_TAP) {
                     onGestureEvent(GestureEvent.DOUBLE_TAP_HOLD)
                 }
                 super.onLongPress(e)
