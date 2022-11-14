@@ -47,7 +47,7 @@ class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
          swipeIcon: UIImage? = nil
     ) {
         self.gestureType = gestureType
-        super.init(nibName: "GestureViewController", bundle: Bundle(for: GestureViewController.self))
+        super.init(nibName: "GestureViewController", bundle: BundleHelper.bundle)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -138,9 +138,10 @@ class GestureViewController: UIViewController, UIGestureRecognizerDelegate {
         if let swipeIcon = swipeIcon {
             self.swipeIconOutlet?.image = swipeIcon
         } else if gestureType == .swipeRight {
-            self.swipeIconOutlet?.image = UIImage(named: "icon_skip", in: Bundle(for: GestureViewController.self), compatibleWith: nil)
+            self.swipeIconOutlet?.image = UIImage(named: "icon_skip", in: BundleHelper.bundle, compatibleWith: nil)
         } else {
-            let image = UIImage(named: "icon_skip", in: Bundle(for: GestureViewController.self), compatibleWith: nil)
+            
+            let image = UIImage(named: "icon_skip", in: BundleHelper.bundle, compatibleWith: nil)
             self.swipeIconOutlet?.image = UIImage(cgImage: image!.cgImage!, scale: image!.scale, orientation: .down)
         }
     }

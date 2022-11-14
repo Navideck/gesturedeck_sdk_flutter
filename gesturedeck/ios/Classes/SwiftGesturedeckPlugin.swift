@@ -1,6 +1,6 @@
 import Flutter
 import UIKit
-import GesturedeckiOS
+import GesturedeckSDK
 
 public class SwiftGesturedeckPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     var gesturedeck: Gesturedeck?

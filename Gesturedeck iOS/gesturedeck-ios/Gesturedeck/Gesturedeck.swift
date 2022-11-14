@@ -77,7 +77,7 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
         self.swipeLeftIcon = swipeLeftIcon
         self.swipeRightIcon = swipeRightIcon
         guard let hostViewController = { hostViewController ?? UIApplication.shared.windows.first?.rootViewController }() else {
-            print("Failed to setup Gesturedeck")
+            print("⚠️ Failed to setup Gesturedeck")
             return
         }
         self.hostViewController = hostViewController

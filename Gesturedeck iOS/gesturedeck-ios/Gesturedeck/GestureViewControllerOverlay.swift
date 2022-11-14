@@ -11,7 +11,7 @@ import UIKit
 class GestureViewControllerOverlay: UIViewController {
     
     init(gestureType: GestureType? = nil) {
-        super.init(nibName: "GestureViewControllerOverlay", bundle: Bundle(for: GestureViewController.self))
+        super.init(nibName: "GestureViewControllerOverlay", bundle: BundleHelper.bundle)
     }
     
     required init?(coder aDecoder: NSCoder) {

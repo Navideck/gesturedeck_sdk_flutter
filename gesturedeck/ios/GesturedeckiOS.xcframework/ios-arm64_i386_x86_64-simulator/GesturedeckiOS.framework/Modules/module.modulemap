@@ -1,4 +1,0 @@
-framework module GesturedeckiOS {
-  header "GesturedeckiOS-Swift.h"
-  requires objc
-}

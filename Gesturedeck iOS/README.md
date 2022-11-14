@@ -38,6 +38,46 @@ func sceneDidBecomeActive(_ scene: UIScene) {
 ```
 
 TODO: Add instructions for all scenarios of SceneDelegate, AppDelegate or SwiftUI
+## AppDelegate
+It is recommended to instantiate the SDK in `applicationDidBecomeActive` or later as the window might not be instantiated in `didFinishLaunchingWithOptions` lifecycle event.
+
+## SceneDelegate
+Use `sceneDidBecomeActive` or later
+
+## SwiftUI
+No Appdelegate or Scenedelegate needed.
+
+```swift
+@main
+struct gesturedeckApp: App {
+    @Environment(\.scenePhase) var scenePhase
+    @State var gesturedeck: Gesturedeck?
+```
+
+```swift
+var body: some Scene {
+        WindowGroup {
+            ...
+        }
+        .onChange(of: scenePhase) { phase in
+            if phase == .active {
+                gesturedeck = Gesturedeck()
+                gesturedeck?.tapAction = { callback in
+                    print("tapped")
+                    callback(true)  // Without callback no icon is displayed
+                }
+
+                gesturedeck?.swipeLeftAction = {
+                    print("swiped Left")
+                }
+
+                gesturedeck?.swipeRightAction = {
+                    print("swiped Right")
+                }
+            }
+        }
+    }
+```
 
 ## Create .xcframework
 

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AF63C4E329226C4F003F5213 /* BundleHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF63C4E229226C4F003F5213 /* BundleHelper.swift */; };
 		AF970E95271765A10048D167 /* Gesturedeck.docc in Sources */ = {isa = PBXBuildFile; fileRef = AF970E94271765A10048D167 /* Gesturedeck.docc */; };
 		AF970E96271765A10048D167 /* Gesturedeck.h in Headers */ = {isa = PBXBuildFile; fileRef = AF970E93271765A10048D167 /* Gesturedeck.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AF970EA7271765E40048D167 /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF970E9C271765E40048D167 /* UIViewController.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AF63C4E229226C4F003F5213 /* BundleHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BundleHelper.swift; path = Gesturedeck/BundleHelper.swift; sourceTree = SOURCE_ROOT; };
 		AF970E90271765A10048D167 /* GesturedeckiOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GesturedeckiOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AF970E93271765A10048D167 /* Gesturedeck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gesturedeck.h; sourceTree = "<group>"; };
 		AF970E94271765A10048D167 /* Gesturedeck.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Gesturedeck.docc; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				AF970EA1271765E40048D167 /* GSTouchesShowingGestureRecognizer.swift */,
 				AF970EA6271765E40048D167 /* Insomnia.swift */,
 				AF970E9C271765E40048D167 /* UIViewController.swift */,
+				AF63C4E229226C4F003F5213 /* BundleHelper.swift */,
 				AF970E9D271765E40048D167 /* UniHaptic.swift */,
 				AF970E94271765A10048D167 /* Gesturedeck.docc */,
 			);
@@ -123,7 +126,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1310;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					AF970E8F271765A10048D167 = {
 						CreatedOnToolsVersion = 13.0;
@@ -173,6 +176,7 @@
 				AF970EAF271765E40048D167 /* Gesturedeck.swift in Sources */,
 				AF970EAA271765E40048D167 /* GestureViewController.swift in Sources */,
 				AF970EA8271765E40048D167 /* UniHaptic.swift in Sources */,
+				AF63C4E329226C4F003F5213 /* BundleHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -307,7 +311,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 52RU2XXUH6;
+				DEVELOPMENT_TEAM = QQAZR43YM7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -337,7 +341,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 52RU2XXUH6;
+				DEVELOPMENT_TEAM = QQAZR43YM7;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
