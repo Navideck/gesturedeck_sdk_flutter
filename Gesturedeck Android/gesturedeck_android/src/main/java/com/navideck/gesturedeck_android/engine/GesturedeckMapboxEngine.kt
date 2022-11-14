@@ -25,8 +25,6 @@ open class GesturedeckMapboxEngine(
     private val swipeThresholdVelocity = 700
     private var minimumValidPanEvents: Int = 6
     private var currentPanEventCount = 0
-    private var minimumDoubleTapPressDuration: Long = 100
-    private var doubleTapTimer: EventTimer = EventTimer()
     private var minimumTwoFingerPressDuration: Long = 150
     private var twoFingerTapTimer: EventTimer = EventTimer()
     private var twoFingerLiftDelay: Long = 150
@@ -85,7 +83,6 @@ open class GesturedeckMapboxEngine(
             MotionEvent.ACTION_UP -> {
                 currentPanEventCount = 0
                 if (twoFingerTapTimer.isActive) twoFingerTapTimer.cancel()
-                if (doubleTapTimer.isActive) doubleTapTimer.cancel()
                 when (previousGestureEvent) {
                     GestureEvent.TWO_FINGER_HOLD -> {
                         twoFingerLiftDelayTimer.start(duration = twoFingerLiftDelay) {
@@ -195,13 +192,14 @@ open class GesturedeckMapboxEngine(
 
             override fun onDoubleTap(e: MotionEvent): Boolean {
                 onGestureEvent(GestureEvent.DOUBLE_TAP)
-                // recognize it as DOUBLE_TAP_HOLD if no other event occurred within given duration
-                doubleTapTimer.start(duration = minimumDoubleTapPressDuration) {
-                    if (previousGestureEvent == GestureEvent.DOUBLE_TAP) {
-                        onGestureEvent(GestureEvent.DOUBLE_TAP_HOLD)
-                    }
-                }
                 return true
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+                if(previousGestureEvent == GestureEvent.DOUBLE_TAP){
+                    onGestureEvent(GestureEvent.DOUBLE_TAP_HOLD)
+                }
+                super.onLongPress(e)
             }
         })
 
