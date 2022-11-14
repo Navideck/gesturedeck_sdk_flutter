@@ -2,7 +2,15 @@
 
 ## Getting Started
 
-In order to use Gesturedeck:
+In order to use Gesturedeck there are 3 ways to set it up. Choose the one that suits the setup of your app.
+
+Add the framework in the target and then `import GesturedeckiOS`.
+
+## AppDelegate
+It is recommended to instantiate the SDK in `applicationDidBecomeActive` or later as the window might not be instantiated in `didFinishLaunchingWithOptions` lifecycle event.
+
+## SceneDelegate
+Use `sceneDidBecomeActive` or later.
 
 ```swift
 import GesturedeckiOS
@@ -37,13 +45,6 @@ func sceneDidBecomeActive(_ scene: UIScene) {
   }
 ```
 
-TODO: Add instructions for all scenarios of SceneDelegate, AppDelegate or SwiftUI
-## AppDelegate
-It is recommended to instantiate the SDK in `applicationDidBecomeActive` or later as the window might not be instantiated in `didFinishLaunchingWithOptions` lifecycle event.
-
-## SceneDelegate
-Use `sceneDidBecomeActive` or later
-
 ## SwiftUI
 No Appdelegate or Scenedelegate needed.
 
@@ -63,16 +64,16 @@ var body: some Scene {
             if phase == .active {
                 gesturedeck = Gesturedeck()
                 gesturedeck?.tapAction = { callback in
-                    print("tapped")
+                    print("Tapped")
                     callback(true)  // Without callback no icon is displayed
                 }
 
                 gesturedeck?.swipeLeftAction = {
-                    print("swiped Left")
+                    print("Swiped Left")
                 }
 
                 gesturedeck?.swipeRightAction = {
-                    print("swiped Right")
+                    print("Swiped Right")
                 }
             }
         }
