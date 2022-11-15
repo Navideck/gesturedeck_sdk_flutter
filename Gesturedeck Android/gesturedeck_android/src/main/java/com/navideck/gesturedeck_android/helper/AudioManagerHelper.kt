@@ -38,7 +38,7 @@ class AudioManagerHelper(private var activity: Activity) {
 
     private val mediaCurrentVolume: Int get() = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC)
 
-    fun vibrate(vibrationDuration: Long = 2) {
+    fun vibrate(vibrationDuration: Long = 3) {
         if (Build.VERSION.SDK_INT >= 26) {
             val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= 31) {
                 val vibratorManager =
