@@ -42,7 +42,8 @@ class OverlayHelper(
     private var iconSwipeRightDrawable: Drawable? = null,
     private var iconTapDrawable: Drawable? = null,
     private var iconTapToggledDrawable: Drawable? = null,
-    private var rootView: ViewGroup? = null
+    private var rootView: ViewGroup? = null,
+    var context: Context? = null
 ) {
 
     private lateinit var baseView: View
@@ -103,12 +104,11 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
-
     private fun configureOverlay(rootView: ViewGroup? = null) {
         val container = rootView ?: activity.window.decorView.rootView as ViewGroup
         baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
 
-        measureAndLayout(activity, baseView)
+        measureAndLayout(context ?: activity,baseView)
         // Initialise baseView and blurView
         @SuppressLint("ObsoleteSdkInt")
         if (rootView == null) {
@@ -589,9 +589,9 @@ class OverlayHelper(
 
 
     // Helper Methods
-    private fun measureAndLayout(activity: Activity, toMeasure: View) {
-        val dpHeight: Int = ScreenSizeInfo.getScreenSize(activity).height
-        val dpWidth: Int = ScreenSizeInfo.getScreenSize(activity).width
+    private fun measureAndLayout(context: Context, toMeasure: View) {
+        var dpHeight: Int = ScreenSizeInfo.getScreenSize(context).height
+        var dpWidth: Int = ScreenSizeInfo.getScreenSize(context).width
         toMeasure.measure(
             View.MeasureSpec.makeMeasureSpec(dpWidth, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(dpHeight, View.MeasureSpec.EXACTLY)

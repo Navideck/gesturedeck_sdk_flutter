@@ -1,6 +1,6 @@
 package com.navideck.gesturedeck_android.engine
 
-import android.app.Activity
+import android.content.Context
 import android.view.MotionEvent
 import com.mapbox.android.gestures.*
 import com.navideck.gesturedeck_android.helper.EventTimer
@@ -13,7 +13,7 @@ import kotlin.math.abs
 private const val TAG = "GesturedeckMapboxEngine"
 
 open class GesturedeckMapboxEngine(
-    activity: Activity, private var gesturedeckInterface: GesturedeckInterface
+    context: Context, private var gesturedeckInterface: GesturedeckInterface
 ) {
 
     private lateinit var androidGesturesManager: AndroidGesturesManager
@@ -30,7 +30,7 @@ open class GesturedeckMapboxEngine(
     private var twoFingerLiftDelayTimer: EventTimer = EventTimer()
 
     init {
-        setupGesturesManager(activity)
+        setupGesturesManager(context)
     }
 
     fun onGestureEvent(gestureEvent: GestureEvent) {
@@ -107,8 +107,8 @@ open class GesturedeckMapboxEngine(
         }
     }
 
-    private fun setupGesturesManager(activity: Activity) {
-        androidGesturesManager = AndroidGesturesManager(activity)
+    private fun setupGesturesManager(context: Context) {
+        androidGesturesManager = AndroidGesturesManager(context)
 
         androidGesturesManager.shoveGestureDetector.maxShoveAngle = 90F
 

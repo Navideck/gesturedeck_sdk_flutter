@@ -1,6 +1,7 @@
 package com.navideck.gesturedeck_android
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.KeyEvent
@@ -17,6 +18,7 @@ private const val TAG = "GesturedeckMapbox"
 
 class Gesturedeck(
     activity: Activity? = null,
+    context: Context? = null,
     tintColor: Int? = null,
     volumeIconDrawable: Drawable? = null,
     iconSwipeLeftDrawable: Drawable? = null,
@@ -46,11 +48,13 @@ class Gesturedeck(
                 iconTapDrawable,
                 iconTapToggledDrawable,
                 rootView,
+                context,
             )
 
             val gesturedeckInterface: GesturedeckInterface = getGesturedeckInterface()
 
-            gesturedeckMapboxEngine = GesturedeckMapboxEngine(currentActivity, gesturedeckInterface)
+            gesturedeckMapboxEngine =
+                GesturedeckMapboxEngine(context ?: currentActivity, gesturedeckInterface)
 
             //TODO : Implement without Mapbox
             // GesturedeckEngine(activity,gesturedeckInterface)
