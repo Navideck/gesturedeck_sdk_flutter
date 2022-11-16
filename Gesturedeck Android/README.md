@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
 To initialize Gesturedeck manually, we have two options:
 
-- Either pass activity in Gesturedeck constructor like this
+- Either pass activity or context in Gesturedeck constructor like this
 
 ```kotlin
     gesturedeck = Gesturedeck(this)
