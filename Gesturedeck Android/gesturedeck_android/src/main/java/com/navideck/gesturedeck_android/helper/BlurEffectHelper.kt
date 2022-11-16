@@ -1,7 +1,7 @@
 package com.navideck.gesturedeck_android.helper
 
 import android.animation.ValueAnimator
-import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.RenderEffect
@@ -18,7 +18,8 @@ import jp.wasabeef.blurry.Blurry
 private const val TAG = "BlurEffectHelper"
 
 class BlurEffectHelper(
-    private var activity: Activity,
+    private var context: Context,
+    private var rootView :ViewGroup,
     private var blurRadius: Int = 25,
     private var blurSampling: Int = 5,
     private var canUseRenderEffect: Boolean = false,
@@ -27,7 +28,6 @@ class BlurEffectHelper(
     private var baseView: View,
     private var bitmapCallback: (() -> Bitmap?)? = null,
 ) {
-    private var rootView: ViewGroup = activity.window.decorView.rootView as ViewGroup
     private var firstViewOnRoot: View? = null
     private var isBlurViewActive = false
     private var blurFadeOutAnimation: ValueAnimator? = null
@@ -67,7 +67,7 @@ class BlurEffectHelper(
             val bitmap: Bitmap? = bitmapCallback?.invoke()
             if (bitmap != null) {
                 val imageView: ImageView = baseView.findViewById(R.id.backgroundImageView)
-                Blurry.with(activity)
+                Blurry.with(context)
                     .radius(blurRadius)
                     .sampling(blurSampling)
                     .color(color)
@@ -75,7 +75,7 @@ class BlurEffectHelper(
                     .from(bitmap)
                     .into(imageView)
             } else {
-                Blurry.with(activity)
+                Blurry.with(context)
                     .radius(blurRadius)
                     .sampling(blurSampling)
                     .color(color)

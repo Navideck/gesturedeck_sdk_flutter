@@ -30,7 +30,7 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
 
     private fun initGesturedeck(activity: Activity) {
         gesturedeck = Gesturedeck(
-            activity = activity,
+            context = activity,
             bitmapCallback = { renderer.bitmap },
             gestureCallbacks = {
                 when (it) {

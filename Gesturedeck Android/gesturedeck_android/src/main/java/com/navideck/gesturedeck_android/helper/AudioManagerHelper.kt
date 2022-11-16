@@ -1,6 +1,6 @@
 package com.navideck.gesturedeck_android.helper
 
-import android.app.Activity
+import android.content.Context
 import android.content.Context.VIBRATOR_MANAGER_SERVICE
 import android.content.Context.VIBRATOR_SERVICE
 import android.media.AudioManager
@@ -12,9 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlin.math.roundToInt
 
 
-class AudioManagerHelper(private var activity: Activity) {
+class AudioManagerHelper(private var context: Context) {
     private var audioManager: AudioManager =
-        activity.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager
+        context.getSystemService(AppCompatActivity.AUDIO_SERVICE) as AudioManager
 
     fun getValidPercentage(volume: Double): Double {
         if (volume > 1) return 1.0
@@ -42,11 +42,11 @@ class AudioManagerHelper(private var activity: Activity) {
         if (Build.VERSION.SDK_INT >= 26) {
             val vibrator: Vibrator = if (Build.VERSION.SDK_INT >= 31) {
                 val vibratorManager =
-                    activity.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                    context.getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 vibratorManager.defaultVibrator
             } else {
                 @Suppress("DEPRECATION")
-                activity.getSystemService(VIBRATOR_SERVICE) as Vibrator
+                context.getSystemService(VIBRATOR_SERVICE) as Vibrator
             }
             vibrator.vibrate(
                 VibrationEffect.createOneShot(
@@ -57,7 +57,7 @@ class AudioManagerHelper(private var activity: Activity) {
 
         } else {
             @Suppress("DEPRECATION")
-            (activity.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(vibrationDuration)
+            (context.getSystemService(VIBRATOR_SERVICE) as Vibrator).vibrate(vibrationDuration)
         }
     }
 }

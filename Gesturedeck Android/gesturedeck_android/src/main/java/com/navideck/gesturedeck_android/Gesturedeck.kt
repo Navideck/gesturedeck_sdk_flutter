@@ -1,6 +1,7 @@
 package com.navideck.gesturedeck_android
 
 import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.KeyEvent
@@ -16,7 +17,7 @@ import com.navideck.gesturedeck_android.model.*
 private const val TAG = "GesturedeckMapbox"
 
 class Gesturedeck(
-    activity: Activity? = null,
+    context: Context? = null,
     tintColor: Int? = null,
     volumeIconDrawable: Drawable? = null,
     iconSwipeLeftDrawable: Drawable? = null,
@@ -32,11 +33,12 @@ class Gesturedeck(
     private var keyEventTimer: EventTimer = EventTimer()
     private var gesturedeckMapboxEngine: GesturedeckMapboxEngine? = null
 
-
     init {
-        val currentActivity: Activity? = activity ?: GlobalApplication.currentActivity()
-        if (currentActivity != null) {
+        val currentActivity: Activity? = GlobalApplication.currentActivity()
+        val currentContext: Context? = context ?: currentActivity?.applicationContext
+        if (currentContext != null) {
             overlayHelper = OverlayHelper(
+                currentContext,
                 currentActivity,
                 bitmapCallback,
                 tintColor,
@@ -47,15 +49,15 @@ class Gesturedeck(
                 iconTapToggledDrawable,
                 rootView,
             )
-
             val gesturedeckInterface: GesturedeckInterface = getGesturedeckInterface()
 
-            gesturedeckMapboxEngine = GesturedeckMapboxEngine(currentActivity, gesturedeckInterface)
+            gesturedeckMapboxEngine =
+                GesturedeckMapboxEngine(currentContext, gesturedeckInterface)
 
             //TODO : Implement without Mapbox
             // GesturedeckEngine(activity,gesturedeckInterface)
         } else {
-            throw Exception("Either pass activity in constructor or add application name (check docs )")
+            throw Exception("Either pass context in constructor or add application name (check docs )")
         }
     }
 
