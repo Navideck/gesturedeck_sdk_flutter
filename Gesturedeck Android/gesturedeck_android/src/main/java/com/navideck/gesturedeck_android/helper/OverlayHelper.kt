@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
 import android.os.Build
+import android.util.Log
 import android.util.Size
 import android.view.*
 import android.widget.ImageView
@@ -34,7 +35,8 @@ import kotlin.math.roundToInt
 
 
 class OverlayHelper(
-    private val activity: Activity,
+    var context: Context,
+    var activity: Activity? = null,
     private var bitmapCallback: (() -> Bitmap?)? = null,
     private var tintColor: Int? = null,
     private var volumeIconDrawable: Drawable? = null,
@@ -43,7 +45,6 @@ class OverlayHelper(
     private var iconTapDrawable: Drawable? = null,
     private var iconTapToggledDrawable: Drawable? = null,
     private var rootView: ViewGroup? = null,
-    var context: Context? = null
 ) {
 
     private lateinit var baseView: View
@@ -89,14 +90,13 @@ class OverlayHelper(
     init {
         configureOverlay(rootView)
         initZoomOutAnimation()
-        audioManagerHelper = AudioManagerHelper(activity)
+        audioManagerHelper = AudioManagerHelper(context)
         currentVolume = audioManagerHelper.mediaCurrentVolumeInPercentage
         initFadeInOutAnimation()
     }
 
     fun dispose() {
-        val container = activity.window.decorView.rootView as ViewGroup
-        container.removeView(baseView)
+        getRootView()?.removeView(baseView)
         zoomOutAnimation.removeAllUpdateListeners()
         fadeOutAnimation?.removeAllUpdateListeners()
         fadeInAnimation?.removeAllUpdateListeners()
@@ -104,34 +104,54 @@ class OverlayHelper(
         centerIconFadeOutAnimation?.removeAllUpdateListeners()
     }
 
-    private fun configureOverlay(rootView: ViewGroup? = null) {
-        val container = rootView ?: activity.window.decorView.rootView as ViewGroup
-        baseView = activity.layoutInflater.inflate(R.layout.base_view, null)
+    private fun getRootView(): ViewGroup? {
+        if (rootView != null) {
+            return rootView!!
+        }
+        return try {
+            if (activity != null) {
+                return activity!!.window.decorView.rootView as ViewGroup
+            }
+            // requires context of an activity , to get rootView of that activity
+            (context as Activity).window.decorView.rootView as ViewGroup
+        } catch (e: Exception) {
+            Log.e("GesturedeckError", "GetRootViewError : $e")
+            null
+        }
+    }
 
-        measureAndLayout(context ?: activity,baseView)
+    private fun getBaseView(): View {
+        return LayoutInflater.from(context).inflate(R.layout.base_view, null)
+    }
+
+    private fun configureOverlay(rootView: ViewGroup? = null) {
+        val container: ViewGroup? = getRootView()
+        baseView = getBaseView()
+
+        measureAndLayout(context, baseView)
         // Initialise baseView and blurView
         @SuppressLint("ObsoleteSdkInt")
-        if (rootView == null) {
+        if (rootView == null && container != null) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                initBackgroundMode(BackgroundMode.DIM, baseView)
+                initBackgroundMode(BackgroundMode.DIM, baseView, container)
             } else {
-                initBackgroundMode(BackgroundMode.BLUR, baseView)
+                initBackgroundMode(BackgroundMode.BLUR, baseView, container)
             }
         }
         initLayouts(baseView)
-        container.overlay.add(baseView)
+        container?.overlay?.add(baseView)
 
         // Initialise Center Icon Colors
         initCenterIcon()
         // Initialise VolumeUi Colors
         initVolumeUI()
 
-        screenSize = ScreenSizeInfo.getScreenSize(activity)
+        screenSize = ScreenSizeInfo.getScreenSize(context)
     }
 
     private fun configureOverlayIfNeeded() {
         // Reconfigure if screenSize changes
-        if (screenSize != ScreenSizeInfo.getScreenSize(activity)) {
+        if (screenSize != ScreenSizeInfo.getScreenSize(context)) {
             configureOverlay(rootView)
         }
     }
@@ -145,11 +165,16 @@ class OverlayHelper(
         blurEffect?.remove()
     }
 
-    private fun initBackgroundMode(backgroundMode: BackgroundMode, baseView: View) {
+    private fun initBackgroundMode(
+        backgroundMode: BackgroundMode,
+        baseView: View,
+        rootView: ViewGroup
+    ) {
         when (backgroundMode) {
             BackgroundMode.BLUR -> {
                 blurEffect = BlurEffectHelper(
-                    activity,
+                    context,
+                    rootView,
                     blurRadius,
                     blurSampling,
                     canUseRenderEffect,
@@ -161,7 +186,7 @@ class OverlayHelper(
             }
             BackgroundMode.DIM -> {
                 val dimBackground: Drawable? =
-                    ResourcesCompat.getDrawable(activity.resources, R.drawable.dim_window, null)
+                    ResourcesCompat.getDrawable(context.resources, R.drawable.dim_window, null)
                 dimBackground?.alpha = dimAlpha
                 baseView.background = dimBackground
             }
@@ -174,7 +199,7 @@ class OverlayHelper(
         val carVolumeLinearLayout =
             baseView.findViewById<LinearLayout>(R.id.carVolumeLinearLayout)
 
-        if (isRunningOnCar(activity)) {
+        if (isRunningOnCar(context)) {
             volumeLinearLayout.visibility = View.GONE
             carVolumeLinearLayout.visibility = View.VISIBLE
             txtVolumeLevel = carVolumeLinearLayout.findViewById(R.id.txtVolumeLevel)
@@ -201,17 +226,17 @@ class OverlayHelper(
         (context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager).currentModeType == Configuration.UI_MODE_TYPE_CAR
 
     private fun initCenterIcon() {
-        val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
-        val secondaryColor = ContextCompat.getColor(activity, R.color.colorSecondary)
+        val primaryColor = ContextCompat.getColor(context, R.color.colorPrimary)
+        val secondaryColor = ContextCompat.getColor(context, R.color.colorSecondary)
         val circularFilledBackground = DrawableCompat.wrap(
             AppCompatResources.getDrawable(
-                activity, R.drawable.circular_filled_background
+                context, R.drawable.circular_filled_background
             )!!
         )
 
         val circularOuterBackground = DrawableCompat.wrap(
             AppCompatResources.getDrawable(
-                activity, R.drawable.circular_outer_background
+                context, R.drawable.circular_outer_background
             )!!
         )
         DrawableCompat.setTint(
@@ -233,15 +258,15 @@ class OverlayHelper(
     }
 
     private fun initVolumeUI() {
-        val primaryColor = ContextCompat.getColor(activity, R.color.colorPrimary)
+        val primaryColor = ContextCompat.getColor(context, R.color.colorPrimary)
         // volumeBar.width = ScreenInfo.getScreenSize(activity).width / 4 // make volume width dynamic
         volumeBar.width = 150
 
         val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
-            activity, R.drawable.icon_volume_material
+            context, R.drawable.icon_volume_material
         ) ?: return
         val outerRing: Drawable =
-            ContextCompat.getDrawable(activity, R.drawable.circular_ring)?.mutate() ?: return
+            ContextCompat.getDrawable(context, R.drawable.circular_ring)?.mutate() ?: return
 
         volumeIcon.background = outerRing
         volumeIcon.setImageDrawable(viDrawable)
@@ -261,7 +286,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconSwipeLeftDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity, R.drawable.icon_skip_previous_material
+                context, R.drawable.icon_skip_previous_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -271,7 +296,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconSwipeRightDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity, R.drawable.icon_skip_next_material
+                context, R.drawable.icon_skip_next_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -281,7 +306,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconTapDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity, R.drawable.icon_pause_material
+                context, R.drawable.icon_pause_material
             )
         }
         animateActionIcon(iconDrawable)
@@ -291,7 +316,7 @@ class OverlayHelper(
         var iconDrawable: Drawable? = iconTapToggledDrawable
         if (iconDrawable == null) {
             iconDrawable = ContextCompat.getDrawable(
-                activity, R.drawable.icon_play_material
+                context, R.drawable.icon_play_material
             )
         }
         animateActionIcon(iconDrawable)

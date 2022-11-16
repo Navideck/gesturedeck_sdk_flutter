@@ -13,7 +13,7 @@ open class GesturedeckActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        gesturedeck = Gesturedeck { gesturedeckCallbacks?.invoke(it) }
+        gesturedeck = Gesturedeck(this) { gesturedeckCallbacks?.invoke(it) }
     }
 
     // To access GestureEvents in Activity which is overriding [GesturedeckActivity]
