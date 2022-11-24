@@ -2,19 +2,16 @@ package com.navideck.gesturedeckapp
 
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.navideck.gesturedeck_android.Gesturedeck
+import com.navideck.gesturedeck_android.SystemUiHandler
 import com.navideck.gesturedeck_android.helper.OverlayHelper
 import com.navideck.gesturedeck_android.model.BackgroundMode
-import com.navideck.gesturedeck_android.model.GestureEvent
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
 
 
@@ -50,6 +47,11 @@ class MainActivity : AppCompatActivity() {
 
         // Gesturedeck SDK's
         initGesturedeck()
+
+        // Call system ui handler
+        val systemUiHandler = SystemUiHandler(this)
+        systemUiHandler.coverCameraCutout()
+        systemUiHandler.tryToMakeTransparentNavigationBar()
     }
 
     private fun initGesturedeck() {

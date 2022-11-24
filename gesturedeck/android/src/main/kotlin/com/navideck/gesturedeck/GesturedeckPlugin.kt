@@ -5,6 +5,7 @@ import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.annotation.NonNull
 import com.navideck.gesturedeck_android.Gesturedeck
+import com.navideck.gesturedeck_android.SystemUiHandler
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -49,8 +50,18 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
         )
     }
 
+
+    /// Manage all SystemUiHandler methods here
+    private fun initSystemUiHandler(activity: Activity){
+        val systemUiHandler = SystemUiHandler(activity)
+        systemUiHandler.tryFullScreen()
+        systemUiHandler.coverCameraCutout()
+        systemUiHandler.tryToMakeTransparentNavigationBar()
+    }
+
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         initGesturedeck(binding.activity)
+        initSystemUiHandler(binding.activity)
     }
 
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
