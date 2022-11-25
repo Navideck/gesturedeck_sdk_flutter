@@ -1,12 +1,16 @@
 package com.navideck.gesturedeck_example
 
-import android.util.Log
-import android.view.KeyEvent
-import android.view.MotionEvent
+import android.os.Bundle
+import android.view.*
 import com.navideck.gesturedeck.GesturedeckPlugin
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity : FlutterActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        GesturedeckPlugin.instance?.extendAroundNotch(this)
+    }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         GesturedeckPlugin.instance?.dispatchTouchEvent(event, activity)
@@ -17,4 +21,5 @@ class MainActivity : FlutterActivity() {
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
         return GesturedeckPlugin.instance?.dispatchKeyEvent(event) ?: false
     }
+
 }

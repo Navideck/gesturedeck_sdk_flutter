@@ -1,9 +1,11 @@
 package com.navideck.gesturedeck
 
 import android.app.Activity
+import android.os.Build
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
-import androidx.annotation.NonNull
+import android.view.WindowManager
 import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -25,9 +27,7 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
     private lateinit var channel: MethodChannel
     private lateinit var touchEventResult: EventChannel
     private lateinit var renderer: FlutterRenderer
-
     private var gesturedeck: Gesturedeck? = null
-
     private fun initGesturedeck(activity: Activity) {
         gesturedeck = Gesturedeck(
             context = activity,
@@ -61,8 +61,11 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
         return gesturedeck?.onKeyEvents(event) ?: false
     }
 
-    override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "gesturedeck")
+    override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
+        channel = MethodChannel(
+            flutterPluginBinding.binaryMessenger,
+            "com.navideck.gesturedeck.method"
+        )
         channel.setMethodCallHandler(this)
         touchEventResult =
             EventChannel(flutterPluginBinding.binaryMessenger, "com.navideck.gesturedeck")
@@ -71,14 +74,23 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
         renderer = flutterPluginBinding.flutterEngine.renderer
     }
 
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(call: MethodCall, result: Result) {
         result.notImplemented()
     }
 
-    override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
+    override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
         touchEventResult.setStreamHandler(null)
         instance = null
+    }
+
+
+    /// Call this method in onCreate of MainActivity, to extend the app's UI around the notch
+    fun extendAroundNotch(activity: Activity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            activity.window.attributes.layoutInDisplayCutoutMode =
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
     }
 
 
