@@ -1,10 +1,16 @@
 package com.navideck.gesturedeck_example
 
+import android.os.Bundle
 import android.view.*
 import com.navideck.gesturedeck.GesturedeckPlugin
 import io.flutter.embedding.android.FlutterActivity
 
 class MainActivity : FlutterActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        GesturedeckPlugin.instance?.extendAroundCameraCutout(this)
+    }
 
     override fun dispatchTouchEvent(event: MotionEvent): Boolean {
         GesturedeckPlugin.instance?.dispatchTouchEvent(event, activity)
