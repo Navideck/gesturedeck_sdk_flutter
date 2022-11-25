@@ -86,7 +86,7 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
 
 
     /// Call this method in onCreate of MainActivity, to extend FlutterUi beyond camera cutouts
-    fun extendAroundCameraCutout(activity: Activity) {
+    fun extendAroundNotch(activity: Activity) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             activity.window.attributes.layoutInDisplayCutoutMode =
                 WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;

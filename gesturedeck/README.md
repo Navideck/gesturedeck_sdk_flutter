@@ -29,7 +29,7 @@ class MainActivity: FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GesturedeckPlugin.instance?.extendAroundCameraCutout(this)
+        GesturedeckPlugin.instance?.extendAroundNotch(this)
     }
 }
 ```
