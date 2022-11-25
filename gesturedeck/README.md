@@ -22,7 +22,7 @@ class MainActivity: FlutterActivity() {
 }
 ```
 
-To extend Flutter App ui beyond Android camera cutouts ( Notch ) in landscape mode, add this block as well in your MainActivity ( Optional )
+Optional: To extend the app's UI beyond Android camera cutouts (aka notch) in landscape mode, add this block in your MainActivity
 
 ```kotlin
 class MainActivity: FlutterActivity() {
