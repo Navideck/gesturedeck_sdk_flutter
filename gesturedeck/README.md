@@ -22,7 +22,7 @@ class MainActivity: FlutterActivity() {
 }
 ```
 
-Optional: To extend the app's UI around Android camera cutouts (aka notch) in landscape mode, add this block in your MainActivity
+Optional: To extend the app's UI around Android camera cutouts (aka notch) in landscape mode, add this block in your MainActivity. This will also ensure that Gesturedeck's overlay tracks exactly the shape of the app (i.e. rounded corners)
 
 ```kotlin
 class MainActivity: FlutterActivity() {
