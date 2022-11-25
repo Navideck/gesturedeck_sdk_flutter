@@ -148,6 +148,9 @@ class Gesturedeck(
                     GestureEvent.TWO_FINGER_LIFT -> {
                         overlayHelper.hideEmptyBlurView()
                     }
+                    GestureEvent.SINGLE_TAP -> {
+                        gesturedeckEvent = GesturedeckEvent.SINGLE_FINGER_TAP
+                    }
                     else -> {}
                 }
                 if (gesturedeckEvent != null) gestureCallbacks?.invoke(gesturedeckEvent)
