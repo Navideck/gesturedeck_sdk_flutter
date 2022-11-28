@@ -20,7 +20,7 @@ class VolumeBar(
 
     private var startY = 0f
     private var endY = 0f
-    private var xAxis = 0f
+    private var xPosition = 0f
 
     init {
         mPaint.style = Paint.Style.STROKE
@@ -38,12 +38,12 @@ class VolumeBar(
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawLine(xAxis, startY, xAxis, endY, mPaint)
+        canvas.drawLine(xPosition, startY, xPosition, endY, mPaint)
         super.onDraw(canvas)
     }
 
     fun setBarX(barAxis: Int) {
-        xAxis = barAxis.toFloat()
+        xPosition = barAxis.toFloat()
     }
 
     fun onTouchEvent(yAxis: Float, gestureState: GestureState) {
