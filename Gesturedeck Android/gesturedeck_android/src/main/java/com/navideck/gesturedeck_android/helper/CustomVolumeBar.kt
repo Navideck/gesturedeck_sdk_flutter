@@ -5,7 +5,6 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.navideck.gesturedeck_android.R
@@ -21,6 +20,7 @@ class VolumeBar(
 
     private var startY = 0f
     private var endY = 0f
+    private var xAxis = 0f
 
     init {
         mPaint.style = Paint.Style.STROKE
@@ -38,8 +38,12 @@ class VolumeBar(
     }
 
     override fun onDraw(canvas: Canvas) {
-        canvas.drawLine(0f, startY, 0f, endY, mPaint)
+        canvas.drawLine(xAxis, startY, xAxis, endY, mPaint)
         super.onDraw(canvas)
+    }
+
+    fun setBarXAxis(barAxis: Int) {
+        xAxis = barAxis.toFloat()
     }
 
     fun onTouchEvent(yAxis: Float, gestureState: GestureState) {
