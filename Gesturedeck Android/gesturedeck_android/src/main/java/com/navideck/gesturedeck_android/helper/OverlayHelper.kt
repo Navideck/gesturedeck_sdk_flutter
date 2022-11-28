@@ -146,12 +146,12 @@ class OverlayHelper(
         // Initialise VolumeUi Colors
         initVolumeUI()
 
-        screenSize = ScreenSizeInfo.getScreenSize(context)
+        screenSize = ScreenInfo.getScreenSize(context)
     }
 
     private fun configureOverlayIfNeeded() {
         // Reconfigure if screenSize changes
-        if (screenSize != ScreenSizeInfo.getScreenSize(context)) {
+        if (screenSize != ScreenInfo.getScreenSize(context)) {
             configureOverlay(rootView)
         }
     }
@@ -259,8 +259,16 @@ class OverlayHelper(
 
     private fun initVolumeUI() {
         val primaryColor = ContextCompat.getColor(context, R.color.colorPrimary)
-        // volumeBar.width = ScreenInfo.getScreenSize(activity).width / 4 // make volume width dynamic
-        volumeBar.width = 150
+        val screenWidth = ScreenInfo.getScreenSize(context).width
+        val screenOrientationMode = ScreenInfo.getOrientationMode(context)
+
+        val barWidth = 150
+        if (screenOrientationMode == OrientationMode.LANDSCAPE) {
+            volumeBar.setBarX(screenWidth - (barWidth / 2))
+        } else {
+            volumeBar.setBarX(0)
+        }
+        volumeBar.width = barWidth
 
         val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
             context, R.drawable.icon_volume_material
@@ -615,8 +623,8 @@ class OverlayHelper(
 
     // Helper Methods
     private fun measureAndLayout(context: Context, toMeasure: View) {
-        var dpHeight: Int = ScreenSizeInfo.getScreenSize(context).height
-        var dpWidth: Int = ScreenSizeInfo.getScreenSize(context).width
+        var dpHeight: Int = ScreenInfo.getScreenSize(context).height
+        var dpWidth: Int = ScreenInfo.getScreenSize(context).width
         toMeasure.measure(
             View.MeasureSpec.makeMeasureSpec(dpWidth, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(dpHeight, View.MeasureSpec.EXACTLY)

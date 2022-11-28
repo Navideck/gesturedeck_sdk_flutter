@@ -5,12 +5,11 @@ import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
 import android.util.Size
-import android.view.Display
-import android.view.WindowManager
-import android.view.WindowMetrics
+import android.view.*
 import androidx.annotation.RequiresApi
 
-object ScreenSizeInfo {
+object ScreenInfo {
+
 
     @Suppress("DEPRECATION")
     fun getScreenSize(context: Context): Size {
@@ -25,6 +24,25 @@ object ScreenSizeInfo {
         return Size(display.width, display.height)
     }
 
+    fun getOrientationMode(context: Context): OrientationMode {
+        try {
+            val display = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                context.display
+            } else {
+                @Suppress("DEPRECATION")
+                (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager?)?.defaultDisplay
+            }
+            return when (display?.rotation) {
+                Surface.ROTATION_0 -> OrientationMode.PORTRAIT
+                Surface.ROTATION_90 -> OrientationMode.LANDSCAPE
+                Surface.ROTATION_180 -> OrientationMode.REVERSE_PORTRAIT
+                Surface.ROTATION_270 -> OrientationMode.REVERSE_LANDSCAPE
+                else -> OrientationMode.PORTRAIT
+            }
+        } catch (_: Exception) {
+        }
+        return OrientationMode.PORTRAIT
+    }
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun getScreenSizeFromApiLevel30(context: Context): Size {
@@ -47,4 +65,10 @@ object ScreenSizeInfo {
     }
 }
 
+enum class OrientationMode {
+    PORTRAIT,
+    REVERSE_PORTRAIT,
+    LANDSCAPE,
+    REVERSE_LANDSCAPE,
+}
 
