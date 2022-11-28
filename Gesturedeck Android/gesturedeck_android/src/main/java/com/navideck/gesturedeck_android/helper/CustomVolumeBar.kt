@@ -42,7 +42,7 @@ class VolumeBar(
         super.onDraw(canvas)
     }
 
-    fun setBarXAxis(barAxis: Int) {
+    fun setBarX(barAxis: Int) {
         xAxis = barAxis.toFloat()
     }
 
