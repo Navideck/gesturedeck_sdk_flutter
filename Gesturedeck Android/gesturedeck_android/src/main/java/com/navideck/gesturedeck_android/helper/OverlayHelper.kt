@@ -263,7 +263,6 @@ class OverlayHelper(
         val screenOrientationMode = ScreenInfo.getOrientationMode(context)
 
         val barWidth = 150
-        volumeBar.rotationY = 270f
         if (screenOrientationMode == OrientationMode.LANDSCAPE) {
             volumeBar.setBarX(screenWidth - (barWidth / 2))
         } else {
