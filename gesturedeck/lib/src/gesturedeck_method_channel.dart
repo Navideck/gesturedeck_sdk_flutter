@@ -6,7 +6,5 @@ class MethodChannelGesturedeck {
       EventChannel('com.navideck.gesturedeck');
 
   static Stream get touchEventStream =>
-      _gestureEventChannel.receiveBroadcastStream(
-        {'name': 'touchEvent'},
-      );
+      _gestureEventChannel.receiveBroadcastStream({'name': 'touchEvent'});
 }
