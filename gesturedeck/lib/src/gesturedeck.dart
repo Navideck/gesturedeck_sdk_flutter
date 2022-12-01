@@ -11,6 +11,4 @@ class Gesturedeck {
   }
 }
 
-/// TODO: implement swipedLeft and swipedRight in IOS
 enum GestureType { tap, swipedLeft, swipedRight }
-

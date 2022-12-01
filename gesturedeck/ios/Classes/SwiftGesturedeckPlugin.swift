@@ -4,24 +4,46 @@ import GesturedeckSDK
 
 public class SwiftGesturedeckPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     var gesturedeck: Gesturedeck?
+    private var touchEventsSink: FlutterEventSink?
+    
+    private func initGesturedeck(){
+        gesturedeck = Gesturedeck(tapAction: {
+            self.touchEventsSink?("tap")
+        }, swipeLeftAction: {
+            self.touchEventsSink?("swipedLeft")
+        }, swipeRightAction: {
+            self.touchEventsSink?("swipedRight")
+        })
+    }
+    
+    private func disposeGesturedeck(){
+        gesturedeck?.tapAction = nil
+        gesturedeck?.swipeLeftAction = nil
+        gesturedeck?.swipeRightAction = nil
+    }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        gesturedeck = Gesturedeck(tapAction: {
-            events("tap")
-        }, swipeLeftAction: {
-            events("swipe left")
-        }, swipeRightAction: {
-            events("swipe right")
-        })
+        guard let args = arguments as? Dictionary<String, Any>, let name = args["name"] as? String else {
+              return nil
+        }
+        if name == "touchEvent" {
+            touchEventsSink = events
+            initGesturedeck()
+        }
         return nil
     }
     
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        gesturedeck?.tapAction = nil
-        gesturedeck?.swipeLeftAction = nil
-        gesturedeck?.swipeRightAction = nil
+        guard let args = arguments as? Dictionary<String, Any>, let name = args["name"] as? String else {
+              return nil
+        }
+        if name == "touchEvent" {
+            touchEventsSink = nil
+            disposeGesturedeck()
+        }
         return nil
     }
+    
     
     public static func register(with registrar: FlutterPluginRegistrar) {
         
