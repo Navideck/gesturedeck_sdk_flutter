@@ -6,7 +6,7 @@ public class SwiftGesturedeckPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
     var gesturedeck: Gesturedeck?
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        gesturedeck = Gesturedeck(tapAction: {_ in 
+        gesturedeck = Gesturedeck(tapAction: {
             events("tap")
         }, swipeLeftAction: {
             events("swipe left")

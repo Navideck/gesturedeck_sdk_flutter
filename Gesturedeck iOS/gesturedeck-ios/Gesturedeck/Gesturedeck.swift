@@ -13,7 +13,7 @@ var volumeStep: Float = 0.02
 
 public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
     
-    public var tapAction: ((@escaping (Bool) -> Void) -> Void)?
+    public var tapAction: (() -> Void)?
     public var swipeLeftAction: (() -> Void)?
     public var swipeRightAction: (() -> Void)?
     public var strokeColor = UIColor(red: 28.0/255, green: 30.0/255, blue: 57.0/255, alpha: 0.9).cgColor
@@ -34,22 +34,16 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
     private let insomnia = Insomnia(mode: .whenCharging)
     
     public init(on hostViewController: UIViewController? = nil,
-                tapAction: (((Bool) -> Void) -> Void)? = { callback in
-                    var isHighlighted = false
+                tapAction: (() -> Void)? = {
                     if MPMusicPlayerController.systemMusicPlayer.playbackState == .playing {
                     MPMusicPlayerController.systemMusicPlayer.pause()
-                        isHighlighted = false
                     } else if MPMusicPlayerController.systemMusicPlayer.playbackState == .paused {
                         MPMusicPlayerController.systemMusicPlayer.play()
-                        isHighlighted = true
                     } else if AVAudioSession.sharedInstance().isOtherAudioPlaying {
                         try! AVAudioSession.sharedInstance().setActive(true, options: .notifyOthersOnDeactivation)
-                        isHighlighted = false
                     } else {
                         try! AVAudioSession.sharedInstance().setActive(false, options: .notifyOthersOnDeactivation)
-                        isHighlighted = true
                     }
-                    callback(isHighlighted)
                 },
                 swipeLeftAction: (() -> Void)? = {
                     if MPMusicPlayerController.systemMusicPlayer.playbackState == .playing {
@@ -201,17 +195,13 @@ public class Gesturedeck: NSObject, UIGestureRecognizerDelegate {
     
     @objc func tapped() {
         overlayGestureViewController.animateAppearance(on: hostViewController)
-        tapAction?() { [weak self] isHighlighted in
+        tapAction?()
+        GestureViewController(
+            gestureType: .tap(isHighlighted: !AVAudioSession.sharedInstance().secondaryAudioShouldBeSilencedHint)
+        ).animateAppearance(on: hostViewController, appeared: { [weak self] in
             guard let self = self else { return }
-            GestureViewController(
-                gestureType: .tap(isHighlighted: isHighlighted),
-                pauseIcon: self.pauseIcon,
-                playIcon: self.playIcon
-            ).animateAppearance(on: self.hostViewController, appeared: { [weak self] in
-                guard let self = self else { return }
-                self.overlayGestureViewController.animateDisappearance(from: self.hostViewController)
-            })
-        }
+            self.overlayGestureViewController.animateDisappearance(from: self.hostViewController)
+        })
     }
     
     @objc func longPressed(_ sender: UILongPressGestureRecognizer) {
