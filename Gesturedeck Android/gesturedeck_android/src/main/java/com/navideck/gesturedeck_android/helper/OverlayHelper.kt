@@ -17,10 +17,7 @@ import android.graphics.drawable.LayerDrawable
 import android.os.Build
 import android.util.Log
 import android.util.Size
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -291,47 +288,41 @@ class OverlayHelper(
 
         val barWidth = 150
         volumeBar.width = barWidth
-        val navigationBarHeight = navigationBarHeight()
+
+//        if (screenOrientationMode == OrientationMode.LANDSCAPE) {
+//            volumeBar.setBarX(screenWidth - barWidth)
+//        } else {
+//            volumeBar.setBarX(0)
+//        }
+
         when (screenOrientationMode) {
             OrientationMode.LANDSCAPE -> {
-                if (navigationBarHeight != 0) {
-                    volumeBar.setBarX(screenWidth - navigationBarHeight)
-                    volumeBar.width = barWidth / 2
-                } else {
-                    volumeBar.setBarX(screenWidth)
+                val uncoveredSpace = ScreenInfo.getLandscapeModeUncoveredSpace(context)
+                var xAxis = screenWidth
+                if (uncoveredSpace > 0) {
+                    val halfWidth = barWidth / 2
+                    val requiredSpace = uncoveredSpace + (halfWidth / 2)
+                    xAxis -= requiredSpace
+                    volumeBar.width = halfWidth
                 }
+                volumeBar.setBarX(xAxis)
             }
             OrientationMode.REVERSE_LANDSCAPE -> {
-                if (navigationBarHeight != 0) {
-                    volumeBar.setBarX(0 + navigationBarHeight)
-                    volumeBar.width = barWidth / 2
-                } else {
-                    volumeBar.setBarX(0)
+                val uncoveredSpace = ScreenInfo.getLandscapeModeUncoveredSpace(context)
+                var xAxis = 0
+                if (uncoveredSpace > 0) {
+                    val halfWidth = barWidth / 2
+                    val requiredSpace = uncoveredSpace + (halfWidth / 2)
+                    xAxis += requiredSpace
+                    volumeBar.width = halfWidth
                 }
+                volumeBar.setBarX(xAxis)
             }
             else -> {
                 volumeBar.setBarX(0)
             }
         }
     }
-
-    private fun navigationBarHeight(): Int {
-        try {
-            val resources = context.resources
-
-            @SuppressLint("InternalInsetResource", "DiscouragedApi")
-            val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-            val height = if (resourceId > 0) {
-                resources.getDimensionPixelSize(resourceId)
-            } else 0
-            // Ignore height of gesture based navigation bars
-            if (height < 50) return 0
-            return height
-        } catch (_: Exception) {
-            return 0
-        }
-    }
-
 
     fun showSwipeLeft() {
         var iconDrawable: Drawable? = iconSwipeLeftDrawable

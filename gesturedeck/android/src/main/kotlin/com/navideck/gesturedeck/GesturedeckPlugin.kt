@@ -2,23 +2,19 @@ package com.navideck.gesturedeck
 
 import android.app.Activity
 import android.os.Build
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.WindowManager
 import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import io.flutter.embedding.engine.plugins.FlutterPlugin
-import io.flutter.embedding.engine.plugins.activity.ActivityAware
-import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.renderer.FlutterRenderer
 import io.flutter.plugin.common.*
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** GesturedeckPlugin */
-class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler,
-    ActivityAware {
+class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamHandler {
     companion object {
         var instance: GesturedeckPlugin? = null
     }
@@ -28,12 +24,13 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
     private lateinit var touchEventResult: EventChannel
     private lateinit var renderer: FlutterRenderer
     private var gesturedeck: Gesturedeck? = null
+
     private fun initGesturedeck(activity: Activity) {
         gesturedeck = Gesturedeck(
             context = activity,
             bitmapCallback = { renderer.bitmap },
-            gestureCallbacks = {
-                when (it) {
+            gestureCallbacks = { event ->
+                when (event) {
                     GesturedeckEvent.SWIPE_RIGHT -> {
                         touchEventSink?.success("swipedRight")
                     }
@@ -49,11 +46,9 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
         )
     }
 
-    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-        initGesturedeck(binding.activity)
-    }
-
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
+        if (touchEventSink == null) return
+        if (gesturedeck == null) initGesturedeck(activity)
         gesturedeck?.onTouchEvents(event)
     }
 
@@ -106,13 +101,11 @@ class GesturedeckPlugin : FlutterPlugin, MethodCallHandler, EventChannel.StreamH
     override fun onCancel(args: Any?) {
         val map = args as? Map<*, *> ?: return
         when (map["name"]) {
-            "touchEvent" -> touchEventSink = null
+            "touchEvent" -> {
+                touchEventSink = null
+                gesturedeck?.dispose()
+                gesturedeck = null
+            }
         }
     }
-
-
-    // TODO : implement all theses
-    override fun onDetachedFromActivity() {}
-    override fun onDetachedFromActivityForConfigChanges() {}
-    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
 }
