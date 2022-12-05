@@ -257,18 +257,10 @@ class OverlayHelper(
         centerIconBackgroundDrawable = layerDrawable
     }
 
+
     private fun initVolumeUI() {
         val primaryColor = ContextCompat.getColor(context, R.color.colorPrimary)
-        val screenWidth = ScreenInfo.getScreenSize(context).width
-        val screenOrientationMode = ScreenInfo.getOrientationMode(context)
-
-        val barWidth = 150
-        if (screenOrientationMode == OrientationMode.LANDSCAPE) {
-            volumeBar.setBarX(screenWidth - (barWidth / 2))
-        } else {
-            volumeBar.setBarX(0)
-        }
-        volumeBar.width = barWidth
+        initVolumeBar()
 
         val viDrawable: Drawable = volumeIconDrawable ?: ContextCompat.getDrawable(
             context, R.drawable.icon_volume_material
@@ -287,6 +279,48 @@ class OverlayHelper(
             val myGrad: GradientDrawable = volumeIcon.background as GradientDrawable
             val width = (2 * Resources.getSystem().displayMetrics.density).toInt()
             myGrad.setStroke(width, color)
+        }
+    }
+
+    private fun initVolumeBar() {
+        val screenWidth = ScreenInfo.getScreenSize(context).width
+        val screenOrientationMode = ScreenInfo.getOrientationMode(context)
+
+        val barWidth = 150
+        volumeBar.width = barWidth
+
+//        if (screenOrientationMode == OrientationMode.LANDSCAPE) {
+//            volumeBar.setBarX(screenWidth - barWidth)
+//        } else {
+//            volumeBar.setBarX(0)
+//        }
+
+        when (screenOrientationMode) {
+            OrientationMode.LANDSCAPE -> {
+                val uncoveredSpace = ScreenInfo.getLandscapeModeUncoveredSpace(context)
+                var xAxis = screenWidth
+                if (uncoveredSpace > 0) {
+                    val halfWidth = barWidth / 2
+                    val requiredSpace = uncoveredSpace + (halfWidth / 2)
+                    xAxis -= requiredSpace
+                    volumeBar.width = halfWidth
+                }
+                volumeBar.setBarX(xAxis)
+            }
+            OrientationMode.REVERSE_LANDSCAPE -> {
+                val uncoveredSpace = ScreenInfo.getLandscapeModeUncoveredSpace(context)
+                var xAxis = 0
+                if (uncoveredSpace > 0) {
+                    val halfWidth = barWidth / 2
+                    val requiredSpace = uncoveredSpace + (halfWidth / 2)
+                    xAxis += requiredSpace
+                    volumeBar.width = halfWidth
+                }
+                volumeBar.setBarX(xAxis)
+            }
+            else -> {
+                volumeBar.setBarX(0)
+            }
         }
     }
 
