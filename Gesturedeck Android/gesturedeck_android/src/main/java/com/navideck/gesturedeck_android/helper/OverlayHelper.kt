@@ -58,7 +58,9 @@ class OverlayHelper(
     private var blurSampling: Int = 5
     private var dimAlpha: Int = 240
     private var canUseRenderEffect: Boolean = false
-    private var screenSize: Size? = null
+    private var lastRecognizedScreenSize: Size? = null
+    private var lastRecognizedOrientationMode: OrientationMode? = null
+
 
     // AudioBar Layout
     private lateinit var audioBarLayout: ConstraintLayout
@@ -146,13 +148,17 @@ class OverlayHelper(
         // Initialise VolumeUi Colors
         initVolumeUI()
 
-        screenSize = ScreenInfo.getScreenSize(context)
+        lastRecognizedScreenSize = ScreenInfo.getScreenSize(context)
+        lastRecognizedOrientationMode = ScreenInfo.getOrientationMode(context)
     }
 
     private fun configureOverlayIfNeeded() {
-        // Reconfigure if screenSize changes
-        if (screenSize != ScreenInfo.getScreenSize(context)) {
+        // Reconfigure if screenSize or orientation changes
+        val currentOrientationMode = ScreenInfo.getOrientationMode(context)
+        val currentScreenSize = ScreenInfo.getScreenSize(context)
+        if (lastRecognizedScreenSize != currentScreenSize || lastRecognizedOrientationMode != currentOrientationMode) {
             configureOverlay(rootView)
+            initFadeInOutAnimation()
         }
     }
 
@@ -283,44 +289,28 @@ class OverlayHelper(
     }
 
     private fun initVolumeBar() {
-        val screenWidth = ScreenInfo.getScreenSize(context).width
-        val screenOrientationMode = ScreenInfo.getOrientationMode(context)
-
-        val barWidth = 150
-        volumeBar.width = barWidth
-
-//        if (screenOrientationMode == OrientationMode.LANDSCAPE) {
-//            volumeBar.setBarX(screenWidth - barWidth)
-//        } else {
-//            volumeBar.setBarX(0)
-//        }
-
-        when (screenOrientationMode) {
-            OrientationMode.LANDSCAPE -> {
-                val uncoveredSpace = ScreenInfo.getLandscapeModeUncoveredSpace(context)
-                var xAxis = screenWidth
-                if (uncoveredSpace > 0) {
-                    val halfWidth = barWidth / 2
-                    val requiredSpace = uncoveredSpace + (halfWidth / 2)
-                    xAxis -= requiredSpace
-                    volumeBar.width = halfWidth
+        ScreenInfo.getDisplayInsets(getRootView()) {
+            var leftGap = 0
+            if (it != null) leftGap = it.left
+            var shouldShiftLeft = false
+            when (ScreenInfo.getOrientationMode(context)) {
+                OrientationMode.LANDSCAPE -> {
+                    val isCutoutCovered: Boolean = ScreenInfo.isCutoutModeCovered(context) ?: true
+                    shouldShiftLeft = leftGap > 0 && isCutoutCovered
                 }
-                volumeBar.setBarX(xAxis)
-            }
-            OrientationMode.REVERSE_LANDSCAPE -> {
-                val uncoveredSpace = ScreenInfo.getLandscapeModeUncoveredSpace(context)
-                var xAxis = 0
-                if (uncoveredSpace > 0) {
-                    val halfWidth = barWidth / 2
-                    val requiredSpace = uncoveredSpace + (halfWidth / 2)
-                    xAxis += requiredSpace
-                    volumeBar.width = halfWidth
+                OrientationMode.REVERSE_LANDSCAPE -> {
+                    shouldShiftLeft = leftGap > 0
                 }
-                volumeBar.setBarX(xAxis)
+                else -> {}
             }
-            else -> {
-                volumeBar.setBarX(0)
+            val barWidth = 150
+            var xAxis = 0
+            volumeBar.width = barWidth
+            if (shouldShiftLeft) {
+                xAxis += leftGap + (barWidth / 4)
+                volumeBar.width = barWidth / 2
             }
+            volumeBar.setBarX(xAxis)
         }
     }
 
@@ -657,8 +647,8 @@ class OverlayHelper(
 
     // Helper Methods
     private fun measureAndLayout(context: Context, toMeasure: View) {
-        var dpHeight: Int = ScreenInfo.getScreenSize(context).height
-        var dpWidth: Int = ScreenInfo.getScreenSize(context).width
+        val dpHeight: Int = ScreenInfo.getScreenSize(context).height
+        val dpWidth: Int = ScreenInfo.getScreenSize(context).width
         toMeasure.measure(
             View.MeasureSpec.makeMeasureSpec(dpWidth, View.MeasureSpec.EXACTLY),
             View.MeasureSpec.makeMeasureSpec(dpHeight, View.MeasureSpec.EXACTLY)
