@@ -158,6 +158,7 @@ class OverlayHelper(
         val currentScreenSize = ScreenInfo.getScreenSize(context)
         if (lastRecognizedScreenSize != currentScreenSize || lastRecognizedOrientationMode != currentOrientationMode) {
             configureOverlay(rootView)
+            initFadeInOutAnimation()
         }
     }
 
