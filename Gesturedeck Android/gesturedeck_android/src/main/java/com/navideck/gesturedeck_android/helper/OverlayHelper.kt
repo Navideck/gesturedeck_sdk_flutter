@@ -58,7 +58,9 @@ class OverlayHelper(
     private var blurSampling: Int = 5
     private var dimAlpha: Int = 240
     private var canUseRenderEffect: Boolean = false
-    private var screenSize: Size? = null
+    private var lastRecognizedScreenSize: Size? = null
+    private var lastRecognizedOrientationMode: OrientationMode? = null
+
 
     // AudioBar Layout
     private lateinit var audioBarLayout: ConstraintLayout
@@ -146,12 +148,15 @@ class OverlayHelper(
         // Initialise VolumeUi Colors
         initVolumeUI()
 
-        screenSize = ScreenInfo.getScreenSize(context)
+        lastRecognizedScreenSize = ScreenInfo.getScreenSize(context)
+        lastRecognizedOrientationMode = ScreenInfo.getOrientationMode(context)
     }
 
     private fun configureOverlayIfNeeded() {
-        // Reconfigure if screenSize changes
-        if (screenSize != ScreenInfo.getScreenSize(context)) {
+        // Reconfigure if screenSize or orientation changes
+        val currentOrientationMode = ScreenInfo.getOrientationMode(context)
+        val currentScreenSize = ScreenInfo.getScreenSize(context)
+        if (lastRecognizedScreenSize != currentScreenSize || lastRecognizedOrientationMode != currentOrientationMode) {
             configureOverlay(rootView)
         }
     }
