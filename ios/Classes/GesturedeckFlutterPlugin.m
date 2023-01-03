@@ -1,15 +1,15 @@
-#import "GesturedeckPlugin.h"
-#if __has_include(<gesturedeck/gesturedeck-Swift.h>)
-#import <gesturedeck/gesturedeck-Swift.h>
+#import "GesturedeckFlutterPlugin.h"
+#if __has_include(<gesturedeck_flutter/gesturedeck_flutter-Swift.h>)
+#import <gesturedeck_flutter/gesturedeck_flutter-Swift.h>
 #else
 // Support project import fallback if the generated compatibility header
 // is not copied when this plugin is created as a library.
 // https://forums.swift.org/t/swift-static-libraries-dont-copy-generated-objective-c-header/19816
-#import "gesturedeck-Swift.h"
+#import "gesturedeck_flutter-Swift.h"
 #endif
 
-@implementation GesturedeckPlugin
+@implementation GesturedeckFlutterPlugin
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
-  [SwiftGesturedeckPlugin registerWithRegistrar:registrar];
+  [SwiftGesturedeckFlutterPlugin registerWithRegistrar:registrar];
 }
 @end

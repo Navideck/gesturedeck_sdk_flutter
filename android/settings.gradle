@@ -1,3 +1,1 @@
-rootProject.name = 'gesturedeck'
-include ':gesturedeck_sdk'
-project(":gesturedeck_sdk").projectDir = file("../../gesturedeck_sdk_android/gesturedeck_sdk")
+rootProject.name = 'gesturedeck_flutter'

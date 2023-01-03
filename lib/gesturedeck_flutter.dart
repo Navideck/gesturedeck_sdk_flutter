@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:gesturedeck/src/gesturedeck_method_channel.dart';
-import 'package:gesturedeck/src/helper/helper.dart';
+import 'package:gesturedeck_flutter/src/gesturedeck_method_channel.dart';
+import 'package:gesturedeck_flutter/src/helper/helper.dart';
 
 class Gesturedeck {
   /// Subscribes to [SwipeGestures] events.

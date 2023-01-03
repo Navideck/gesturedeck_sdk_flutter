@@ -1,8 +1,8 @@
 import Flutter
 import UIKit
-import GesturedeckSDK
+import Gesturedeck
 
-public class SwiftGesturedeckPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
+public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     var gesturedeck: Gesturedeck?
     private var touchEventsSink: FlutterEventSink?
     
@@ -48,7 +48,7 @@ public class SwiftGesturedeckPlugin: NSObject, FlutterPlugin, FlutterStreamHandl
     public static func register(with registrar: FlutterPluginRegistrar) {
         
         let channel = FlutterMethodChannel(name: "gesturedeck", binaryMessenger: registrar.messenger())
-        let instance = SwiftGesturedeckPlugin()
+        let instance = SwiftGesturedeckFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
                 
         let eventChannel = FlutterEventChannel(name: "com.navideck.gesturedeck", binaryMessenger: registrar.messenger())

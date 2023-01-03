@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "gesturedeck",
+            "name": "gesturedeck_flutter",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "gesturedeck (profile mode)",
+            "name": "gesturedeck_flutter (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "gesturedeck (release mode)",
+            "name": "gesturedeck_flutter (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

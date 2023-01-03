@@ -1,4 +1,4 @@
-import 'package:gesturedeck/src/gesturedeck.dart';
+import '../../../gesturedeck_flutter.dart';
 
 // convert String from Native platform to GestureType enum
 GestureType? getGestureType(String data) {

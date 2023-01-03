@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:gesturedeck/gesturedeck.dart';
+import 'package:gesturedeck_flutter/gesturedeck_flutter.dart';
 
 void main() {
   runApp(

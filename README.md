@@ -1,35 +1,15 @@
-# Gesturedeck Flutter
+# gesturedeck_flutter
 
-Flutter plugin for Gesturedeck. This plugin wraps the native iOS and Android SDKs
+A new Flutter plugin project.
 
 ## Getting Started
 
-Android requires minimum version : 21
+This project is a starting point for a Flutter
+[plug-in package](https://flutter.dev/developing-packages/),
+a specialized package that includes platform-specific implementation code for
+Android and/or iOS.
 
-Change `MainActivity.kt` of your native android project like this
+For help getting started with Flutter development, view the
+[online documentation](https://flutter.dev/docs), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
 
-```kotlin
-import android.view.MotionEvent
-import io.flutter.embedding.android.FlutterActivity
-import  com.navideck.gesturedeck.GesturedeckPlugin
-
-class MainActivity: FlutterActivity() {
-
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        GesturedeckPlugin.instance?.dispatchTouchEvent(event, activity)
-        return super.dispatchTouchEvent(event)
-    }
-}
-```
-
-Optional: To extend the app's UI around Android camera cutouts (aka notch) in landscape mode, add this block in your MainActivity. This will also ensure that Gesturedeck's overlay tracks exactly the shape of the app (i.e. rounded corners)
-
-```kotlin
-class MainActivity: FlutterActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        GesturedeckPlugin.instance?.extendAroundNotch(this)
-    }
-}
-```
