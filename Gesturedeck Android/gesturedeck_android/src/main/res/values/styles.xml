@@ -1,8 +1,0 @@
-<resources>
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
-        <item name="colorPrimary">#009688</item>
-        <item name="colorPrimaryDark">#04554D</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
-
-</resources>
