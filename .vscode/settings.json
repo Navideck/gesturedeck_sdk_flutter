@@ -1,3 +1,13 @@
 {
-  "cSpell.words": ["gesturedeck"]
+    "cSpell.words": [
+        "androidx",
+        "appcompat",
+        "Compat",
+        "dimen",
+        "gesturedeck",
+        "lateinit",
+        "mapbox",
+        "navideck",
+        "styleable"
+    ]
 }
