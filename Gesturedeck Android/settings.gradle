@@ -1,3 +1,0 @@
-include ':gesturedeck_android'
-include ':app'
-rootProject.name = "Gesturedeck Android"
