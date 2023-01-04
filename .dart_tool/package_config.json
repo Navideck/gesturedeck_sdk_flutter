@@ -86,12 +86,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "plugin_platform_interface",
-      "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.1.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "sky_engine",
       "rootUri": "file:///Users/rohitsangwan/fvm/versions/stable/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
@@ -146,7 +140,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-01-04T04:02:49.639083Z",
+  "generated": "2023-01-04T04:09:48.572258Z",
   "generator": "pub",
   "generatorVersion": "2.18.6"
 }
