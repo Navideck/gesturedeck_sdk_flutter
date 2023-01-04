@@ -1,7 +1,5 @@
 package com.navideck.gesturedeck_flutter
 
-import androidx.annotation.NonNull
-
 import android.app.Activity
 import android.os.Build
 import android.view.KeyEvent
@@ -16,7 +14,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** GesturedeckFlutterPlugin */
-class GesturedeckFlutterPlugin: FlutterPlugin, MethodCallHandler {
+class GesturedeckFlutterPlugin: FlutterPlugin, EventChannel.StreamHandler, MethodCallHandler {
   companion object {
       var instance: GesturedeckFlutterPlugin? = null
   }

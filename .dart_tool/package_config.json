@@ -45,9 +45,9 @@
     },
     {
       "name": "flutter_lints",
-      "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4",
+      "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/flutter_lints-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     },
     {
       "name": "flutter_test",
@@ -57,9 +57,9 @@
     },
     {
       "name": "lints",
-      "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/lints-1.0.1",
+      "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/lints-2.0.1",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.17"
     },
     {
       "name": "matcher",
@@ -82,6 +82,12 @@
     {
       "name": "path",
       "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/path-1.8.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "plugin_platform_interface",
+      "rootUri": "file:///Users/rohitsangwan/.pub-cache/hosted/pub.dartlang.org/plugin_platform_interface-2.1.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -134,13 +140,13 @@
       "languageVersion": "2.14"
     },
     {
-      "name": "gesturedeck",
+      "name": "gesturedeck_flutter",
       "rootUri": "../",
       "packageUri": "lib/",
-      "languageVersion": "2.12"
+      "languageVersion": "2.18"
     }
   ],
-  "generated": "2023-01-03T12:08:12.375959Z",
+  "generated": "2023-01-04T04:02:49.639083Z",
   "generator": "pub",
   "generatorVersion": "2.18.6"
 }

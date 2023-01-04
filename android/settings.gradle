@@ -1,1 +1,3 @@
 rootProject.name = 'gesturedeck_flutter'
+include ':gesturedeck_sdk'
+project(":gesturedeck_sdk").projectDir = file("../../gesturedeck_sdk_android/gesturedeck_sdk")
