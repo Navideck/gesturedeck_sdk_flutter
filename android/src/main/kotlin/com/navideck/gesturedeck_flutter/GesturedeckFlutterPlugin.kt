@@ -5,8 +5,8 @@ import android.os.Build
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.WindowManager
-import com.navideck.gesturedeck_sdk.Gesturedeck
-import com.navideck.gesturedeck_sdk.model.GesturedeckEvent
+import com.navideck.gesturedeck_android.Gesturedeck
+import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.renderer.FlutterRenderer
 import io.flutter.plugin.common.*
