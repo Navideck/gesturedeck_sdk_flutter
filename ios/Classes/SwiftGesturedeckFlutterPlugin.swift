@@ -13,7 +13,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             self.touchEventsSink?("swipedLeft")
         }, swipeRightAction: {
             self.touchEventsSink?("swipedRight")
-        })
+        },autoStart: false)
     }
     
     
