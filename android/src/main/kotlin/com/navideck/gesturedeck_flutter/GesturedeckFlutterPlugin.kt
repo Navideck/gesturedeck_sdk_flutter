@@ -29,7 +29,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         gesturedeck = Gesturedeck(
             context = activity,
             bitmapCallback = { renderer.bitmap },
-            enableAutoStart = false,
+            autoStart = false,
             gestureCallbacks = { event ->
                 when (event) {
                     GesturedeckEvent.SWIPE_RIGHT -> {
