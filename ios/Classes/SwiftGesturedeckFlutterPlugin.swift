@@ -16,9 +16,6 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         })
     }
     
-    private func disposeGesturedeck(){
-        gesturedeck?.dispose()
-    }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         guard let args = arguments as? Dictionary<String, Any>, let name = args["name"] as? String else {
@@ -26,7 +23,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         }
         if name == "touchEvent" {
             touchEventsSink = events
-            initGesturedeck()
+            gesturedeck?.start()
         }
         return nil
     }
@@ -37,7 +34,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         }
         if name == "touchEvent" {
             touchEventsSink = nil
-            disposeGesturedeck()
+            gesturedeck?.stop()
         }
         return nil
     }
@@ -50,5 +47,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                 
         let eventChannel = FlutterEventChannel(name: "com.navideck.gesturedeck", binaryMessenger: registrar.messenger())
         eventChannel.setStreamHandler(instance)
+        
+        instance.initGesturedeck()
     }
 }
