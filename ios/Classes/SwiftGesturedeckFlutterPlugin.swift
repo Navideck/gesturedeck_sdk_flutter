@@ -17,9 +17,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
     }
     
     private func disposeGesturedeck(){
-        gesturedeck?.tapAction = nil
-        gesturedeck?.swipeLeftAction = nil
-        gesturedeck?.swipeRightAction = nil
+        gesturedeck?.dispose()
     }
     
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
@@ -46,8 +44,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
     
     
     public static func register(with registrar: FlutterPluginRegistrar) {
-        
-        let channel = FlutterMethodChannel(name: "gesturedeck", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: "com.navideck.gesturedeck.method", binaryMessenger: registrar.messenger())
         let instance = SwiftGesturedeckFlutterPlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
                 
