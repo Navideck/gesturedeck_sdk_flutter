@@ -8,26 +8,32 @@ import android.view.WindowManager
 import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.embedding.engine.plugins.activity.ActivityAware
+import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.renderer.FlutterRenderer
 import io.flutter.plugin.common.*
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 
 /** GesturedeckFlutterPlugin */
-class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, MethodCallHandler {
+class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, MethodCallHandler,
+    ActivityAware {
+
     companion object {
         var instance: GesturedeckFlutterPlugin? = null
     }
 
+    private var activityBinding: ActivityPluginBinding? = null
     private var touchEventSink: EventChannel.EventSink? = null
     private lateinit var channel: MethodChannel
     private lateinit var touchEventResult: EventChannel
     private lateinit var renderer: FlutterRenderer
     private var gesturedeck: Gesturedeck? = null
 
-    private fun initGesturedeck(activity: Activity) {
+    private fun initGesturedeck(activity: Activity, activationKey: String?) {
         gesturedeck = Gesturedeck(
             context = activity,
+            activationKey = activationKey,
             bitmapCallback = { renderer.bitmap },
             autoStart = false,
             gestureCallbacks = { event ->
@@ -48,8 +54,6 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     }
 
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
-        if (touchEventSink == null) return
-        if (gesturedeck == null) initGesturedeck(activity)
         gesturedeck?.onTouchEvents(event)
     }
 
@@ -58,10 +62,8 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        channel = MethodChannel(
-            flutterPluginBinding.binaryMessenger,
-            "com.navideck.gesturedeck.method"
-        )
+        channel =
+            MethodChannel(flutterPluginBinding.binaryMessenger, "com.navideck.gesturedeck.method")
         channel.setMethodCallHandler(this)
         touchEventResult =
             EventChannel(flutterPluginBinding.binaryMessenger, "com.navideck.gesturedeck")
@@ -71,7 +73,30 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     }
 
     override fun onMethodCall(call: MethodCall, result: Result) {
-        result.notImplemented()
+        val activity: Activity? = activityBinding?.activity
+        when (call.method) {
+            "initialize" -> {
+                val args = call.arguments as Map<*, *>
+                val activationKey: String? = args["activationKey"] as String?
+                if (activity != null) {
+                    initGesturedeck(activity, activationKey)
+                    result.success(null)
+                } else {
+                    result.error("ActivityError", "Null activity", null)
+                }
+            }
+            "start" -> {
+                gesturedeck?.start()
+                result.success(null)
+            }
+            "stop" -> {
+                gesturedeck?.stop()
+                result.success(null)
+            }
+            else -> {
+                result.notImplemented()
+            }
+        }
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -95,7 +120,6 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         when (map["name"]) {
             "touchEvent" -> {
                 touchEventSink = eventSink
-                gesturedeck?.start()
             }
         }
     }
@@ -105,8 +129,23 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         when (map["name"]) {
             "touchEvent" -> {
                 touchEventSink = null
-                gesturedeck?.stop()
             }
         }
+    }
+
+    override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activityBinding = binding
+    }
+
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
+        activityBinding = binding
+    }
+
+    override fun onDetachedFromActivityForConfigChanges() {
+        activityBinding = null
+    }
+
+    override fun onDetachedFromActivity() {
+        activityBinding = null
     }
 }
