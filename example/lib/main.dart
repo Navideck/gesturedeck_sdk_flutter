@@ -20,23 +20,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  GestureType? gestureType;
-
-  void _initGesturedeck() {
-    Gesturedeck.subscribeGestures().listen((GestureType type) {
-      setState(() {
-        gestureType = type;
-      });
-      print(type.name.toString());
-    });
-  }
-
-  @override
-  void initState() {
-    _initGesturedeck();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +29,41 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Column(
         children: [
+          FutureBuilder(
+            future: Gesturedeck.initialize(
+              activationKey: "",
+            ),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () => Gesturedeck.start(),
+                          child: const Text("start")),
+                      ElevatedButton(
+                          onPressed: () => Gesturedeck.stop(),
+                          child: const Text("stop"))
+                    ],
+                  );
+
+                default:
+                  return const CircularProgressIndicator();
+              }
+            },
+          ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text('Recognized Gesture : ${gestureType?.name.toString()}'),
+            child: StreamBuilder(
+              stream: Gesturedeck.gesturesStream,
+              initialData: null,
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                GestureType? gestureType = snapshot.data;
+                return Text(
+                    'Recognized Gesture : ${gestureType?.name.toString()}');
+              },
+            ),
           ),
           const Divider(),
           Expanded(
