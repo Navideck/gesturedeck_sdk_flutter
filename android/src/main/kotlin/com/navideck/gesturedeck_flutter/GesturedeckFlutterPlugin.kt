@@ -30,12 +30,17 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private lateinit var renderer: FlutterRenderer
     private var gesturedeck: Gesturedeck? = null
 
-    private fun initGesturedeck(activity: Activity, activationKey: String?) {
+    private fun initGesturedeck(
+        activity: Activity,
+        activationKey: String?,
+        shouldSwipeLeftToSkipNext: Boolean
+    ) {
         gesturedeck = Gesturedeck(
             context = activity,
             activationKey = activationKey,
             bitmapCallback = { renderer.bitmap },
             autoStart = false,
+            shouldSwipeLeftToSkipNext = shouldSwipeLeftToSkipNext,
             gestureCallbacks = { event ->
                 when (event) {
                     GesturedeckEvent.SWIPE_RIGHT -> {
@@ -78,12 +83,19 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             "initialize" -> {
                 val args = call.arguments as Map<*, *>
                 val activationKey: String? = args["activationKey"] as String?
+                val shouldSwipeLeftToSkipNext: Boolean =
+                    args["shouldSwipeLeftToSkipNext"] as Boolean
                 if (activity != null) {
-                    initGesturedeck(activity, activationKey)
+                    initGesturedeck(activity, activationKey, shouldSwipeLeftToSkipNext)
                     result.success(null)
                 } else {
                     result.error("ActivityError", "Null activity", null)
                 }
+            }
+            "shouldSwipeLeftToSkipNext" -> {
+                val args = call.arguments as Map<*, *>
+                gesturedeck?.shouldSwipeLeftToSkipNext = args["value"] as Boolean
+                result.success(null)
             }
             "start" -> {
                 gesturedeck?.start()
