@@ -24,7 +24,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    Gesturedeck.initialize(activationKey: "");
+    Gesturedeck.initialize(
+      activationKey: "",
+      shouldSwipeLeftToSkipNext: shouldSwipeLeftToSkipNext,
+    );
     super.initState();
   }
 
