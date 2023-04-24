@@ -13,23 +13,31 @@ class Gesturedeck {
   /// call [initialize] once with activation key
   static Future<void> initialize({
     String? activationKey,
+    bool reverseHorizontalSwipes = false,
   }) async {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
+      "reverseHorizontalSwipes": reverseHorizontalSwipes,
     });
     _isInitialized = true;
   }
 
+  static Future<void> reverseHorizontalSwipes(bool value) async {
+    _ensureInitialized();
+    await _methodChannel
+        .invokeMethod("reverseHorizontalSwipes", {"value": value});
+  }
+
   /// call [start] to start receiving gesturedeck updates
   static Future start() async {
-    if (!_isInitialized) throw "Please initialize gesturedeck";
+    _ensureInitialized();
     await _methodChannel.invokeMethod('start');
   }
 
   /// call [stop] to stop gesturedeck
   static Future stop() async {
-    if (!_isInitialized) throw "Please initialize gesturedeck";
+    _ensureInitialized();
     await _methodChannel.invokeMethod('stop');
   }
 
@@ -47,5 +55,9 @@ class Gesturedeck {
     } catch (_) {
       return null;
     }
+  }
+
+  static void _ensureInitialized() {
+    if (!_isInitialized) throw "Please initialize gesturedeck";
   }
 }

@@ -20,6 +20,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  bool reverseHorizontalSwipes = false;
+
+  @override
+  void initState() {
+    Gesturedeck.initialize(
+      activationKey: "",
+      reverseHorizontalSwipes: reverseHorizontalSwipes,
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,48 +40,47 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Column(
         children: [
-          FutureBuilder(
-            future: Gesturedeck.initialize(
-              activationKey: "",
-            ),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              switch (snapshot.connectionState) {
-                case ConnectionState.done:
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ElevatedButton(
-                          onPressed: () => Gesturedeck.start(),
-                          child: const Text("start")),
-                      ElevatedButton(
-                          onPressed: () => Gesturedeck.stop(),
-                          child: const Text("stop"))
-                    ],
-                  );
-
-                default:
-                  return const CircularProgressIndicator();
-              }
-            },
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                  onPressed: () => Gesturedeck.start(),
+                  child: const Text("start")),
+              ElevatedButton(
+                  onPressed: () async {
+                    await Gesturedeck.reverseHorizontalSwipes(
+                        !reverseHorizontalSwipes);
+                    setState(() {
+                      reverseHorizontalSwipes = !reverseHorizontalSwipes;
+                    });
+                  },
+                  child: const Text("Reverse")),
+              ElevatedButton(
+                  onPressed: () => Gesturedeck.stop(),
+                  child: const Text("stop"))
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: StreamBuilder(
-              stream: Gesturedeck.gesturesStream,
-              initialData: null,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                GestureType? gestureType = snapshot.data;
-                return Text(
-                    'Recognized Gesture : ${gestureType?.name.toString()}');
-              },
-            ),
-          ),
+          const Divider(),
+          Text(
+              'Swipe ${reverseHorizontalSwipes ? 'left' : 'right'} to skip next'),
           const Divider(),
           Expanded(
             child: Container(
               color: Colors.grey.shade400,
-              child: const Center(
-                child: Text('Swipe or Tap on Screen'),
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: StreamBuilder(
+                    stream: Gesturedeck.gesturesStream,
+                    initialData: null,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      GestureType? gestureType = snapshot.data;
+                      return gestureType == null
+                          ? const Text('Swipe or Tap on Screen')
+                          : Text('Recognized Gesture : ${gestureType.name}');
+                    },
+                  ),
+                ),
               ),
             ),
           ),
