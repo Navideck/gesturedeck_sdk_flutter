@@ -33,14 +33,14 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private fun initGesturedeck(
         activity: Activity,
         activationKey: String?,
-        shouldSwipeLeftToSkipNext: Boolean
+        reverseHorizontalSwipes: Boolean
     ) {
         gesturedeck = Gesturedeck(
             context = activity,
             activationKey = activationKey,
             bitmapCallback = { renderer.bitmap },
             autoStart = false,
-            shouldSwipeLeftToSkipNext = shouldSwipeLeftToSkipNext,
+            reverseHorizontalSwipes = reverseHorizontalSwipes,
             gestureCallbacks = { event ->
                 when (event) {
                     GesturedeckEvent.SWIPE_RIGHT -> {
@@ -83,18 +83,18 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             "initialize" -> {
                 val args = call.arguments as Map<*, *>
                 val activationKey: String? = args["activationKey"] as String?
-                val shouldSwipeLeftToSkipNext: Boolean =
-                    args["shouldSwipeLeftToSkipNext"] as Boolean
+                val reverseHorizontalSwipes: Boolean =
+                    args["reverseHorizontalSwipes"] as Boolean
                 if (activity != null) {
-                    initGesturedeck(activity, activationKey, shouldSwipeLeftToSkipNext)
+                    initGesturedeck(activity, activationKey, reverseHorizontalSwipes)
                     result.success(null)
                 } else {
                     result.error("ActivityError", "Null activity", null)
                 }
             }
-            "shouldSwipeLeftToSkipNext" -> {
+            "reverseHorizontalSwipes" -> {
                 val args = call.arguments as Map<*, *>
-                gesturedeck?.shouldSwipeLeftToSkipNext = args["value"] as Boolean
+                gesturedeck?.reverseHorizontalSwipes = args["value"] as Boolean
                 result.success(null)
             }
             "start" -> {

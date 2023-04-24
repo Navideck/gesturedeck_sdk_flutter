@@ -20,13 +20,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool shouldSwipeLeftToSkipNext = false;
+  bool reverseHorizontalSwipes = false;
 
   @override
   void initState() {
     Gesturedeck.initialize(
       activationKey: "",
-      shouldSwipeLeftToSkipNext: shouldSwipeLeftToSkipNext,
+      reverseHorizontalSwipes: reverseHorizontalSwipes,
     );
     super.initState();
   }
@@ -48,10 +48,10 @@ class _MyAppState extends State<MyApp> {
                   child: const Text("start")),
               ElevatedButton(
                   onPressed: () async {
-                    await Gesturedeck.shouldSwipeLeftToSkipNext(
-                        !shouldSwipeLeftToSkipNext);
+                    await Gesturedeck.reverseHorizontalSwipes(
+                        !reverseHorizontalSwipes);
                     setState(() {
-                      shouldSwipeLeftToSkipNext = !shouldSwipeLeftToSkipNext;
+                      reverseHorizontalSwipes = !reverseHorizontalSwipes;
                     });
                   },
                   child: const Text("Reverse")),
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
           ),
           const Divider(),
           Text(
-              'Swipe ${shouldSwipeLeftToSkipNext ? 'left' : 'right'} to skip next'),
+              'Swipe ${reverseHorizontalSwipes ? 'left' : 'right'} to skip next'),
           const Divider(),
           Expanded(
             child: Container(

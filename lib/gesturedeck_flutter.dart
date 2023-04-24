@@ -13,20 +13,20 @@ class Gesturedeck {
   /// call [initialize] once with activation key
   static Future<void> initialize({
     String? activationKey,
-    bool shouldSwipeLeftToSkipNext = false,
+    bool reverseHorizontalSwipes = false,
   }) async {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
-      "shouldSwipeLeftToSkipNext": shouldSwipeLeftToSkipNext,
+      "reverseHorizontalSwipes": reverseHorizontalSwipes,
     });
     _isInitialized = true;
   }
 
-  static Future<void> shouldSwipeLeftToSkipNext(bool value) async {
+  static Future<void> reverseHorizontalSwipes(bool value) async {
     _ensureInitialized();
     await _methodChannel
-        .invokeMethod("shouldSwipeLeftToSkipNext", {"value": value});
+        .invokeMethod("reverseHorizontalSwipes", {"value": value});
   }
 
   /// call [start] to start receiving gesturedeck updates

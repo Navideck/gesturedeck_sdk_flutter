@@ -6,7 +6,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
     var gesturedeck: Gesturedeck?
     private var touchEventsSink: FlutterEventSink?
 
-    private func initGesturedeck(activationKey: String?, shouldSwipeLeftToSkipNext: Bool) {
+    private func initGesturedeck(activationKey: String?, reverseHorizontalSwipes: Bool) {
         gesturedeck = Gesturedeck(tapAction: {
             self.touchEventsSink?("tap")
         }, swipeLeftAction: {
@@ -16,7 +16,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         },
         autoStart: false,
         activationKey: activationKey,
-        shouldSwipeLeftToSkipNext: shouldSwipeLeftToSkipNext)
+        reverseHorizontalSwipes: reverseHorizontalSwipes)
     }
 
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -32,13 +32,13 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         case "initialize":
             let args = call.arguments as? [String: Any]
             let activationKey: String? = args?["activationKey"] as? String
-            let shouldSwipeLeftToSkipNext: Bool? = args?["shouldSwipeLeftToSkipNext"] as? Bool
-            initGesturedeck(activationKey: activationKey, shouldSwipeLeftToSkipNext: shouldSwipeLeftToSkipNext ?? false)
+            let reverseHorizontalSwipes: Bool? = args?["reverseHorizontalSwipes"] as? Bool
+            initGesturedeck(activationKey: activationKey, reverseHorizontalSwipes: reverseHorizontalSwipes ?? false)
             result(nil)
-        case "shouldSwipeLeftToSkipNext":
+        case "reverseHorizontalSwipes":
             let args = call.arguments as? [String: Any]
             let value: Bool? = args?["value"] as? Bool
-            gesturedeck?.shouldSwipeLeftToSkipNext = value ?? false
+            gesturedeck?.reverseHorizontalSwipes = value ?? false
             result(nil)
         case "start":
             gesturedeck?.start()
