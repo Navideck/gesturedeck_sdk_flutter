@@ -13,3 +13,5 @@ apply from: "$flutterSdkPath/packages/flutter_tools/gradle/app_plugin_loader.gra
 
 include ':gesturedeck-android'
 project(":gesturedeck-android").projectDir = file("../../../gesturedeck_sdk_android/gesturedeck-android")
+include ':universal-volume'
+project(":universal-volume").projectDir = file("../../../../universal_volume/universal-volume")
