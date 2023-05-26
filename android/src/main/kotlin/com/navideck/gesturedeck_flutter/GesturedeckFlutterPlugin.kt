@@ -32,7 +32,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private var gesturedeck: Gesturedeck? = null
     private var universalVolume: UniversalVolume? = null
 
-    fun setUniversalVolume(universalVolume: UniversalVolume) {
+    fun setUniversalVolumeInstance(universalVolume: UniversalVolume) {
         this.universalVolume = universalVolume
     }
 
