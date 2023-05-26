@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.WindowManager
 import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
+import com.navideck.universal_volume.UniversalVolume
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
@@ -29,6 +30,11 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private lateinit var touchEventResult: EventChannel
     private lateinit var renderer: FlutterRenderer
     private var gesturedeck: Gesturedeck? = null
+    private var universalVolume: UniversalVolume? = null
+
+    fun setUniversalVolume(universalVolume: UniversalVolume) {
+        this.universalVolume = universalVolume
+    }
 
     private fun initGesturedeck(
         activity: Activity,
@@ -37,6 +43,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     ) {
         gesturedeck = Gesturedeck(
             context = activity,
+            universalVolume = universalVolume,
             activationKey = activationKey,
             bitmapCallback = { renderer.bitmap },
             autoStart = false,
@@ -46,12 +53,15 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     GesturedeckEvent.SWIPE_RIGHT -> {
                         touchEventSink?.success("swipedRight")
                     }
+
                     GesturedeckEvent.SWIPE_LEFT -> {
                         touchEventSink?.success("swipedLeft")
                     }
+
                     GesturedeckEvent.TAP -> {
                         touchEventSink?.success("tap")
                     }
+
                     else -> {}
                 }
             }
@@ -92,19 +102,23 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     result.error("ActivityError", "Null activity", null)
                 }
             }
+
             "reverseHorizontalSwipes" -> {
                 val args = call.arguments as Map<*, *>
                 gesturedeck?.reverseHorizontalSwipes = args["value"] as Boolean
                 result.success(null)
             }
+
             "start" -> {
                 gesturedeck?.start()
                 result.success(null)
             }
+
             "stop" -> {
                 gesturedeck?.stop()
                 result.success(null)
             }
+
             else -> {
                 result.notImplemented()
             }
@@ -116,7 +130,6 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         touchEventResult.setStreamHandler(null)
         instance = null
     }
-
 
     /// Call this method in onCreate of MainActivity, to extend the app's UI around the notch
     fun extendAroundNotch(activity: Activity) {
