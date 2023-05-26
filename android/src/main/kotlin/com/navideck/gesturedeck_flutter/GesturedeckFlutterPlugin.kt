@@ -32,6 +32,9 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private var gesturedeck: Gesturedeck? = null
     private var universalVolume: UniversalVolume? = null
 
+    /// It allows specifying the `UniversalVolume` instance, which can be used to share the same instance between
+    /// multiple plugins. This can be useful to save on resources and also prevent unexpected behavior on devices
+    /// that do not handle concurrency properly.
     fun setUniversalVolumeInstance(universalVolume: UniversalVolume) {
         this.universalVolume = universalVolume
     }
