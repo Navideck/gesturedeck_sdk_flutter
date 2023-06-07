@@ -14,14 +14,18 @@ class Gesturedeck {
   static Future<void> initialize({
     String? activationKey,
     bool reverseHorizontalSwipes = false,
+    bool enableGesturedeckMedia = false,
   }) async {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
       "reverseHorizontalSwipes": reverseHorizontalSwipes,
+      "enableGesturedeckMedia": enableGesturedeckMedia,
     });
     _isInitialized = true;
   }
+
+  static Future<void> dispose() => _methodChannel.invokeMethod('dispose');
 
   static Future<void> reverseHorizontalSwipes(bool value) async {
     _ensureInitialized();

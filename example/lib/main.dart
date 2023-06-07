@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
     Gesturedeck.initialize(
       activationKey: "",
       reverseHorizontalSwipes: reverseHorizontalSwipes,
+      enableGesturedeckMedia: true,
     );
     super.initState();
   }

@@ -2,10 +2,14 @@ package com.navideck.gesturedeck_flutter
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.WindowManager
 import com.navideck.gesturedeck_android.Gesturedeck
+import com.navideck.gesturedeck_android.GesturedeckMedia
+import com.navideck.gesturedeck_android.configurations.GesturedeckOverlayConfiguration
+import com.navideck.gesturedeck_android.model.GestureEvent
 import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import com.navideck.universal_volume.UniversalVolume
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -30,6 +34,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private lateinit var touchEventResult: EventChannel
     private lateinit var renderer: FlutterRenderer
     private var gesturedeck: Gesturedeck? = null
+    private var gesturedeckMedia: GesturedeckMedia? = null
     private var universalVolume: UniversalVolume? = null
 
     /// It allows specifying the `UniversalVolume` instance, which can be used to share the same instance between
@@ -42,41 +47,72 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private fun initGesturedeck(
         activity: Activity,
         activationKey: String?,
-        reverseHorizontalSwipes: Boolean
+        reverseHorizontalSwipes: Boolean,
+        enableGesturedeckMedia: Boolean,
     ) {
-        gesturedeck = Gesturedeck(
-            context = activity,
-            universalVolume = universalVolume,
-            activationKey = activationKey,
-            bitmapCallback = { renderer.bitmap },
-            autoStart = false,
-            reverseHorizontalSwipes = reverseHorizontalSwipes,
-            gestureCallbacks = { event ->
-                when (event) {
-                    GesturedeckEvent.SWIPE_RIGHT -> {
-                        touchEventSink?.success("swipedRight")
-                    }
-
-                    GesturedeckEvent.SWIPE_LEFT -> {
-                        touchEventSink?.success("swipedLeft")
-                    }
-
-                    GesturedeckEvent.TAP -> {
-                        touchEventSink?.success("tap")
-                    }
-
-                    else -> {}
+        if (enableGesturedeckMedia) {
+            gesturedeckMedia = GesturedeckMedia(
+                context = activity,
+                autoStart = false,
+                universalVolume = universalVolume,
+                reverseHorizontalSwipes = reverseHorizontalSwipes,
+                activationKey = activationKey,
+                overlay = GesturedeckOverlayConfiguration(
+                    context = activity,
+                    activity = activity,
+                    bitmapCallback = { renderer.bitmap },
+                ),
+                onGestureEvent = { event ->
+                    Log.e("Test", "GestureEvent: $event")
+                    handleGestureEvent(event)
                 }
+            )
+            gesturedeckMedia?.initialize()
+        } else {
+            gesturedeck = Gesturedeck(
+                context = activity,
+                autoStart = false,
+                activationKey = activationKey,
+                onGestureEvent = { event ->
+                    handleGestureEvent(event)
+                }
+            )
+            gesturedeck?.initialize()
+        }
+    }
+
+    private fun handleGestureEvent(event: GestureEvent) {
+        when (event) {
+            GestureEvent.SWIPE_RIGHT -> {
+                touchEventSink?.success("swipedRight")
             }
-        )
+
+            GestureEvent.SWIPE_LEFT -> {
+                touchEventSink?.success("swipedLeft")
+            }
+
+            GestureEvent.TWO_FINGER_TAP -> {
+                touchEventSink?.success("tap")
+            }
+
+            GestureEvent.DOUBLE_TAP_LIFT -> {
+                touchEventSink?.success("tap")
+            }
+
+            GestureEvent.SINGLE_TAP -> {
+
+            }
+
+            else -> {}
+        }
     }
 
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
-        gesturedeck?.onTouchEvents(event)
+        gesturedeckMedia?.onTouchEvents(event)
     }
 
     fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        return gesturedeck?.onKeyEvents(event) ?: false
+        return gesturedeckMedia?.onKeyEvents(event) ?: false
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -98,27 +134,42 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                 val activationKey: String? = args["activationKey"] as String?
                 val reverseHorizontalSwipes: Boolean =
                     args["reverseHorizontalSwipes"] as Boolean
+                val enableGesturedeckMedia: Boolean =
+                    args["enableGesturedeckMedia"] as Boolean
                 if (activity != null) {
-                    initGesturedeck(activity, activationKey, reverseHorizontalSwipes)
+                    initGesturedeck(
+                        activity,
+                        activationKey,
+                        reverseHorizontalSwipes,
+                        enableGesturedeckMedia
+                    )
                     result.success(null)
                 } else {
                     result.error("ActivityError", "Null activity", null)
                 }
             }
-
+            // Only supported in GesturedeckMedia
             "reverseHorizontalSwipes" -> {
                 val args = call.arguments as Map<*, *>
-                gesturedeck?.reverseHorizontalSwipes = args["value"] as Boolean
+                gesturedeckMedia?.reverseHorizontalSwipes = args["value"] as Boolean
                 result.success(null)
             }
 
             "start" -> {
                 gesturedeck?.start()
+                gesturedeckMedia?.start()
                 result.success(null)
             }
 
             "stop" -> {
                 gesturedeck?.stop()
+                gesturedeckMedia?.start()
+                result.success(null)
+            }
+
+            "dispose" -> {
+                gesturedeck?.dispose()
+                gesturedeckMedia?.dispose()
                 result.success(null)
             }
 
