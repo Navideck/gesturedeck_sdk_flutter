@@ -27,6 +27,7 @@ class Gesturedeck {
 
   static Future<void> dispose() => _methodChannel.invokeMethod('dispose');
 
+  /// [reverseHorizontalSwipes] will reverse the icons on overlay, this will work only if [enableGesturedeckMedia] is true
   static Future<void> reverseHorizontalSwipes(bool value) async {
     _ensureInitialized();
     await _methodChannel

@@ -53,7 +53,6 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         if (enableGesturedeckMedia) {
             gesturedeckMedia = GesturedeckMedia(
                 context = activity,
-                autoStart = false,
                 universalVolume = universalVolume,
                 reverseHorizontalSwipes = reverseHorizontalSwipes,
                 activationKey = activationKey,
@@ -63,21 +62,17 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     bitmapCallback = { renderer.bitmap },
                 ),
                 onGestureEvent = { event ->
-                    Log.e("Test", "GestureEvent: $event")
                     handleGestureEvent(event)
                 }
             )
-            gesturedeckMedia?.initialize()
         } else {
             gesturedeck = Gesturedeck(
                 context = activity,
-                autoStart = false,
                 activationKey = activationKey,
                 onGestureEvent = { event ->
                     handleGestureEvent(event)
                 }
             )
-            gesturedeck?.initialize()
         }
     }
 
