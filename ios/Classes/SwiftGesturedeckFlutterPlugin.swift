@@ -61,6 +61,8 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                     reverseHorizontalSwipes: reverseHorizontalSwipes
                 )
             )
+            gesturedeck?.dispose()
+            gesturedeck = nil
         }else{
             gesturedeck = Gesturedeck(
                 tapAction: sendTapEvent,
@@ -69,6 +71,8 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                 autoStart: false,
                 activationKey: activationKey
             )
+            gesturedeckMedia?.dispose()
+            gesturedeckMedia = nil
         }
     }
     

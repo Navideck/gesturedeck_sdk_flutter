@@ -21,20 +21,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool reverseHorizontalSwipes = false;
-  bool enableGesturedeckMedia = true;
-
-  void initializeGesturdeck() async {
-    // await Gesturedeck.dispose();
-    await Gesturedeck.initialize(
-      activationKey: "",
-      reverseHorizontalSwipes: reverseHorizontalSwipes,
-      enableGesturedeckMedia: enableGesturedeckMedia,
-    );
-  }
 
   @override
   void initState() {
-    initializeGesturdeck();
+    Gesturedeck.initialize(
+      activationKey: "",
+      reverseHorizontalSwipes: reverseHorizontalSwipes,
+      enableGesturedeckMedia: true,
+    );
     super.initState();
   }
 
@@ -66,21 +60,6 @@ class _MyAppState extends State<MyApp> {
                 onPressed: () => Gesturedeck.stop(),
                 child: const Text("stop"),
               ),
-            ],
-          ),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      enableGesturedeckMedia = !enableGesturedeckMedia;
-                      initializeGesturdeck();
-                    });
-                  },
-                  child: Text(
-                      "${enableGesturedeckMedia ? "Disable" : "Enable"} Gesturedeck Media"))
             ],
           ),
           const Divider(),

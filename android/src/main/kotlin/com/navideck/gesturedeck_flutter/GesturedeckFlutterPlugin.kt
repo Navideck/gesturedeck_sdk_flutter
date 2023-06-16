@@ -65,6 +65,8 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     handleGestureEvent(event)
                 }
             )
+            gesturedeck?.dispose()
+            gesturedeck = null
         } else {
             gesturedeck = Gesturedeck(
                 context = activity,
@@ -73,6 +75,8 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     handleGestureEvent(event)
                 }
             )
+            gesturedeckMedia?.dispose()
+            gesturedeckMedia = null
         }
     }
 
