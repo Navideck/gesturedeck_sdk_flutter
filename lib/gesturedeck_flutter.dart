@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 
+import 'overlay_config.dart';
+
 enum GestureType { tap, swipedLeft, swipedRight }
 
 class Gesturedeck {
@@ -15,14 +17,14 @@ class Gesturedeck {
     String? activationKey,
     bool reverseHorizontalSwipes = false,
     bool enableGesturedeckMedia = false,
-    Color? tintColor,
+    OverlayConfig? overlayConfig,
   }) async {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
       "reverseHorizontalSwipes": reverseHorizontalSwipes,
       "enableGesturedeckMedia": enableGesturedeckMedia,
-      "tintColor": tintColor?.value.toRadixString(16),
+      "overlayConfig": overlayConfig?.toJson() ?? {},
     });
     _isInitialized = true;
   }

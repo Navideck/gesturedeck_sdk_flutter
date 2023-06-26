@@ -1,9 +1,11 @@
 package com.navideck.gesturedeck_flutter
 
 import android.app.Activity
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.WindowManager
@@ -11,7 +13,6 @@ import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_android.GesturedeckMedia
 import com.navideck.gesturedeck_android.configurations.GesturedeckOverlayConfiguration
 import com.navideck.gesturedeck_android.model.GestureEvent
-import com.navideck.gesturedeck_android.model.GesturedeckEvent
 import com.navideck.universal_volume.UniversalVolume
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -20,6 +21,7 @@ import io.flutter.embedding.engine.renderer.FlutterRenderer
 import io.flutter.plugin.common.*
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
+
 
 /** GesturedeckFlutterPlugin */
 class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, MethodCallHandler,
@@ -45,14 +47,19 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         this.universalVolume = universalVolume
     }
 
+
     private fun initGesturedeck(
         activity: Activity,
         activationKey: String?,
         reverseHorizontalSwipes: Boolean,
         enableGesturedeckMedia: Boolean,
-        tintColor: Int?,
+        overlayConfig: Map<*, *>,
     ) {
         if (enableGesturedeckMedia) {
+            var tintColor: Int? = null
+            overlayConfig["tintColor"]?.let {
+                tintColor = Color.parseColor("#$it")
+            }
             gesturedeckMedia = GesturedeckMedia(
                 context = activity,
                 universalVolume = universalVolume,
@@ -62,6 +69,11 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     context = activity,
                     activity = activity,
                     tintColor = tintColor,
+                    iconTapDrawable = argsToDrawable(overlayConfig["iconTap"]),
+                    iconTapToggledDrawable = argsToDrawable(overlayConfig["iconTapToggled"]),
+                    iconSwipeLeftDrawable = argsToDrawable(overlayConfig["iconSwipeLeft"]),
+                    iconSwipeRightDrawable = argsToDrawable(overlayConfig["iconSwipeRight"]),
+                    topIconDrawable = argsToDrawable(overlayConfig["topIcon"]),
                     bitmapCallback = { renderer.bitmap },
                 ),
                 onGestureEvent = { event ->
@@ -109,6 +121,14 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         }
     }
 
+    private fun argsToDrawable(args: Any?): Drawable? {
+        if (args == null || args !is ByteArray) return null
+        return BitmapDrawable(
+            activityBinding?.activity?.resources,
+            BitmapFactory.decodeByteArray(args, 0, args.size)
+        )
+    }
+
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
         gesturedeckMedia?.onTouchEvents(event)
     }
@@ -138,17 +158,14 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     args["reverseHorizontalSwipes"] as Boolean
                 val enableGesturedeckMedia: Boolean =
                     args["enableGesturedeckMedia"] as Boolean
-                var tintColor: Int? = null
-                args["tintColor"]?.let {
-                    tintColor = Color.parseColor("#$it")
-                }
+                val overlayConfig = args["overlayConfig"] as Map<*, *>?
                 if (activity != null) {
                     initGesturedeck(
                         activity,
                         activationKey,
                         reverseHorizontalSwipes,
                         enableGesturedeckMedia,
-                        tintColor,
+                        overlayConfig ?: mapOf<String, Any>()
                     )
                     result.success(null)
                 } else {
@@ -185,6 +202,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             }
         }
     }
+
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
