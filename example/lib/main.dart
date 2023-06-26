@@ -28,6 +28,7 @@ class _MyAppState extends State<MyApp> {
       activationKey: "",
       reverseHorizontalSwipes: reverseHorizontalSwipes,
       enableGesturedeckMedia: true,
+      tintColor: Colors.green,
     );
     super.initState();
   }

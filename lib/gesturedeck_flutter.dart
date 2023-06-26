@@ -15,12 +15,14 @@ class Gesturedeck {
     String? activationKey,
     bool reverseHorizontalSwipes = false,
     bool enableGesturedeckMedia = false,
+    Color? tintColor,
   }) async {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
       "reverseHorizontalSwipes": reverseHorizontalSwipes,
       "enableGesturedeckMedia": enableGesturedeckMedia,
+      "tintColor": tintColor?.value.toRadixString(16),
     });
     _isInitialized = true;
   }

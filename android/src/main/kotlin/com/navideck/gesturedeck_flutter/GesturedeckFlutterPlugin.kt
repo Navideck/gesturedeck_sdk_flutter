@@ -1,6 +1,7 @@
 package com.navideck.gesturedeck_flutter
 
 import android.app.Activity
+import android.graphics.Color
 import android.os.Build
 import android.util.Log
 import android.view.KeyEvent
@@ -49,6 +50,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
         activationKey: String?,
         reverseHorizontalSwipes: Boolean,
         enableGesturedeckMedia: Boolean,
+        tintColor: Int?,
     ) {
         if (enableGesturedeckMedia) {
             gesturedeckMedia = GesturedeckMedia(
@@ -59,6 +61,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                 overlay = GesturedeckOverlayConfiguration(
                     context = activity,
                     activity = activity,
+                    tintColor = tintColor,
                     bitmapCallback = { renderer.bitmap },
                 ),
                 onGestureEvent = { event ->
@@ -135,12 +138,17 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     args["reverseHorizontalSwipes"] as Boolean
                 val enableGesturedeckMedia: Boolean =
                     args["enableGesturedeckMedia"] as Boolean
+                var tintColor: Int? = null
+                args["tintColor"]?.let {
+                    tintColor = Color.parseColor("#$it")
+                }
                 if (activity != null) {
                     initGesturedeck(
                         activity,
                         activationKey,
                         reverseHorizontalSwipes,
-                        enableGesturedeckMedia
+                        enableGesturedeckMedia,
+                        tintColor,
                     )
                     result.success(null)
                 } else {
