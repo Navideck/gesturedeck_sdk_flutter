@@ -32,13 +32,13 @@ class _MyAppState extends State<MyApp> {
       reverseHorizontalSwipes: reverseHorizontalSwipes,
       enableGesturedeckMedia: true,
       overlayConfig: OverlayConfig(
-        tintColor: Colors.green,
-        topIcon: testiconBytes,
-        iconSwipeLeft: testiconBytes,
-        iconSwipeRight: testiconBytes,
-        iconTap: testiconBytes,
-        iconTapToggled: testiconBytes,
-      ),
+          // tintColor: Colors.green,
+          // topIcon: testiconBytes,
+          // iconSwipeLeft: testiconBytes,
+          // iconSwipeRight: testiconBytes,
+          // iconTap: testiconBytes,
+          // iconTapToggled: testiconBytes,
+          ),
     );
   }
 
