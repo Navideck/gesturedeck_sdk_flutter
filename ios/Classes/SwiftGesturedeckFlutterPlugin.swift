@@ -6,7 +6,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
     var gesturedeck: Gesturedeck?
     var gesturedeckMedia: GesturedeckMedia?
     private var touchEventsSink: FlutterEventSink?
-    
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "com.navideck.gesturedeck.method", binaryMessenger: registrar.messenger())
         let instance = SwiftGesturedeckFlutterPlugin()
@@ -14,7 +14,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         let eventChannel = FlutterEventChannel(name: "com.navideck.gesturedeck", binaryMessenger: registrar.messenger())
         eventChannel.setStreamHandler(instance)
     }
-    
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         switch call.method {
         case "initialize":
@@ -22,16 +22,12 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             let activationKey: String? = args?["activationKey"] as? String
             let reverseHorizontalSwipes: Bool? = args?["reverseHorizontalSwipes"] as? Bool
             let enableGesturedeckMedia: Bool? = args?["enableGesturedeckMedia"] as? Bool
-            let tintColorValue: String? = args?["tintColor"] as? String
-            var tintColor : UIColor?  = nil
-            if(tintColorValue != nil){
-                tintColor = UIColor.init(hexString: tintColorValue!)
-            }
+            let overlayConfig: [String: Any]? = args?["overlayConfig"] as? [String: Any]
             initGesturedeck(
                 activationKey: activationKey,
                 reverseHorizontalSwipes: reverseHorizontalSwipes ?? false,
                 enableGesturedeckMedia: enableGesturedeckMedia ?? false,
-                tintColor: tintColor
+                overlayConfig: overlayConfig
             )
             result(nil)
         case "reverseHorizontalSwipes":
@@ -54,28 +50,63 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             result(FlutterMethodNotImplemented)
         }
     }
-    
+
     private func initGesturedeck(
         activationKey: String?,
         reverseHorizontalSwipes: Bool,
         enableGesturedeckMedia: Bool,
-        tintColor: UIColor?
+        overlayConfig: [String: Any]?
     ) {
-        if(enableGesturedeckMedia){
+        if enableGesturedeckMedia {
+            let tintColorValue: String? = overlayConfig?["tintColor"] as? String
+            var tintColor: UIColor? = nil
+            if tintColorValue != nil {
+                tintColor = UIColor(hexString: tintColorValue!)
+            }
+            var topIcon: UIImage? = nil
+            var iconSwipeLeft: UIImage? = nil
+            var iconSwipeRight: UIImage? = nil
+            var iconTap: UIImage? = nil
+            var iconTapToggled: UIImage? = nil
+            if let overlayConfig = overlayConfig {
+                for (key, value) in overlayConfig {
+                    if let typedData = value as? FlutterStandardTypedData {
+                        switch key {
+                        case "topIcon":
+                            topIcon = UIImage(data: typedData.data)
+                        case "iconSwipeLeft":
+                            iconSwipeLeft = UIImage(data: typedData.data)
+                        case "iconSwipeRight":
+                            iconSwipeRight = UIImage(data: typedData.data)
+                        case "iconTap":
+                            iconTap = UIImage(data: typedData.data)
+                        case "iconTapToggled":
+                            iconTapToggled = UIImage(data: typedData.data)
+                        default:
+                            break
+                        }
+                    }
+                }
+            }
             gesturedeckMedia = GesturedeckMedia(
                 tapAction: sendTapEvent,
                 swipeLeftAction: sendSwipeLeftEvent,
                 swipeRightAction: sendSwipeRightEvent,
                 autoStart: false,
                 activationKey: activationKey,
-                overlayConfig:  OverlayConfig(
+                overlayConfig: OverlayConfig(
                     tintColor: tintColor?.cgColor,
+                    topIcon: topIcon,
+                    iconTap: iconTap,
+                    iconTapToggled: iconTapToggled,
+                    iconSwipeLeft: iconSwipeLeft,
+                    iconSwipeRight: iconSwipeRight,
                     reverseHorizontalSwipes: reverseHorizontalSwipes
                 )
             )
             gesturedeck?.dispose()
             gesturedeck = nil
-        }else{
+        } else {
             gesturedeck = Gesturedeck(
                 tapAction: sendTapEvent,
                 swipeLeftAction: sendSwipeLeftEvent,
@@ -87,16 +118,16 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             gesturedeckMedia = nil
         }
     }
-    
-   private func hexStringToUIColor(hex:String) -> UIColor {
-        var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if (cString.hasPrefix("#")) {
+
+    private func hexStringToUIColor(hex: String) -> UIColor {
+        var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        if cString.hasPrefix("#") {
             cString.remove(at: cString.startIndex)
         }
-        if ((cString.count) != 6) {
+        if (cString.count) != 6 {
             return UIColor.gray
         }
-        var rgbValue:UInt64 = 0
+        var rgbValue: UInt64 = 0
         Scanner(string: cString).scanHexInt64(&rgbValue)
         return UIColor(
             red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
@@ -105,7 +136,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             alpha: CGFloat(1.0)
         )
     }
-    
+
     public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         guard let args = arguments as? [String: Any], let name = args["name"] as? String else {
             return nil
@@ -115,7 +146,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         }
         return nil
     }
-    
+
     public func onCancel(withArguments arguments: Any?) -> FlutterError? {
         guard let args = arguments as? [String: Any], let name = args["name"] as? String else {
             return nil
@@ -125,19 +156,18 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         }
         return nil
     }
-    
-    private func sendTapEvent(){
-        self.touchEventsSink?("tap")
+
+    private func sendTapEvent() {
+        touchEventsSink?("tap")
     }
-    
-    private func sendSwipeLeftEvent(){
-        self.touchEventsSink?("swipedLeft")
+
+    private func sendSwipeLeftEvent() {
+        touchEventsSink?("swipedLeft")
     }
-    
-    private func sendSwipeRightEvent(){
-        self.touchEventsSink?("swipedRight")
+
+    private func sendSwipeRightEvent() {
+        touchEventsSink?("swipedRight")
     }
-    
 }
 
 extension UIColor {

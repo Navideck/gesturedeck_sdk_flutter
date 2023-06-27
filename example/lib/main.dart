@@ -33,11 +33,11 @@ class _MyAppState extends State<MyApp> {
       enableGesturedeckMedia: true,
       overlayConfig: OverlayConfig(
         tintColor: Colors.green,
-        // topIcon: testiconBytes,
-        // iconSwipeLeft: testiconBytes,
-        // iconSwipeRight: testiconBytes,
-        // iconTap: testiconBytes,
-        // iconTapToggled: testiconBytes,
+        topIcon: testiconBytes,
+        iconSwipeLeft: testiconBytes,
+        iconSwipeRight: testiconBytes,
+        iconTap: testiconBytes,
+        iconTapToggled: testiconBytes,
       ),
     );
   }
