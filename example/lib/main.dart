@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gesturedeck_flutter/gesturedeck_flutter.dart';
 import 'package:gesturedeck_flutter/overlay_config.dart';
 
@@ -25,8 +24,8 @@ class _MyAppState extends State<MyApp> {
   bool reverseHorizontalSwipes = false;
 
   void initializeGesturedeck() async {
-    var testicon = await rootBundle.load("assets/test_icon.png");
-    Uint8List testiconBytes = testicon.buffer.asUint8List();
+    // var testicon = await rootBundle.load("assets/test_icon.png");
+    // Uint8List testiconBytes = testicon.buffer.asUint8List();
     Gesturedeck.initialize(
       activationKey: "",
       reverseHorizontalSwipes: reverseHorizontalSwipes,
