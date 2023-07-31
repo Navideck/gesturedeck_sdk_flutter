@@ -1,28 +1,22 @@
 PODS:
   - Flutter (1.0.0)
-  - Gesturedeck (0.0.1)
   - gesturedeck_flutter (0.0.1):
     - Flutter
-    - Gesturedeck
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
-  - Gesturedeck (from `../../../gesturedeck_sdk_ios`)
   - gesturedeck_flutter (from `.symlinks/plugins/gesturedeck_flutter/ios`)
 
 EXTERNAL SOURCES:
   Flutter:
     :path: Flutter
-  Gesturedeck:
-    :path: "../../../gesturedeck_sdk_ios"
   gesturedeck_flutter:
     :path: ".symlinks/plugins/gesturedeck_flutter/ios"
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  Gesturedeck: 81d91c627d0a99796d14c3833d7cd0d53185d53d
-  gesturedeck_flutter: efa810f606394347c968ca9b7c7cdc88adedc623
+  gesturedeck_flutter: 67194511c154bf214ae5d4236aa734435206faad
 
-PODFILE CHECKSUM: f00d588de75ce675e445e7e47971518da06f35a5
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
-COCOAPODS: 1.12.0
+COCOAPODS: 1.12.1
