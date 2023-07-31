@@ -173,8 +173,9 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             }
 
             "stop" -> {
+                Log.e("Test", "Stop called: ${gesturedeck == null} ${gesturedeckMedia == null}")
                 gesturedeck?.stop()
-                gesturedeckMedia?.start()
+                gesturedeckMedia?.stop()
                 result.success(null)
             }
 
