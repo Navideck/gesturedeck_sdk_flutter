@@ -1,12 +1,12 @@
 import Flutter
-import Gesturedeck
+import GesturedeckiOS
 import UIKit
 
 public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
     var gesturedeck: Gesturedeck?
     private var touchEventsSink: FlutterEventSink?
 
-    private func initGesturedeck(activationKey: String?, reverseHorizontalSwipes: Bool) {
+    private func initGesturedeck(activationKey: String?) {
         gesturedeck = Gesturedeck(tapAction: {
             self.touchEventsSink?("tap")
         }, swipeLeftAction: {
@@ -14,9 +14,8 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         }, swipeRightAction: {
             self.touchEventsSink?("swipedRight")
         },
-        autoStart: false,
         activationKey: activationKey,
-        reverseHorizontalSwipes: reverseHorizontalSwipes)
+        autoStart: false)
     }
 
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -33,12 +32,11 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             let args = call.arguments as? [String: Any]
             let activationKey: String? = args?["activationKey"] as? String
             let reverseHorizontalSwipes: Bool? = args?["reverseHorizontalSwipes"] as? Bool
-            initGesturedeck(activationKey: activationKey, reverseHorizontalSwipes: reverseHorizontalSwipes ?? false)
+            initGesturedeck(activationKey: activationKey)
             result(nil)
         case "reverseHorizontalSwipes":
             let args = call.arguments as? [String: Any]
             let value: Bool? = args?["value"] as? Bool
-            gesturedeck?.reverseHorizontalSwipes = value ?? false
             result(nil)
         case "start":
             gesturedeck?.start()
