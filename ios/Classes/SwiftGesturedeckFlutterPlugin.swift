@@ -21,10 +21,12 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             let args = call.arguments as? [String: Any]
             let activationKey: String? = args?["activationKey"] as? String
             let reverseHorizontalSwipes: Bool? = args?["reverseHorizontalSwipes"] as? Bool
+            let autoStart: Bool? = args?["autoStart"] as? Bool
             let enableGesturedeckMedia: Bool? = args?["enableGesturedeckMedia"] as? Bool
             let overlayConfig: [String: Any]? = args?["overlayConfig"] as? [String: Any]
             initGesturedeck(
                 activationKey: activationKey,
+                autoStart: autoStart,
                 reverseHorizontalSwipes: reverseHorizontalSwipes ?? false,
                 enableGesturedeckMedia: enableGesturedeckMedia ?? false,
                 overlayConfig: overlayConfig
@@ -33,7 +35,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         case "reverseHorizontalSwipes":
             let args = call.arguments as? [String: Any]
             let value: Bool? = args?["value"] as? Bool
-            gesturedeckMedia?.reverseHorizontalSwipes = value ?? false
+            gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value ?? false
             result(nil)
         case "start":
             gesturedeckMedia?.start()
@@ -44,8 +46,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
             gesturedeck?.stop()
             result(nil)
         case "dispose":
-            gesturedeckMedia?.dispose()
-            gesturedeck?.dispose()
+            result(nil)
         default:
             result(FlutterMethodNotImplemented)
         }
@@ -53,6 +54,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
 
     private func initGesturedeck(
         activationKey: String?,
+        autoStart: Bool?,
         reverseHorizontalSwipes: Bool,
         enableGesturedeckMedia: Bool,
         overlayConfig: [String: Any]?
@@ -92,10 +94,10 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                 tapAction: sendTapEvent,
                 swipeLeftAction: sendSwipeLeftEvent,
                 swipeRightAction: sendSwipeRightEvent,
-                autoStart: false,
                 activationKey: activationKey,
-                overlayConfig: OverlayConfig(
-                    tintColor: tintColor?.cgColor,
+                autoStart: autoStart ?? false,
+                gesturedeckMediaOverlay: GesturedeckMediaOverlay(
+                    tintColor: tintColor,
                     topIcon: topIcon,
                     iconTap: iconTap,
                     iconTapToggled: iconTapToggled,
@@ -104,17 +106,15 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                     reverseHorizontalSwipes: reverseHorizontalSwipes
                 )
             )
-            gesturedeck?.dispose()
             gesturedeck = nil
         } else {
             gesturedeck = Gesturedeck(
                 tapAction: sendTapEvent,
                 swipeLeftAction: sendSwipeLeftEvent,
                 swipeRightAction: sendSwipeRightEvent,
-                autoStart: false,
-                activationKey: activationKey
+                activationKey: activationKey,
+                autoStart: autoStart ?? false
             )
-            gesturedeckMedia?.dispose()
             gesturedeckMedia = nil
         }
     }
