@@ -20,22 +20,22 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
         case "initialize":
             let args = call.arguments as? [String: Any]
             let activationKey: String? = args?["activationKey"] as? String
-            let reverseHorizontalSwipes: Bool? = args?["reverseHorizontalSwipes"] as? Bool
-            let autoStart: Bool? = args?["autoStart"] as? Bool
-            let enableGesturedeckMedia: Bool? = args?["enableGesturedeckMedia"] as? Bool
+            let autoStart: Bool = args?["autoStart"] as? Bool ?? true
+            let reverseHorizontalSwipes: Bool = args?["reverseHorizontalSwipes"] as? Bool ?? false
+            let enableGesturedeckMedia: Bool = args?["enableGesturedeckMedia"] as? Bool ?? false
             let overlayConfig: [String: Any]? = args?["overlayConfig"] as? [String: Any]
             initGesturedeck(
                 activationKey: activationKey,
                 autoStart: autoStart,
-                reverseHorizontalSwipes: reverseHorizontalSwipes ?? false,
-                enableGesturedeckMedia: enableGesturedeckMedia ?? false,
+                reverseHorizontalSwipes: reverseHorizontalSwipes,
+                enableGesturedeckMedia: enableGesturedeckMedia,
                 overlayConfig: overlayConfig
             )
             result(nil)
         case "reverseHorizontalSwipes":
             let args = call.arguments as? [String: Any]
-            let value: Bool? = args?["value"] as? Bool
-            gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value ?? false
+            let value: Bool = args?["value"] as? Bool ?? false
+            gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value
             result(nil)
         case "start":
             gesturedeckMedia?.start()
@@ -54,7 +54,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
 
     private func initGesturedeck(
         activationKey: String?,
-        autoStart: Bool?,
+        autoStart: Bool,
         reverseHorizontalSwipes: Bool,
         enableGesturedeckMedia: Bool,
         overlayConfig: [String: Any]?
@@ -95,7 +95,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                 swipeLeftAction: sendSwipeLeftEvent,
                 swipeRightAction: sendSwipeRightEvent,
                 activationKey: activationKey,
-                autoStart: autoStart ?? false,
+                autoStart: autoStart,
                 gesturedeckMediaOverlay: GesturedeckMediaOverlay(
                     tintColor: tintColor,
                     topIcon: topIcon,
@@ -113,7 +113,7 @@ public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStre
                 swipeLeftAction: sendSwipeLeftEvent,
                 swipeRightAction: sendSwipeRightEvent,
                 activationKey: activationKey,
-                autoStart: autoStart ?? false
+                autoStart: autoStart
             )
             gesturedeckMedia = nil
         }

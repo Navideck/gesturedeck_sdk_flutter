@@ -15,7 +15,7 @@ class Gesturedeck {
   /// call [initialize] once with activation key
   static Future<void> initialize({
     String? activationKey,
-    bool autoStart = false,
+    bool autoStart = true,
     bool reverseHorizontalSwipes = false,
     bool enableGesturedeckMedia = false,
     OverlayConfig? overlayConfig,

@@ -143,13 +143,10 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             "initialize" -> {
                 val args = call.arguments as Map<*, *>
                 val activationKey: String? = args["activationKey"] as String?
-                val reverseHorizontalSwipes: Boolean =
-                    args["reverseHorizontalSwipes"] as Boolean
-                val enableGesturedeckMedia: Boolean =
-                    args["enableGesturedeckMedia"] as Boolean
-                val autoStart: Boolean =
-                    args["autoStart"] as Boolean
-                val overlayConfig = args["overlayConfig"] as Map<*, *>?
+                val reverseHorizontalSwipes = args["reverseHorizontalSwipes"] as Boolean
+                val enableGesturedeckMedia = args["enableGesturedeckMedia"] as Boolean
+                val autoStart = args["autoStart"] as Boolean
+                val overlayConfig = args["overlayConfig"] as Map<*, *>? ?: mapOf<String, Any>()
                 if (activity != null) {
                     initGesturedeck(
                         activity = activity,
@@ -157,7 +154,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                         autoStart = autoStart,
                         reverseHorizontalSwipes = reverseHorizontalSwipes,
                         enableGesturedeckMedia = enableGesturedeckMedia,
-                        overlayConfig = overlayConfig ?: mapOf<String, Any>()
+                        overlayConfig = overlayConfig
                     )
                     result.success(null)
                 } else {
