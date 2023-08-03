@@ -15,6 +15,7 @@ class Gesturedeck {
   /// call [initialize] once with activation key
   static Future<void> initialize({
     String? activationKey,
+    bool autoStart = false,
     bool reverseHorizontalSwipes = false,
     bool enableGesturedeckMedia = false,
     OverlayConfig? overlayConfig,
@@ -22,6 +23,7 @@ class Gesturedeck {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
+      "autoStart": autoStart,
       "reverseHorizontalSwipes": reverseHorizontalSwipes,
       "enableGesturedeckMedia": enableGesturedeckMedia,
       "overlayConfig": overlayConfig?.toJson() ?? {},

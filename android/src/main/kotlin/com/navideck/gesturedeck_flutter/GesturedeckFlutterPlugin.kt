@@ -51,6 +51,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
     private fun initGesturedeck(
         activity: Activity,
         activationKey: String?,
+        autoStart: Boolean,
         reverseHorizontalSwipes: Boolean,
         enableGesturedeckMedia: Boolean,
         overlayConfig: Map<*, *>,
@@ -64,6 +65,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                 context = activity,
                 reverseHorizontalSwipes = reverseHorizontalSwipes,
                 activationKey = activationKey,
+                autoStart = autoStart,
                 gesturedeckMediaOverlay = GesturedeckMediaOverlay(
                     activity = activity,
                     tintColor = tintColor,
@@ -87,11 +89,11 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             universalVolume?.let {
                 gesturedeckMedia?.setUniversalVolumeInstance(it)
             }
-            gesturedeck?.dispose()
             gesturedeck = null
         } else {
             gesturedeck = Gesturedeck(
                 context = activity,
+                autoStart = autoStart,
                 activationKey = activationKey,
                 tapAction = {
                     touchEventSink?.success(GestureAction.TAP.value)
@@ -145,14 +147,17 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
                     args["reverseHorizontalSwipes"] as Boolean
                 val enableGesturedeckMedia: Boolean =
                     args["enableGesturedeckMedia"] as Boolean
+                val autoStart: Boolean =
+                    args["autoStart"] as Boolean
                 val overlayConfig = args["overlayConfig"] as Map<*, *>?
                 if (activity != null) {
                     initGesturedeck(
-                        activity,
-                        activationKey,
-                        reverseHorizontalSwipes,
-                        enableGesturedeckMedia,
-                        overlayConfig ?: mapOf<String, Any>()
+                        activity = activity,
+                        activationKey = activationKey,
+                        autoStart = autoStart,
+                        reverseHorizontalSwipes = reverseHorizontalSwipes,
+                        enableGesturedeckMedia = enableGesturedeckMedia,
+                        overlayConfig = overlayConfig ?: mapOf<String, Any>()
                     )
                     result.success(null)
                 } else {
@@ -179,7 +184,6 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
             }
 
             "dispose" -> {
-                gesturedeck?.dispose()
                 gesturedeckMedia?.dispose()
                 result.success(null)
             }

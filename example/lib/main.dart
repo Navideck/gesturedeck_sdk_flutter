@@ -24,19 +24,20 @@ class _MyAppState extends State<MyApp> {
   bool reverseHorizontalSwipes = false;
 
   void initializeGesturedeck() async {
-    // var testicon = await rootBundle.load("assets/test_icon.png");
-    // Uint8List testiconBytes = testicon.buffer.asUint8List();
+    // var testIcon = await rootBundle.load("assets/test_icon.png");
+    // Uint8List testIconBytes = testIcon.buffer.asUint8List();
     Gesturedeck.initialize(
       activationKey: "",
+      autoStart: false,
       reverseHorizontalSwipes: reverseHorizontalSwipes,
       enableGesturedeckMedia: true,
       overlayConfig: OverlayConfig(
           // tintColor: Colors.green,
-          // topIcon: testiconBytes,
-          // iconSwipeLeft: testiconBytes,
-          // iconSwipeRight: testiconBytes,
-          // iconTap: testiconBytes,
-          // iconTapToggled: testiconBytes,
+          // topIcon: testIconBytes,
+          // iconSwipeLeft: testIconBytes,
+          // iconSwipeRight: testIconBytes,
+          // iconTap: testIconBytes,
+          // iconTapToggled: testIconBytes,
           ),
     );
   }
