@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:gesturedeck_flutter/gesturedeck_flutter.dart';
+import 'package:gesturedeck_flutter/overlay_config.dart';
 
 void main() {
   runApp(
@@ -22,12 +23,28 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool reverseHorizontalSwipes = false;
 
-  @override
-  void initState() {
+  void initializeGesturedeck() async {
+    // var testIcon = await rootBundle.load("assets/test_icon.png");
+    // Uint8List testIconBytes = testIcon.buffer.asUint8List();
     Gesturedeck.initialize(
       activationKey: "",
+      autoStart: false,
       reverseHorizontalSwipes: reverseHorizontalSwipes,
+      enableGesturedeckMedia: true,
+      overlayConfig: OverlayConfig(
+          // tintColor: Colors.green,
+          // topIcon: testIconBytes,
+          // iconSwipeLeft: testIconBytes,
+          // iconSwipeRight: testIconBytes,
+          // iconTap: testIconBytes,
+          // iconTapToggled: testIconBytes,
+          ),
     );
+  }
+
+  @override
+  void initState() {
+    initializeGesturedeck();
     super.initState();
   }
 
@@ -56,8 +73,9 @@ class _MyAppState extends State<MyApp> {
                   },
                   child: const Text("Reverse")),
               ElevatedButton(
-                  onPressed: () => Gesturedeck.stop(),
-                  child: const Text("stop"))
+                onPressed: () => Gesturedeck.stop(),
+                child: const Text("stop"),
+              ),
             ],
           ),
           const Divider(),

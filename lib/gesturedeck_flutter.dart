@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 
+import 'overlay_config.dart';
+
 enum GestureType { tap, swipedLeft, swipedRight }
 
 class Gesturedeck {
@@ -13,16 +15,25 @@ class Gesturedeck {
   /// call [initialize] once with activation key
   static Future<void> initialize({
     String? activationKey,
+    bool autoStart = true,
     bool reverseHorizontalSwipes = false,
+    bool enableGesturedeckMedia = false,
+    OverlayConfig? overlayConfig,
   }) async {
     if (_isInitialized) throw "Gesturedeck already initialized";
     await _methodChannel.invokeMethod("initialize", {
       "activationKey": activationKey,
+      "autoStart": autoStart,
       "reverseHorizontalSwipes": reverseHorizontalSwipes,
+      "enableGesturedeckMedia": enableGesturedeckMedia,
+      "overlayConfig": overlayConfig?.toJson() ?? {},
     });
     _isInitialized = true;
   }
 
+  static Future<void> dispose() => _methodChannel.invokeMethod('dispose');
+
+  /// [reverseHorizontalSwipes] will reverse the icons on overlay, this will work only if [enableGesturedeckMedia] is true
   static Future<void> reverseHorizontalSwipes(bool value) async {
     _ensureInitialized();
     await _methodChannel

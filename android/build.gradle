@@ -2,7 +2,7 @@ group 'com.navideck.gesturedeck_flutter'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.6.10'
+    ext.kotlin_version = '1.8.22'
     repositories {
         google()
         mavenCentral()
@@ -14,10 +14,11 @@ buildscript {
     }
 }
 
-allprojects {
+rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 
@@ -46,6 +47,6 @@ android {
 }
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation project(path: ':gesturedeck-android')
-    implementation project(path: ':universal-volume')
+    implementation "com.github.Navideck:Gesturedeck-Android:1.1.1"
+    implementation 'com.github.Navideck:Universal-Volume:1.1.2'
 }
