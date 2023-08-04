@@ -120,6 +120,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, EventChannel.StreamHandler, Meth
 
     fun dispatchTouchEvent(event: MotionEvent, activity: Activity) {
         gesturedeckMedia?.onTouchEvent(event)
+        gesturedeck?.onTouchEvent(event)
     }
 
     fun dispatchKeyEvent(event: KeyEvent): Boolean {
