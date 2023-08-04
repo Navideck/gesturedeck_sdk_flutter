@@ -1,8 +1,8 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gesturedeck_flutter/gesturedeck_flutter.dart';
-import 'package:gesturedeck_flutter/overlay_config.dart';
 
 void main() {
   runApp(
@@ -21,30 +21,53 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool reverseHorizontalSwipes = false;
+  late GesturedeckMedia gesturedeckMedia;
 
-  void initializeGesturedeck() async {
-    // var testIcon = await rootBundle.load("assets/test_icon.png");
-    // Uint8List testIconBytes = testIcon.buffer.asUint8List();
-    Gesturedeck.initialize(
+  bool reverseHorizontalSwipes = false;
+  String gesturedeckMediaAction = "";
+  String gesturedeckAction = "";
+
+  void initializeGesturedeck() {
+    Gesturedeck(
       activationKey: "",
-      autoStart: false,
+      autoStart: true,
+      tapAction: () => setState(() => gesturedeckAction = "tap"),
+      swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
+      swipeRightAction: () => setState(() => gesturedeckAction = "swipeRight"),
+      panAction: () => setState(() => gesturedeckAction = "pan"),
+    );
+  }
+
+  void initializeGesturedeckMedia() async {
+    var testIcon = await rootBundle.load("assets/test_icon.png");
+    Uint8List testIconBytes = testIcon.buffer.asUint8List();
+    var gesturedeckMediaOverlay = GesturedeckMediaOverlay(
+      tintColor: Colors.green,
+      topIcon: testIconBytes,
+      iconSwipeLeft: testIconBytes,
+      iconSwipeRight: testIconBytes,
+      iconTap: testIconBytes,
+      iconTapToggled: testIconBytes,
+    );
+
+    gesturedeckMedia = GesturedeckMedia(
+      activationKey: "",
+      autoStart: true,
       reverseHorizontalSwipes: reverseHorizontalSwipes,
-      enableGesturedeckMedia: true,
-      overlayConfig: OverlayConfig(
-          // tintColor: Colors.green,
-          // topIcon: testIconBytes,
-          // iconSwipeLeft: testIconBytes,
-          // iconSwipeRight: testIconBytes,
-          // iconTap: testIconBytes,
-          // iconTapToggled: testIconBytes,
-          ),
+      tapAction: () => setState(() => gesturedeckMediaAction = "tap"),
+      swipeLeftAction: () =>
+          setState(() => gesturedeckMediaAction = "swipeLeft"),
+      swipeRightAction: () =>
+          setState(() => gesturedeckMediaAction = "swipeRight"),
+      panAction: () => setState(() => gesturedeckMediaAction = "pan"),
+      // gesturedeckMediaOverlay: gesturedeckMediaOverlay,
     );
   }
 
   @override
   void initState() {
-    initializeGesturedeck();
+    // initializeGesturedeck();
+    initializeGesturedeckMedia();
     super.initState();
   }
 
@@ -61,19 +84,19 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                  onPressed: () => Gesturedeck.start(),
+                  onPressed: () => gesturedeckMedia.start(),
                   child: const Text("start")),
               ElevatedButton(
                   onPressed: () async {
-                    await Gesturedeck.reverseHorizontalSwipes(
-                        !reverseHorizontalSwipes);
+                    await gesturedeckMedia
+                        .reverseHorizontalSwipes(!reverseHorizontalSwipes);
                     setState(() {
                       reverseHorizontalSwipes = !reverseHorizontalSwipes;
                     });
                   },
                   child: const Text("Reverse")),
               ElevatedButton(
-                onPressed: () => Gesturedeck.stop(),
+                onPressed: () => gesturedeckMedia.stop(),
                 child: const Text("stop"),
               ),
             ],
@@ -84,23 +107,27 @@ class _MyAppState extends State<MyApp> {
           const Divider(),
           Expanded(
             child: Container(
-              color: Colors.grey.shade400,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: StreamBuilder(
-                    stream: Gesturedeck.gesturesStream,
-                    initialData: null,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      GestureType? gestureType = snapshot.data;
-                      return gestureType == null
+                color: Colors.grey.shade400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: gesturedeckMediaAction.isEmpty
                           ? const Text('Swipe or Tap on Screen')
-                          : Text('Recognized Gesture : ${gestureType.name}');
-                    },
-                  ),
-                ),
-              ),
-            ),
+                          : Text(
+                              'Recognized GesturedeckMedia : $gesturedeckMediaAction'),
+                    ),
+                    const Divider(),
+                    gesturedeckAction.isEmpty
+                        ? const SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                                'Recognized Gesturedeck : $gesturedeckAction'),
+                          ),
+                  ],
+                )),
           ),
         ],
       ),

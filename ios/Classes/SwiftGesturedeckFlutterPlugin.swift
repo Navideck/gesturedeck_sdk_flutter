@@ -2,171 +2,117 @@ import Flutter
 import GesturedeckiOS
 import UIKit
 
-public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin, FlutterStreamHandler {
-    var gesturedeck: Gesturedeck?
-    var gesturedeckMedia: GesturedeckMedia?
-    private var touchEventsSink: FlutterEventSink?
-
+public class SwiftGesturedeckFlutterPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "com.navideck.gesturedeck.method", binaryMessenger: registrar.messenger())
-        let instance = SwiftGesturedeckFlutterPlugin()
-        registrar.addMethodCallDelegate(instance, channel: channel)
-        let eventChannel = FlutterEventChannel(name: "com.navideck.gesturedeck", binaryMessenger: registrar.messenger())
-        eventChannel.setStreamHandler(instance)
+        let messenger = registrar.messenger()
+        let gesturedeckCallback = GesturedeckCallback(binaryMessenger: messenger)
+        let gesturedeckMediaCallback = GesturedeckMediaCallback(binaryMessenger: messenger)
+        GesturedeckFlutterSetup.setUp(binaryMessenger: messenger, api: GesturedeckHandler(gesturedeckCallback: gesturedeckCallback))
+        GesturedeckMediaFlutterSetup.setUp(binaryMessenger: messenger, api: GesturedeckMediaHandler(gesturedeckCallback: gesturedeckMediaCallback))
+    }
+}
+
+/// Gesturedeck
+private class GesturedeckHandler: NSObject, GesturedeckFlutter {
+    var gesturedeck: Gesturedeck?
+    var gesturedeckCallback: GesturedeckCallback
+
+    init(gesturedeckCallback: GesturedeckCallback) {
+        self.gesturedeckCallback = gesturedeckCallback
     }
 
-    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        switch call.method {
-        case "initialize":
-            let args = call.arguments as? [String: Any]
-            let activationKey: String? = args?["activationKey"] as? String
-            let autoStart: Bool = args?["autoStart"] as? Bool ?? true
-            let reverseHorizontalSwipes: Bool = args?["reverseHorizontalSwipes"] as? Bool ?? false
-            let enableGesturedeckMedia: Bool = args?["enableGesturedeckMedia"] as? Bool ?? false
-            let overlayConfig: [String: Any]? = args?["overlayConfig"] as? [String: Any]
-            initGesturedeck(
-                activationKey: activationKey,
-                autoStart: autoStart,
-                reverseHorizontalSwipes: reverseHorizontalSwipes,
-                enableGesturedeckMedia: enableGesturedeckMedia,
-                overlayConfig: overlayConfig
-            )
-            result(nil)
-        case "reverseHorizontalSwipes":
-            let args = call.arguments as? [String: Any]
-            let value: Bool = args?["value"] as? Bool ?? false
-            gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value
-            result(nil)
-        case "start":
-            gesturedeckMedia?.start()
-            gesturedeck?.start()
-            result(nil)
-        case "stop":
-            gesturedeckMedia?.stop()
-            gesturedeck?.stop()
-            result(nil)
-        case "dispose":
-            result(nil)
-        default:
-            result(FlutterMethodNotImplemented)
-        }
-    }
-
-    private func initGesturedeck(
-        activationKey: String?,
-        autoStart: Bool,
-        reverseHorizontalSwipes: Bool,
-        enableGesturedeckMedia: Bool,
-        overlayConfig: [String: Any]?
-    ) {
-        if enableGesturedeckMedia {
-            let tintColorValue: String? = overlayConfig?["tintColor"] as? String
-            var tintColor: UIColor? = nil
-            if tintColorValue != nil {
-                tintColor = UIColor(hexString: tintColorValue!)
-            }
-            var topIcon: UIImage? = nil
-            var iconSwipeLeft: UIImage? = nil
-            var iconSwipeRight: UIImage? = nil
-            var iconTap: UIImage? = nil
-            var iconTapToggled: UIImage? = nil
-            if let overlayConfig = overlayConfig {
-                for (key, value) in overlayConfig {
-                    if let typedData = value as? FlutterStandardTypedData {
-                        switch key {
-                        case "topIcon":
-                            topIcon = UIImage(data: typedData.data)
-                        case "iconSwipeLeft":
-                            iconSwipeLeft = UIImage(data: typedData.data)
-                        case "iconSwipeRight":
-                            iconSwipeRight = UIImage(data: typedData.data)
-                        case "iconTap":
-                            iconTap = UIImage(data: typedData.data)
-                        case "iconTapToggled":
-                            iconTapToggled = UIImage(data: typedData.data)
-                        default:
-                            break
-                        }
-                    }
-                }
-            }
-            gesturedeckMedia = GesturedeckMedia(
-                tapAction: sendTapEvent,
-                swipeLeftAction: sendSwipeLeftEvent,
-                swipeRightAction: sendSwipeRightEvent,
-                activationKey: activationKey,
-                autoStart: autoStart,
-                gesturedeckMediaOverlay: GesturedeckMediaOverlay(
-                    tintColor: tintColor,
-                    topIcon: topIcon,
-                    iconTap: iconTap,
-                    iconTapToggled: iconTapToggled,
-                    iconSwipeLeft: iconSwipeLeft,
-                    iconSwipeRight: iconSwipeRight,
-                    reverseHorizontalSwipes: reverseHorizontalSwipes
-                )
-            )
-            gesturedeck = nil
-        } else {
-            gesturedeck = Gesturedeck(
-                tapAction: sendTapEvent,
-                swipeLeftAction: sendSwipeLeftEvent,
-                swipeRightAction: sendSwipeRightEvent,
-                activationKey: activationKey,
-                autoStart: autoStart
-            )
-            gesturedeckMedia = nil
-        }
-    }
-
-    private func hexStringToUIColor(hex: String) -> UIColor {
-        var cString: String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-        if cString.hasPrefix("#") {
-            cString.remove(at: cString.startIndex)
-        }
-        if (cString.count) != 6 {
-            return UIColor.gray
-        }
-        var rgbValue: UInt64 = 0
-        Scanner(string: cString).scanHexInt64(&rgbValue)
-        return UIColor(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: CGFloat(1.0)
+    func initialize(activationKey: String?, autoStart: Bool) throws {
+        gesturedeck = Gesturedeck(
+            tapAction: {
+                self.gesturedeckCallback.onTap {}
+            },
+            swipeLeftAction: {
+                self.gesturedeckCallback.onSwipeLeft {}
+            },
+            swipeRightAction: {
+                self.gesturedeckCallback.onSwipeRight {}
+            },
+            panAction: { _ in
+                self.gesturedeckCallback.onPan {}
+            },
+            activationKey: activationKey,
+            autoStart: autoStart
         )
     }
 
-    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        guard let args = arguments as? [String: Any], let name = args["name"] as? String else {
-            return nil
-        }
-        if name == "touchEvent" {
-            touchEventsSink = events
-        }
-        return nil
+    func start() throws {
+        gesturedeck?.start()
     }
 
-    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        guard let args = arguments as? [String: Any], let name = args["name"] as? String else {
-            return nil
+    func stop() throws {
+        gesturedeck?.stop()
+    }
+}
+
+/// GesturedeckMedia
+private class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
+    var gesturedeckMediaCallback: GesturedeckMediaCallback
+    var gesturedeckMedia: GesturedeckMedia?
+
+    init(gesturedeckCallback: GesturedeckMediaCallback) {
+        gesturedeckMediaCallback = gesturedeckCallback
+    }
+
+    func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, overlayConfig: OverlayConfig?) throws {
+        let tintColorValue: String? = overlayConfig?.tintColor as? String
+        var tintColor: UIColor? = nil
+        if tintColorValue != nil {
+            tintColor = UIColor(hexString: tintColorValue!)
         }
-        if name == "touchEvent" {
-            touchEventsSink = nil
-        }
-        return nil
+        gesturedeckMedia = GesturedeckMedia(
+            tapAction: {
+                self.gesturedeckMediaCallback.onTap {}
+            },
+            swipeLeftAction: {
+                self.gesturedeckMediaCallback.onSwipeLeft {}
+            },
+            swipeRightAction: {
+                self.gesturedeckMediaCallback.onSwipeRight {}
+            },
+            panAction: { _ in
+                self.gesturedeckMediaCallback.onPan {}
+            },
+            activationKey: activationKey,
+            autoStart: autoStart,
+            gesturedeckMediaOverlay: GesturedeckMediaOverlay(
+                tintColor: tintColor,
+                topIcon: overlayConfig?.topIcon?.toUIImage(),
+                iconTap: overlayConfig?.iconTap?.toUIImage(),
+                iconTapToggled: overlayConfig?.iconTapToggled?.toUIImage(),
+                iconSwipeLeft: overlayConfig?.iconSwipeLeft?.toUIImage(),
+                iconSwipeRight: overlayConfig?.iconSwipeRight?.toUIImage(),
+                reverseHorizontalSwipes: reverseHorizontalSwipes
+            )
+        )
     }
 
-    private func sendTapEvent() {
-        touchEventsSink?("tap")
+    func start() throws {
+        gesturedeckMedia?.start()
     }
 
-    private func sendSwipeLeftEvent() {
-        touchEventsSink?("swipedLeft")
+    func stop() throws {
+        gesturedeckMedia?.stop()
     }
 
-    private func sendSwipeRightEvent() {
-        touchEventsSink?("swipedRight")
+    func dispose() throws {
+        // Nothing to dispose
+    }
+
+    func reverseHorizontalSwipes(value: Bool) throws {
+        gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value
+    }
+}
+
+/// Extensions
+
+extension FlutterStandardTypedData {
+    func toUIImage() -> UIImage? {
+        return UIImage(data: data)
     }
 }
 

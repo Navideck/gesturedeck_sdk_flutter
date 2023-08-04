@@ -1,15 +1,65 @@
-# gesturedeck_flutter
+# Gesturedeck Flutter
 
-A new Flutter plugin project.
+This is a Flutter plugin for native `Gesturedeck Android` and `Gesturedeck IOS`. It provides a simple way to integrate Gesturedeck into your Flutter app.
 
 ## Getting Started
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+### Setup Gesturedeck
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+To use Gesturedeck, you need to initialize it with an activation key and set up actions for different gestures. Here's an example:
+
+```dart
+// Initialize Gesturedeck
+var gesturedeck =  Gesturedeck(
+    activationKey: "",
+    autoStart: true,
+    tapAction: () {},
+    swipeLeftAction:  () {},
+    swipeRightAction:  () {},
+    panAction: () {},
+);
+
+// To start manually, if autoStart = false
+gesturedeck.start()
+
+// To stop
+gesturedeck.stop()
+```
+
+### Setup GesturedeckMedia  
+
+```dart
+// To get icon from assets
+var icon = await rootBundle.load("assets/icon.png");
+Uint8List iconBytes = testIcon.buffer.asUint8List();
+
+// Initialize GesturedeckMedia
+var gesturedeckMedia =  Gesturedeck(
+    activationKey: "",
+    autoStart: true,
+    reverseHorizontalSwipes: reverseHorizontalSwipes,
+    tapAction: () {},
+    swipeLeftAction:  () {},
+    swipeRightAction:  () {},
+    panAction: () {},
+    gesturedeckMediaOverlay: GesturedeckMediaOverlay(
+        tintColor: Colors.green,
+        topIcon: icon, 
+        iconSwipeLeft: ..,
+        iconSwipeRight: ..,
+        iconTap: ..,
+        iconTapToggled: ..,
+    ),
+);
+
+// To start manually, if autoStart = false
+gesturedeckMedia.start()
+
+// To stop
+gesturedeckMedia.stop()
+
+
+// To reverse horizontal swipes
+gesturedeckMedia.reverseHorizontalSwipes(true)
+```
 
