@@ -2,6 +2,15 @@
 
 This is a Flutter plugin for native `Gesturedeck Android` and `Gesturedeck IOS`. It provides a simple way to integrate Gesturedeck into your Flutter app.
 
+## Key Features
+
+- Intuitive touch gestures for seamless device control.
+- Customizable gesture actions for enhanced user interactions.
+- Integrated GesturedeckMedia for media app controls with overlay UI support.
+- Support for volume button actions with GesturedeckMedia.
+- Sensitivity settings for fine-tuning gesture responsiveness.
+- Does not require internet connectivity
+
 ## Getting Started
 
 ### Setup Gesturedeck
