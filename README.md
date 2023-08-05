@@ -63,3 +63,8 @@ gesturedeckMedia.stop()
 gesturedeckMedia.reverseHorizontalSwipes(true)
 ```
 
+## Generate docs
+
+```dart
+dart doc --output docs
+```
