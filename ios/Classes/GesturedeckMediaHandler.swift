@@ -7,7 +7,7 @@
 
 import GesturedeckiOS
 
-private class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
+class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
     var gesturedeckMediaCallback: GesturedeckMediaCallback
     var gesturedeckMedia: GesturedeckMedia?
 
@@ -33,6 +33,9 @@ private class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
             },
             panAction: { _ in
                 self.gesturedeckMediaCallback.onPan {}
+            },
+            longPressAction: { sender in
+                self.gesturedeckMediaCallback.onLongPress {}
             },
             activationKey: activationKey,
             autoStart: autoStart,
