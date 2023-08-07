@@ -23,14 +23,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   late GesturedeckMedia gesturedeckMedia;
 
-  bool reverseHorizontalSwipes = false;
   String gesturedeckMediaAction = "";
   String gesturedeckAction = "";
 
   void initializeGesturedeck() {
     Gesturedeck(
       activationKey: "",
-      autoStart: true,
       tapAction: () => setState(() => gesturedeckAction = "tap"),
       swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
       swipeRightAction: () => setState(() => gesturedeckAction = "swipeRight"),
@@ -52,8 +50,6 @@ class _MyAppState extends State<MyApp> {
 
     gesturedeckMedia = GesturedeckMedia(
       activationKey: "",
-      autoStart: true,
-      reverseHorizontalSwipes: reverseHorizontalSwipes,
       tapAction: () => setState(() => gesturedeckMediaAction = "tap"),
       swipeLeftAction: () =>
           setState(() => gesturedeckMediaAction = "swipeLeft"),
@@ -80,31 +76,21 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                  onPressed: () => gesturedeckMedia.start(),
-                  child: const Text("start")),
-              ElevatedButton(
-                  onPressed: () async {
-                    await gesturedeckMedia
-                        .reverseHorizontalSwipes(!reverseHorizontalSwipes);
-                    setState(() {
-                      reverseHorizontalSwipes = !reverseHorizontalSwipes;
-                    });
-                  },
-                  child: const Text("Reverse")),
-              ElevatedButton(
-                onPressed: () => gesturedeckMedia.stop(),
-                child: const Text("stop"),
-              ),
-            ],
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    onPressed: () => gesturedeckMedia.start(),
+                    child: const Text("start")),
+                ElevatedButton(
+                  onPressed: () => gesturedeckMedia.stop(),
+                  child: const Text("stop"),
+                ),
+              ],
+            ),
           ),
-          const Divider(),
-          Text(
-              'Swipe ${reverseHorizontalSwipes ? 'left' : 'right'} to skip next'),
-          const Divider(),
           Expanded(
             child: Container(
                 color: Colors.grey.shade400,
