@@ -1,6 +1,6 @@
 package com.navideck.gesturedeck_flutter
 
-import GesturedeckMediaHandler
+import com.navideck.gesturedeck_flutter.handlers.GesturedeckMediaHandler
 import android.app.Activity
 import android.os.Build
 import android.util.Log
@@ -48,12 +48,12 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
         val flutterRender = flutterPluginBinding.flutterEngine.renderer
         flutterRender.addIsDisplayingFlutterUiListener(object : FlutterUiDisplayListener {
             override fun onFlutterUiDisplayed() {
-                Log.e("GesturedeckFlutter", "onFlutterUiDisplayed")
+                Log.d("GesturedeckFlutter", "onFlutterUiDisplayed")
                 onFlutterUiDisplayed(activity)
             }
 
             override fun onFlutterUiNoLongerDisplayed() {
-                Log.e("GesturedeckFlutter", "onFlutterUiNoLongerDisplayed")
+                Log.d("GesturedeckFlutter", "onFlutterUiNoLongerDisplayed")
             }
         })
 
@@ -84,11 +84,13 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
         val rootView = views.firstOrNull() ?: throw Exception("FlutterSurfaceView not found")
 
         // Set up touch listeners
+        //TODO: Fix => not getting touch events now
         rootView.setOnTouchListener { v, event ->
+            Log.e("GesturedeckFlutter", "onTouch: $event")
             gesturedeckMediaHandler?.onTouchEvent(event)
             gesturedeckHandler?.onTouchEvent(event)
             v.performClick()
-            true
+            false
         }
 
         // TODO: Fix => not getting key events

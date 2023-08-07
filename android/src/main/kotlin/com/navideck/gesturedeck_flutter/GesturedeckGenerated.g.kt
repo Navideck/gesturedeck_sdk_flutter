@@ -322,6 +322,12 @@ class GesturedeckCallback(private val binaryMessenger: BinaryMessenger) {
       callback()
     }
   }
+  fun onLongPress(callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckCallback.onLongPress", codec)
+    channel.send(null) {
+      callback()
+    }
+  }
 }
 /** Generated class from Pigeon that represents Flutter messages that can be called from Kotlin. */
 @Suppress("UNCHECKED_CAST")
@@ -352,6 +358,12 @@ class GesturedeckMediaCallback(private val binaryMessenger: BinaryMessenger) {
   }
   fun onPan(callback: () -> Unit) {
     val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaCallback.onPan", codec)
+    channel.send(null) {
+      callback()
+    }
+  }
+  fun onLongPress(callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaCallback.onLongPress", codec)
     channel.send(null) {
       callback()
     }

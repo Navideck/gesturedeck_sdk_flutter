@@ -286,6 +286,12 @@ class GesturedeckCallback {
       completion()
     }
   }
+  func onLongPress(completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckCallback.onLongPress", binaryMessenger: binaryMessenger)
+    channel.sendMessage(nil) { _ in
+      completion()
+    }
+  }
 }
 /// Generated class from Pigeon that represents Flutter messages that can be called from Swift.
 class GesturedeckMediaCallback {
@@ -313,6 +319,12 @@ class GesturedeckMediaCallback {
   }
   func onPan(completion: @escaping () -> Void) {
     let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaCallback.onPan", binaryMessenger: binaryMessenger)
+    channel.sendMessage(nil) { _ in
+      completion()
+    }
+  }
+  func onLongPress(completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaCallback.onLongPress", binaryMessenger: binaryMessenger)
     channel.sendMessage(nil) { _ in
       completion()
     }

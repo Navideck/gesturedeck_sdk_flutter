@@ -53,6 +53,7 @@ abstract class GesturedeckCallback {
   void onSwipeLeft();
   void onSwipeRight();
   void onPan();
+  void onLongPress();
 }
 
 @FlutterApi()
@@ -61,6 +62,7 @@ abstract class GesturedeckMediaCallback {
   void onSwipeLeft();
   void onSwipeRight();
   void onPan();
+  void onLongPress();
 }
 
 class OverlayConfig {

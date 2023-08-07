@@ -21,13 +21,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late GesturedeckMedia gesturedeckMedia;
-
   String gesturedeckMediaAction = "";
   String gesturedeckAction = "";
 
-  void initializeGesturedeck() {
-    Gesturedeck(
+  void initializeGesturedeck() async {
+    await Gesturedeck.initialize(
       activationKey: "",
       tapAction: () => setState(() => gesturedeckAction = "tap"),
       swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
@@ -48,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       iconTapToggled: testIconBytes,
     );
 
-    gesturedeckMedia = GesturedeckMedia(
+    await GesturedeckMedia.initialize(
       activationKey: "",
       tapAction: () => setState(() => gesturedeckMediaAction = "tap"),
       swipeLeftAction: () =>
@@ -62,7 +60,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // initializeGesturedeck();
+    initializeGesturedeck();
     initializeGesturedeckMedia();
     super.initState();
   }
@@ -82,11 +80,15 @@ class _MyAppState extends State<MyApp> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                    onPressed: () => gesturedeckMedia.start(),
-                    child: const Text("start")),
+                    onPressed: () {
+                      GesturedeckMedia.start();
+                    },
+                    child: const Text("Start")),
                 ElevatedButton(
-                  onPressed: () => gesturedeckMedia.stop(),
-                  child: const Text("stop"),
+                  onPressed: () {
+                    GesturedeckMedia.stop();
+                  },
+                  child: const Text("Stop"),
                 ),
               ],
             ),

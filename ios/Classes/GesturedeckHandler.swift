@@ -1,0 +1,44 @@
+//
+//  GesturedeckHandler.swift
+//  gesturedeck_flutter
+//
+//  Created by Rohit Sangwan on 08/08/23.
+//
+
+import GesturedeckiOS
+
+private class GesturedeckHandler: NSObject, GesturedeckFlutter {
+    var gesturedeck: Gesturedeck?
+    var gesturedeckCallback: GesturedeckCallback
+
+    init(gesturedeckCallback: GesturedeckCallback) {
+        self.gesturedeckCallback = gesturedeckCallback
+    }
+
+    func initialize(activationKey: String?, autoStart: Bool) throws {
+        gesturedeck = Gesturedeck(
+            tapAction: {
+                self.gesturedeckCallback.onTap {}
+            },
+            swipeLeftAction: {
+                self.gesturedeckCallback.onSwipeLeft {}
+            },
+            swipeRightAction: {
+                self.gesturedeckCallback.onSwipeRight {}
+            },
+            panAction: { _ in
+                self.gesturedeckCallback.onPan {}
+            },
+            activationKey: activationKey,
+            autoStart: autoStart
+        )
+    }
+
+    func start() throws {
+        gesturedeck?.start()
+    }
+
+    func stop() throws {
+        gesturedeck?.stop()
+    }
+}

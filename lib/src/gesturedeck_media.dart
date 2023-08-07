@@ -4,25 +4,30 @@ import 'package:flutter/services.dart';
 import 'package:gesturedeck_flutter/src/models/gesturedeck_media_overlay.dart';
 import 'generated/gesturedeck_generated.g.dart';
 
-class GesturedeckMedia extends GesturedeckMediaCallback {
-  final _gesturedeckMediaFlutter = GesturedeckMediaFlutter();
-  VoidCallback? tapAction;
-  VoidCallback? swipeLeftAction;
-  VoidCallback? swipeRightAction;
-  VoidCallback? panAction;
+class GesturedeckMedia {
+  static final _gesturedeckMediaFlutter = GesturedeckMediaFlutter();
+  static bool _isInitialized = false;
 
-  GesturedeckMedia({
+  static Future<void> initialize({
     String? activationKey,
     bool autoStart = true,
     bool reverseHorizontalSwipes = false,
     GesturedeckMediaOverlay? gesturedeckMediaOverlay,
-    this.tapAction,
-    this.swipeLeftAction,
-    this.swipeRightAction,
-    this.panAction,
-  }) {
-    GesturedeckMediaCallback.setup(this);
-    _gesturedeckMediaFlutter.initialize(
+    VoidCallback? tapAction,
+    VoidCallback? swipeLeftAction,
+    VoidCallback? swipeRightAction,
+    VoidCallback? panAction,
+    VoidCallback? longPressAction,
+  }) async {
+    if (_isInitialized) throw Exception("Gesturedeck is already initialized");
+    GesturedeckMediaCallback.setup(_GesturedeckMediaCallbackHandler(
+      tapAction: tapAction,
+      swipeLeftAction: swipeLeftAction,
+      swipeRightAction: swipeRightAction,
+      panAction: panAction,
+      longPressAction: longPressAction,
+    ));
+    await _gesturedeckMediaFlutter.initialize(
       activationKey,
       autoStart,
       reverseHorizontalSwipes,
@@ -35,24 +40,66 @@ class GesturedeckMedia extends GesturedeckMediaCallback {
         iconTapToggled: gesturedeckMediaOverlay?.iconTapToggled,
       ),
     );
+    _isInitialized = true;
   }
 
-  Future<void> start() => _gesturedeckMediaFlutter.start();
+  static Future<void> start() async {
+    _ensureInitialized();
+    await _gesturedeckMediaFlutter.start();
+  }
 
-  Future<void> stop() => _gesturedeckMediaFlutter.stop();
+  static Future<void> stop() async {
+    _ensureInitialized();
+    await _gesturedeckMediaFlutter.stop();
+  }
 
-  Future<void> reverseHorizontalSwipes(bool reverse) =>
-      _gesturedeckMediaFlutter.reverseHorizontalSwipes(reverse);
+  static set reverseHorizontalSwipes(bool reverse) {
+    _ensureInitialized();
+    _gesturedeckMediaFlutter.reverseHorizontalSwipes(reverse);
+  }
+
+  static void _ensureInitialized() {
+    if (!_isInitialized) throw Exception("Gesturedeck is not initialized");
+  }
+}
+
+class _GesturedeckMediaCallbackHandler extends GesturedeckMediaCallback {
+  VoidCallback? tapAction;
+  VoidCallback? swipeLeftAction;
+  VoidCallback? swipeRightAction;
+  VoidCallback? panAction;
+  VoidCallback? longPressAction;
+
+  _GesturedeckMediaCallbackHandler({
+    this.tapAction,
+    this.swipeLeftAction,
+    this.swipeRightAction,
+    this.panAction,
+    this.longPressAction,
+  });
 
   @override
-  void onPan() => panAction?.call();
+  void onLongPress() {
+    longPressAction?.call();
+  }
 
   @override
-  void onSwipeLeft() => swipeLeftAction?.call();
+  void onPan() {
+    panAction?.call();
+  }
 
   @override
-  void onSwipeRight() => swipeRightAction?.call();
+  void onSwipeLeft() {
+    swipeLeftAction?.call();
+  }
 
   @override
-  void onTap() => tapAction?.call();
+  void onSwipeRight() {
+    swipeRightAction?.call();
+  }
+
+  @override
+  void onTap() {
+    tapAction?.call();
+  }
 }

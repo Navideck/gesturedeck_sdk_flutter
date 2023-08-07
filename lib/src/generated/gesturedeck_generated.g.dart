@@ -288,6 +288,8 @@ abstract class GesturedeckCallback {
 
   void onPan();
 
+  void onLongPress();
+
   static void setup(GesturedeckCallback? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
@@ -345,6 +347,20 @@ abstract class GesturedeckCallback {
         });
       }
     }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckCallback.onLongPress', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          // ignore message
+          api.onLongPress();
+          return;
+        });
+      }
+    }
   }
 }
 
@@ -358,6 +374,8 @@ abstract class GesturedeckMediaCallback {
   void onSwipeRight();
 
   void onPan();
+
+  void onLongPress();
 
   static void setup(GesturedeckMediaCallback? api, {BinaryMessenger? binaryMessenger}) {
     {
@@ -412,6 +430,20 @@ abstract class GesturedeckMediaCallback {
         channel.setMessageHandler((Object? message) async {
           // ignore message
           api.onPan();
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaCallback.onLongPress', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          // ignore message
+          api.onLongPress();
           return;
         });
       }

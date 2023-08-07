@@ -6,7 +6,7 @@ import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_flutter.GesturedeckCallback
 import com.navideck.gesturedeck_flutter.GesturedeckFlutter
 
-class GesturedeckHandler(
+internal class GesturedeckHandler(
     private val activity: Activity,
     private val gestureCallback: GesturedeckCallback? = null
 ) : GesturedeckFlutter {
@@ -33,6 +33,9 @@ class GesturedeckHandler(
             panAction = { _, _, _ ->
                 gestureCallback?.onPan { }
             },
+            longPressAction = {
+                gestureCallback?.onLongPress { }
+            }
         )
     }
 
