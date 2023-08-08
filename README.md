@@ -23,8 +23,8 @@ var gesturedeck =  Gesturedeck(
     activationKey: "",
     autoStart: true,
     tapAction: () {},
-    swipeLeftAction:  () {},
-    swipeRightAction:  () {},
+    swipeLeftAction: () {},
+    swipeRightAction: () {},
     panAction: () {},
 );
 
@@ -48,8 +48,8 @@ var gesturedeckMedia =  Gesturedeck(
     autoStart: true,
     reverseHorizontalSwipes: reverseHorizontalSwipes,
     tapAction: () {},
-    swipeLeftAction:  () {},
-    swipeRightAction:  () {},
+    swipeLeftAction: () {},
+    swipeRightAction: () {},
     panAction: () {},
     gesturedeckMediaOverlay: GesturedeckMediaOverlay(
         tintColor: Colors.green,

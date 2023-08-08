@@ -24,11 +24,11 @@ internal class GesturedeckHandler(
             tapAction = {
                 gestureCallback?.onTap { }
             },
-            swipeRightAction = {
-                gestureCallback?.onSwipeLeft { }
-            },
             swipeLeftAction = {
                 gestureCallback?.onSwipeRight { }
+            },
+            swipeRightAction = {
+                gestureCallback?.onSwipeLeft { }
             },
             panAction = { _, _, _ ->
                 gestureCallback?.onPan { }

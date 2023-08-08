@@ -61,11 +61,11 @@ internal class GesturedeckMediaHandler(
             tapAction = {
                 gesturedeckMediaCallback?.onTap { }
             },
-            swipeRightAction = {
-                gesturedeckMediaCallback?.onSwipeLeft { }
-            },
             swipeLeftAction = {
                 gesturedeckMediaCallback?.onSwipeRight { }
+            },
+            swipeRightAction = {
+                gesturedeckMediaCallback?.onSwipeLeft { }
             },
             panAction = { _, _, _ ->
                 gesturedeckMediaCallback?.onPan { }

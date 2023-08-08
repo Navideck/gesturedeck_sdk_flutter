@@ -6,13 +6,13 @@ class Gesturedeck {
   static bool _isInitialized = false;
 
   static Future<void> initialize({
-    String? activationKey,
-    bool autoStart = true,
     VoidCallback? tapAction,
     VoidCallback? swipeLeftAction,
     VoidCallback? swipeRightAction,
     VoidCallback? panAction,
     VoidCallback? longPressAction,
+    String? activationKey,
+    bool autoStart = true,
   }) async {
     if (_isInitialized) throw Exception("Gesturedeck is already initialized");
     GesturedeckCallback.setup(_GesturedeckCallbackHandler(
@@ -57,16 +57,6 @@ class _GesturedeckCallbackHandler extends GesturedeckCallback {
   });
 
   @override
-  void onLongPress() {
-    longPressAction?.call();
-  }
-
-  @override
-  void onPan() {
-    panAction?.call();
-  }
-
-  @override
   void onSwipeLeft() {
     swipeLeftAction?.call();
   }
@@ -79,5 +69,15 @@ class _GesturedeckCallbackHandler extends GesturedeckCallback {
   @override
   void onTap() {
     tapAction?.call();
+  }
+
+  @override
+  void onLongPress() {
+    longPressAction?.call();
+  }
+
+  @override
+  void onPan() {
+    panAction?.call();
   }
 }
