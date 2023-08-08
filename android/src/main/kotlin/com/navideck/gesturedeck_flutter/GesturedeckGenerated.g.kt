@@ -81,21 +81,21 @@ data class OverlayConfig (
  *
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
-interface GesturedeckFlutter {
+interface GesturedeckChannel {
   fun initialize(activationKey: String?, autoStart: Boolean)
   fun start()
   fun stop()
 
   companion object {
-    /** The codec used by GesturedeckFlutter. */
+    /** The codec used by GesturedeckChannel. */
     val codec: MessageCodec<Any?> by lazy {
       StandardMessageCodec()
     }
-    /** Sets up an instance of `GesturedeckFlutter` to handle messages through the `binaryMessenger`. */
+    /** Sets up an instance of `GesturedeckChannel` to handle messages through the `binaryMessenger`. */
     @Suppress("UNCHECKED_CAST")
-    fun setUp(binaryMessenger: BinaryMessenger, api: GesturedeckFlutter?) {
+    fun setUp(binaryMessenger: BinaryMessenger, api: GesturedeckChannel?) {
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.initialize", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
@@ -115,7 +115,7 @@ interface GesturedeckFlutter {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.start", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.start", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
@@ -132,7 +132,7 @@ interface GesturedeckFlutter {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.stop", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.stop", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
@@ -152,7 +152,7 @@ interface GesturedeckFlutter {
   }
 }
 @Suppress("UNCHECKED_CAST")
-private object GesturedeckMediaFlutterCodec : StandardMessageCodec() {
+private object GesturedeckMediaChannelCodec : StandardMessageCodec() {
   override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
     return when (type) {
       128.toByte() -> {
@@ -179,33 +179,34 @@ private object GesturedeckMediaFlutterCodec : StandardMessageCodec() {
  *
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
-interface GesturedeckMediaFlutter {
-  fun initialize(activationKey: String?, autoStart: Boolean, reverseHorizontalSwipes: Boolean, overlayConfig: OverlayConfig?)
+interface GesturedeckMediaChannel {
+  fun initialize(activationKey: String?, autoStart: Boolean, reverseHorizontalSwipes: Boolean, panSensitivity: Long?, overlayConfig: OverlayConfig?)
   fun start()
   fun stop()
   fun dispose()
   fun reverseHorizontalSwipes(value: Boolean)
 
   companion object {
-    /** The codec used by GesturedeckMediaFlutter. */
+    /** The codec used by GesturedeckMediaChannel. */
     val codec: MessageCodec<Any?> by lazy {
-      GesturedeckMediaFlutterCodec
+      GesturedeckMediaChannelCodec
     }
-    /** Sets up an instance of `GesturedeckMediaFlutter` to handle messages through the `binaryMessenger`. */
+    /** Sets up an instance of `GesturedeckMediaChannel` to handle messages through the `binaryMessenger`. */
     @Suppress("UNCHECKED_CAST")
-    fun setUp(binaryMessenger: BinaryMessenger, api: GesturedeckMediaFlutter?) {
+    fun setUp(binaryMessenger: BinaryMessenger, api: GesturedeckMediaChannel?) {
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.initialize", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.initialize", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val activationKeyArg = args[0] as String?
             val autoStartArg = args[1] as Boolean
             val reverseHorizontalSwipesArg = args[2] as Boolean
-            val overlayConfigArg = args[3] as OverlayConfig?
+            val panSensitivityArg = args[3].let { if (it is Int) it.toLong() else it as Long? }
+            val overlayConfigArg = args[4] as OverlayConfig?
             var wrapped: List<Any?>
             try {
-              api.initialize(activationKeyArg, autoStartArg, reverseHorizontalSwipesArg, overlayConfigArg)
+              api.initialize(activationKeyArg, autoStartArg, reverseHorizontalSwipesArg, panSensitivityArg, overlayConfigArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
@@ -217,7 +218,7 @@ interface GesturedeckMediaFlutter {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.start", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.start", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
@@ -234,7 +235,7 @@ interface GesturedeckMediaFlutter {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.stop", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.stop", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
@@ -251,7 +252,7 @@ interface GesturedeckMediaFlutter {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.dispose", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.dispose", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
             var wrapped: List<Any?>
@@ -268,7 +269,7 @@ interface GesturedeckMediaFlutter {
         }
       }
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.reverseHorizontalSwipes", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.reverseHorizontalSwipes", codec)
         if (api != null) {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>

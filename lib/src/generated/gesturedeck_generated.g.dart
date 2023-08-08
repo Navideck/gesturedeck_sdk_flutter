@@ -55,11 +55,11 @@ class OverlayConfig {
 }
 
 /// Gesturedeck
-class GesturedeckFlutter {
-  /// Constructor for [GesturedeckFlutter].  The [binaryMessenger] named argument is
+class GesturedeckChannel {
+  /// Constructor for [GesturedeckChannel].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  GesturedeckFlutter({BinaryMessenger? binaryMessenger})
+  GesturedeckChannel({BinaryMessenger? binaryMessenger})
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
@@ -67,7 +67,7 @@ class GesturedeckFlutter {
 
   Future<void> initialize(String? arg_activationKey, bool arg_autoStart) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.initialize', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_activationKey, arg_autoStart]) as List<Object?>?;
@@ -89,7 +89,7 @@ class GesturedeckFlutter {
 
   Future<void> start() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.start', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.start', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -111,7 +111,7 @@ class GesturedeckFlutter {
 
   Future<void> stop() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.stop', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.stop', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -132,8 +132,8 @@ class GesturedeckFlutter {
   }
 }
 
-class _GesturedeckMediaFlutterCodec extends StandardMessageCodec {
-  const _GesturedeckMediaFlutterCodec();
+class _GesturedeckMediaChannelCodec extends StandardMessageCodec {
+  const _GesturedeckMediaChannelCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is OverlayConfig) {
@@ -156,22 +156,22 @@ class _GesturedeckMediaFlutterCodec extends StandardMessageCodec {
 }
 
 /// GesturedeckMedia
-class GesturedeckMediaFlutter {
-  /// Constructor for [GesturedeckMediaFlutter].  The [binaryMessenger] named argument is
+class GesturedeckMediaChannel {
+  /// Constructor for [GesturedeckMediaChannel].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  GesturedeckMediaFlutter({BinaryMessenger? binaryMessenger})
+  GesturedeckMediaChannel({BinaryMessenger? binaryMessenger})
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = _GesturedeckMediaFlutterCodec();
+  static const MessageCodec<Object?> codec = _GesturedeckMediaChannelCodec();
 
-  Future<void> initialize(String? arg_activationKey, bool arg_autoStart, bool arg_reverseHorizontalSwipes, OverlayConfig? arg_overlayConfig) async {
+  Future<void> initialize(String? arg_activationKey, bool arg_autoStart, bool arg_reverseHorizontalSwipes, int? arg_panSensitivity, OverlayConfig? arg_overlayConfig) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.initialize', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_activationKey, arg_autoStart, arg_reverseHorizontalSwipes, arg_overlayConfig]) as List<Object?>?;
+        await channel.send(<Object?>[arg_activationKey, arg_autoStart, arg_reverseHorizontalSwipes, arg_panSensitivity, arg_overlayConfig]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -190,7 +190,7 @@ class GesturedeckMediaFlutter {
 
   Future<void> start() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.start', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.start', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -212,7 +212,7 @@ class GesturedeckMediaFlutter {
 
   Future<void> stop() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.stop', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.stop', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -234,7 +234,7 @@ class GesturedeckMediaFlutter {
 
   Future<void> dispose() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.dispose', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.dispose', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -256,7 +256,7 @@ class GesturedeckMediaFlutter {
 
   Future<void> reverseHorizontalSwipes(bool arg_value) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.reverseHorizontalSwipes', codec,
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.reverseHorizontalSwipes', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_value]) as List<Object?>?;

@@ -5,13 +5,14 @@ import 'package:gesturedeck_flutter/src/models/gesturedeck_media_overlay.dart';
 import 'generated/gesturedeck_generated.g.dart';
 
 class GesturedeckMedia {
-  static final _gesturedeckMediaFlutter = GesturedeckMediaFlutter();
+  static final _gesturedeckMediaFlutter = GesturedeckMediaChannel();
   static bool _isInitialized = false;
 
   static Future<void> initialize({
     String? activationKey,
     bool autoStart = true,
     bool reverseHorizontalSwipes = false,
+    PanSensitivity? panSensitivity,
     GesturedeckMediaOverlay? gesturedeckMediaOverlay,
     VoidCallback? tapAction,
     VoidCallback? swipeLeftAction,
@@ -31,6 +32,7 @@ class GesturedeckMedia {
       activationKey,
       autoStart,
       reverseHorizontalSwipes,
+      panSensitivity?.value,
       OverlayConfig(
         tintColor: gesturedeckMediaOverlay?.tintColor?.value.toRadixString(16),
         topIcon: gesturedeckMediaOverlay?.topIcon,
@@ -61,6 +63,15 @@ class GesturedeckMedia {
   static void _ensureInitialized() {
     if (!_isInitialized) throw Exception("Gesturedeck is not initialized");
   }
+}
+
+enum PanSensitivity {
+  low(0),
+  medium(1),
+  high(2);
+
+  const PanSensitivity(this.value);
+  final int value;
 }
 
 class _GesturedeckMediaCallbackHandler extends GesturedeckMediaCallback {

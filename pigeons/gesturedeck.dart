@@ -17,7 +17,7 @@ import 'package:pigeon/pigeon.dart';
 
 /// Gesturedeck
 @HostApi()
-abstract class GesturedeckFlutter {
+abstract class GesturedeckChannel {
   void initialize(
     String? activationKey,
     bool autoStart,
@@ -30,11 +30,12 @@ abstract class GesturedeckFlutter {
 
 /// GesturedeckMedia
 @HostApi()
-abstract class GesturedeckMediaFlutter {
+abstract class GesturedeckMediaChannel {
   void initialize(
     String? activationKey,
     bool autoStart,
     bool reverseHorizontalSwipes,
+    int? panSensitivity,
     OverlayConfig? overlayConfig,
   );
 

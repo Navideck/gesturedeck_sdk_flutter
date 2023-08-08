@@ -1,15 +1,14 @@
 package com.navideck.gesturedeck_flutter
 
-import com.navideck.gesturedeck_flutter.handlers.GesturedeckMediaHandler
 import android.app.Activity
 import android.os.Build
-import android.util.Log
 import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.core.view.allViews
 import com.navideck.gesturedeck_flutter.handlers.GesturedeckHandler
+import com.navideck.gesturedeck_flutter.handlers.GesturedeckMediaHandler
 import com.navideck.universal_volume.UniversalVolume
-import io.flutter.embedding.android.FlutterSurfaceView
+import io.flutter.embedding.android.FlutterView
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
@@ -17,7 +16,6 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import io.flutter.embedding.engine.renderer.FlutterUiDisplayListener
 
 
-/** GesturedeckFlutterPlugin */
 class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
 
     companion object {
@@ -46,16 +44,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
         this.activityBinding = binding
         val activity = binding.activity
         val flutterRender = flutterPluginBinding.flutterEngine.renderer
-        flutterRender.addIsDisplayingFlutterUiListener(object : FlutterUiDisplayListener {
-            override fun onFlutterUiDisplayed() {
-                Log.d("GesturedeckFlutter", "onFlutterUiDisplayed")
-                onFlutterUiDisplayed(activity)
-            }
-
-            override fun onFlutterUiNoLongerDisplayed() {
-                Log.d("GesturedeckFlutter", "onFlutterUiNoLongerDisplayed")
-            }
-        })
+        flutterRender.addIsDisplayingFlutterUiListener(flutterUiListener)
 
         // Set up Gesturedeck
         gesturedeckHandler = GesturedeckHandler(
@@ -68,37 +57,36 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
             flutterRenderer = flutterRender,
             gesturedeckMediaCallback = GesturedeckMediaCallback(flutterPluginBinding.binaryMessenger),
         )
-        GesturedeckFlutter.setUp(
+        GesturedeckChannel.setUp(
             flutterPluginBinding.binaryMessenger,
             gesturedeckHandler
         )
-        GesturedeckMediaFlutter.setUp(
+        GesturedeckMediaChannel.setUp(
             flutterPluginBinding.binaryMessenger,
             gesturedeckMediaHandler
         )
     }
 
-
-    private fun onFlutterUiDisplayed(activity: Activity) {
-        val views = activity.window.decorView.rootView.allViews.filter { it is FlutterSurfaceView }
-        val rootView = views.firstOrNull() ?: throw Exception("FlutterSurfaceView not found")
-
-        // Set up touch listeners
-        //TODO: Fix => not getting touch events now
-        rootView.setOnTouchListener { v, event ->
-            Log.e("GesturedeckFlutter", "onTouch: $event")
-            gesturedeckMediaHandler?.onTouchEvent(event)
-            gesturedeckHandler?.onTouchEvent(event)
-            v.performClick()
-            false
+    private val flutterUiListener = object : FlutterUiDisplayListener {
+        override fun onFlutterUiDisplayed() {
+            val activity = activityBinding?.activity ?: return
+            var flutterView: FlutterView? = null
+            activity.window.decorView.rootView.allViews.forEach {
+                if (it is FlutterView) flutterView = it
+            }
+            if (flutterView == null) throw Exception("FlutterView not found")
+            // Set up touch listeners
+            flutterView?.setOnTouchListener { v, event ->
+                gesturedeckMediaHandler?.onTouchEvent(event)
+                gesturedeckHandler?.onTouchEvent(event)
+                v.performClick()
+                false
+            }
         }
 
-        // TODO: Fix => not getting key events
-        rootView.setOnKeyListener { _, _, event ->
-            Log.e("GesturedeckFlutter", "onKey: ${event.keyCode}")
-            gesturedeckMediaHandler?.onKeyEvent(event) ?: false
-        }
+        override fun onFlutterUiNoLongerDisplayed() {}
     }
+
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPluginBinding) {
         instance = this
@@ -121,3 +109,4 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
     override fun onDetachedFromActivityForConfigChanges() {}
     override fun onDetachedFromActivity() {}
 }
+

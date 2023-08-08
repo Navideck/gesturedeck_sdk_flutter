@@ -48,19 +48,28 @@ class _MyAppState extends State<MyApp> {
 
     await GesturedeckMedia.initialize(
       activationKey: "",
-      tapAction: () => setState(() => gesturedeckMediaAction = "tap"),
-      swipeLeftAction: () =>
-          setState(() => gesturedeckMediaAction = "swipeLeft"),
-      swipeRightAction: () =>
-          setState(() => gesturedeckMediaAction = "swipeRight"),
-      panAction: () => setState(() => gesturedeckMediaAction = "pan"),
+      tapAction: () {
+        setState(() => gesturedeckMediaAction = "tap");
+      },
+      swipeLeftAction: () {
+        setState(() => gesturedeckMediaAction = "swipeLeft");
+      },
+      swipeRightAction: () {
+        setState(() => gesturedeckMediaAction = "swipeRight");
+      },
+      panAction: () {
+        setState(() => gesturedeckMediaAction = "pan");
+      },
+      longPressAction: () {
+        setState(() => gesturedeckMediaAction = "longPress");
+      },
       // gesturedeckMediaOverlay: gesturedeckMediaOverlay,
     );
   }
 
   @override
   void initState() {
-    initializeGesturedeck();
+    // initializeGesturedeck();
     initializeGesturedeckMedia();
     super.initState();
   }
@@ -104,7 +113,8 @@ class _MyAppState extends State<MyApp> {
                       child: gesturedeckMediaAction.isEmpty
                           ? const Text('Swipe or Tap on Screen')
                           : Text(
-                              'Recognized GesturedeckMedia : $gesturedeckMediaAction'),
+                              'Recognized GesturedeckMedia : $gesturedeckMediaAction',
+                            ),
                     ),
                     const Divider(),
                     gesturedeckAction.isEmpty
@@ -112,7 +122,8 @@ class _MyAppState extends State<MyApp> {
                         : Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                                'Recognized Gesturedeck : $gesturedeckAction'),
+                              'Recognized Gesturedeck : $gesturedeckAction',
+                            ),
                           ),
                   ],
                 )),

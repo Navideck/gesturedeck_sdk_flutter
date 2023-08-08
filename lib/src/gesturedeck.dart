@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'generated/gesturedeck_generated.g.dart';
 
 class Gesturedeck {
-  static final _gesturedeckFlutter = GesturedeckFlutter();
+  static final _gesturedeckFlutter = GesturedeckChannel();
   static bool _isInitialized = false;
 
   static Future<void> initialize({
@@ -15,14 +15,13 @@ class Gesturedeck {
     VoidCallback? longPressAction,
   }) async {
     if (_isInitialized) throw Exception("Gesturedeck is already initialized");
-    var gestureActionHandler = _GesturedeckCallbackHandler(
+    GesturedeckCallback.setup(_GesturedeckCallbackHandler(
       tapAction: tapAction,
       swipeLeftAction: swipeLeftAction,
       swipeRightAction: swipeRightAction,
       panAction: panAction,
       longPressAction: longPressAction,
-    );
-    GesturedeckCallback.setup(gestureActionHandler);
+    ));
     await _gesturedeckFlutter.initialize(activationKey, autoStart);
     _isInitialized = true;
   }

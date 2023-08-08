@@ -7,7 +7,7 @@
 
 import GesturedeckiOS
 
-class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
+class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
     var gesturedeckMediaCallback: GesturedeckMediaCallback
     var gesturedeckMedia: GesturedeckMedia?
 
@@ -15,7 +15,7 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
         gesturedeckMediaCallback = gesturedeckCallback
     }
 
-    func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, overlayConfig: OverlayConfig?) throws {
+    func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws {
         let tintColorValue: String? = overlayConfig?.tintColor as? String
         var tintColor: UIColor? = nil
         if tintColorValue != nil {
@@ -34,7 +34,7 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
             panAction: { _ in
                 self.gesturedeckMediaCallback.onPan {}
             },
-            longPressAction: { sender in
+            longPressAction: { _ in
                 self.gesturedeckMediaCallback.onLongPress {}
             },
             activationKey: activationKey,
@@ -47,7 +47,8 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
                 iconSwipeLeft: overlayConfig?.iconSwipeLeft?.toUIImage(),
                 iconSwipeRight: overlayConfig?.iconSwipeRight?.toUIImage(),
                 reverseHorizontalSwipes: reverseHorizontalSwipes
-            )
+            ),
+            panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium
         )
     }
 
@@ -65,5 +66,46 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaFlutter {
 
     func reverseHorizontalSwipes(value: Bool) throws {
         gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value
+    }
+}
+
+private extension FlutterStandardTypedData {
+    func toUIImage() -> UIImage? {
+        return UIImage(data: data)
+    }
+}
+
+private extension UIColor {
+    convenience init(hexString: String) {
+        let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int = UInt64()
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(red: CGFloat(r) / 255, green: CGFloat(g) / 255, blue: CGFloat(b) / 255, alpha: CGFloat(a) / 255)
+    }
+}
+
+private extension Int64 {
+    func toPanSensitivity() -> PanSensitivity? {
+        switch self {
+        case 0:
+            return .low
+        case 1:
+            return .medium
+        case 2:
+            return .high
+        default:
+            return nil
+        }
     }
 }

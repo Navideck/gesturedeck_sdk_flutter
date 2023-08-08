@@ -4,12 +4,12 @@ import android.app.Activity
 import android.view.MotionEvent
 import com.navideck.gesturedeck_android.Gesturedeck
 import com.navideck.gesturedeck_flutter.GesturedeckCallback
-import com.navideck.gesturedeck_flutter.GesturedeckFlutter
+import com.navideck.gesturedeck_flutter.GesturedeckChannel
 
 internal class GesturedeckHandler(
     private val activity: Activity,
     private val gestureCallback: GesturedeckCallback? = null
-) : GesturedeckFlutter {
+) : GesturedeckChannel {
     var gesturedeck: Gesturedeck? = null
 
     fun onTouchEvent(event: MotionEvent) {

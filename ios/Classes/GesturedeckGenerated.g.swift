@@ -74,18 +74,18 @@ struct OverlayConfig {
 /// Gesturedeck
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-protocol GesturedeckFlutter {
+protocol GesturedeckChannel {
   func initialize(activationKey: String?, autoStart: Bool) throws
   func start() throws
   func stop() throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
-class GesturedeckFlutterSetup {
-  /// The codec used by GesturedeckFlutter.
-  /// Sets up an instance of `GesturedeckFlutter` to handle messages through the `binaryMessenger`.
-  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: GesturedeckFlutter?) {
-    let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.initialize", binaryMessenger: binaryMessenger)
+class GesturedeckChannelSetup {
+  /// The codec used by GesturedeckChannel.
+  /// Sets up an instance of `GesturedeckChannel` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: GesturedeckChannel?) {
+    let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize", binaryMessenger: binaryMessenger)
     if let api = api {
       initializeChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
@@ -101,7 +101,7 @@ class GesturedeckFlutterSetup {
     } else {
       initializeChannel.setMessageHandler(nil)
     }
-    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.start", binaryMessenger: binaryMessenger)
+    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.start", binaryMessenger: binaryMessenger)
     if let api = api {
       startChannel.setMessageHandler { _, reply in
         do {
@@ -114,7 +114,7 @@ class GesturedeckFlutterSetup {
     } else {
       startChannel.setMessageHandler(nil)
     }
-    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckFlutter.stop", binaryMessenger: binaryMessenger)
+    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.stop", binaryMessenger: binaryMessenger)
     if let api = api {
       stopChannel.setMessageHandler { _, reply in
         do {
@@ -129,7 +129,7 @@ class GesturedeckFlutterSetup {
     }
   }
 }
-private class GesturedeckMediaFlutterCodecReader: FlutterStandardReader {
+private class GesturedeckMediaChannelCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
@@ -140,7 +140,7 @@ private class GesturedeckMediaFlutterCodecReader: FlutterStandardReader {
   }
 }
 
-private class GesturedeckMediaFlutterCodecWriter: FlutterStandardWriter {
+private class GesturedeckMediaChannelCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
     if let value = value as? OverlayConfig {
       super.writeByte(128)
@@ -151,25 +151,25 @@ private class GesturedeckMediaFlutterCodecWriter: FlutterStandardWriter {
   }
 }
 
-private class GesturedeckMediaFlutterCodecReaderWriter: FlutterStandardReaderWriter {
+private class GesturedeckMediaChannelCodecReaderWriter: FlutterStandardReaderWriter {
   override func reader(with data: Data) -> FlutterStandardReader {
-    return GesturedeckMediaFlutterCodecReader(data: data)
+    return GesturedeckMediaChannelCodecReader(data: data)
   }
 
   override func writer(with data: NSMutableData) -> FlutterStandardWriter {
-    return GesturedeckMediaFlutterCodecWriter(data: data)
+    return GesturedeckMediaChannelCodecWriter(data: data)
   }
 }
 
-class GesturedeckMediaFlutterCodec: FlutterStandardMessageCodec {
-  static let shared = GesturedeckMediaFlutterCodec(readerWriter: GesturedeckMediaFlutterCodecReaderWriter())
+class GesturedeckMediaChannelCodec: FlutterStandardMessageCodec {
+  static let shared = GesturedeckMediaChannelCodec(readerWriter: GesturedeckMediaChannelCodecReaderWriter())
 }
 
 /// GesturedeckMedia
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
-protocol GesturedeckMediaFlutter {
-  func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, overlayConfig: OverlayConfig?) throws
+protocol GesturedeckMediaChannel {
+  func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws
   func start() throws
   func stop() throws
   func dispose() throws
@@ -177,21 +177,22 @@ protocol GesturedeckMediaFlutter {
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
-class GesturedeckMediaFlutterSetup {
-  /// The codec used by GesturedeckMediaFlutter.
-  static var codec: FlutterStandardMessageCodec { GesturedeckMediaFlutterCodec.shared }
-  /// Sets up an instance of `GesturedeckMediaFlutter` to handle messages through the `binaryMessenger`.
-  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: GesturedeckMediaFlutter?) {
-    let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.initialize", binaryMessenger: binaryMessenger, codec: codec)
+class GesturedeckMediaChannelSetup {
+  /// The codec used by GesturedeckMediaChannel.
+  static var codec: FlutterStandardMessageCodec { GesturedeckMediaChannelCodec.shared }
+  /// Sets up an instance of `GesturedeckMediaChannel` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: GesturedeckMediaChannel?) {
+    let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.initialize", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       initializeChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let activationKeyArg: String? = nilOrValue(args[0])
         let autoStartArg = args[1] as! Bool
         let reverseHorizontalSwipesArg = args[2] as! Bool
-        let overlayConfigArg: OverlayConfig? = nilOrValue(args[3])
+        let panSensitivityArg: Int64? = args[3] is NSNull ? nil : (args[3] is Int64? ? args[3] as! Int64? : Int64(args[3] as! Int32))
+        let overlayConfigArg: OverlayConfig? = nilOrValue(args[4])
         do {
-          try api.initialize(activationKey: activationKeyArg, autoStart: autoStartArg, reverseHorizontalSwipes: reverseHorizontalSwipesArg, overlayConfig: overlayConfigArg)
+          try api.initialize(activationKey: activationKeyArg, autoStart: autoStartArg, reverseHorizontalSwipes: reverseHorizontalSwipesArg, panSensitivity: panSensitivityArg, overlayConfig: overlayConfigArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
@@ -200,7 +201,7 @@ class GesturedeckMediaFlutterSetup {
     } else {
       initializeChannel.setMessageHandler(nil)
     }
-    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.start", binaryMessenger: binaryMessenger, codec: codec)
+    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.start", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       startChannel.setMessageHandler { _, reply in
         do {
@@ -213,7 +214,7 @@ class GesturedeckMediaFlutterSetup {
     } else {
       startChannel.setMessageHandler(nil)
     }
-    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.stop", binaryMessenger: binaryMessenger, codec: codec)
+    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.stop", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       stopChannel.setMessageHandler { _, reply in
         do {
@@ -226,7 +227,7 @@ class GesturedeckMediaFlutterSetup {
     } else {
       stopChannel.setMessageHandler(nil)
     }
-    let disposeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.dispose", binaryMessenger: binaryMessenger, codec: codec)
+    let disposeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.dispose", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       disposeChannel.setMessageHandler { _, reply in
         do {
@@ -239,7 +240,7 @@ class GesturedeckMediaFlutterSetup {
     } else {
       disposeChannel.setMessageHandler(nil)
     }
-    let reverseHorizontalSwipesChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaFlutter.reverseHorizontalSwipes", binaryMessenger: binaryMessenger, codec: codec)
+    let reverseHorizontalSwipesChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.reverseHorizontalSwipes", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       reverseHorizontalSwipesChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]

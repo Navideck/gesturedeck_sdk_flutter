@@ -7,10 +7,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.KeyEvent
 import android.view.MotionEvent
-import com.navideck.gesturedeck_android.GesturedeckMedia
-import com.navideck.gesturedeck_android.GesturedeckMediaOverlay
+import com.navideck.gesturedeck_android.gesturedeck_media.GesturedeckMedia
+import com.navideck.gesturedeck_android.gesturedeck_media.GesturedeckMediaOverlay
+import com.navideck.gesturedeck_android.model.PanSensitivity
 import com.navideck.gesturedeck_flutter.GesturedeckMediaCallback
-import com.navideck.gesturedeck_flutter.GesturedeckMediaFlutter
+import com.navideck.gesturedeck_flutter.GesturedeckMediaChannel
 import com.navideck.gesturedeck_flutter.OverlayConfig
 import com.navideck.universal_volume.UniversalVolume
 import io.flutter.embedding.engine.renderer.FlutterRenderer
@@ -20,7 +21,7 @@ internal class GesturedeckMediaHandler(
     private val universalVolume: UniversalVolume? = null,
     private val gesturedeckMediaCallback: GesturedeckMediaCallback? = null,
     private val flutterRenderer: FlutterRenderer,
-) : GesturedeckMediaFlutter {
+) : GesturedeckMediaChannel {
     private var gesturedeckMedia: GesturedeckMedia? = null
 
     fun onTouchEvent(event: MotionEvent) {
@@ -35,6 +36,7 @@ internal class GesturedeckMediaHandler(
         activationKey: String?,
         autoStart: Boolean,
         reverseHorizontalSwipes: Boolean,
+        panSensitivity: Long?,
         overlayConfig: OverlayConfig?
     ) {
         var tintColor: Int? = null
@@ -46,6 +48,7 @@ internal class GesturedeckMediaHandler(
             reverseHorizontalSwipes = reverseHorizontalSwipes,
             activationKey = activationKey,
             autoStart = autoStart,
+            panSensitivity = panSensitivity?.toPanSensitivity(),
             gesturedeckMediaOverlay = GesturedeckMediaOverlay(
                 activity = activity,
                 tintColor = tintColor,
@@ -81,6 +84,7 @@ internal class GesturedeckMediaHandler(
         gesturedeckMedia?.dispose()
     }
 
+
     override fun start() {
         gesturedeckMedia?.start()
     }
@@ -101,4 +105,14 @@ internal class GesturedeckMediaHandler(
             BitmapFactory.decodeByteArray(args, 0, args.size)
         )
     }
+
+    private fun Long.toPanSensitivity(): PanSensitivity? {
+        return when (this) {
+            0L -> PanSensitivity.LOW
+            1L -> PanSensitivity.MEDIUM
+            2L -> PanSensitivity.HIGH
+            else -> null
+        }
+    }
 }
+

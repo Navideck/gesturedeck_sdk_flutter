@@ -7,7 +7,7 @@
 
 import GesturedeckiOS
 
-class GesturedeckHandler: NSObject, GesturedeckFlutter {
+class GesturedeckHandler: NSObject, GesturedeckChannel {
     var gesturedeck: Gesturedeck?
     var gesturedeckCallback: GesturedeckCallback
 
@@ -29,7 +29,7 @@ class GesturedeckHandler: NSObject, GesturedeckFlutter {
             panAction: { _ in
                 self.gesturedeckCallback.onPan {}
             },
-            longPressAction: { sender in
+            longPressAction: { _ in
                 self.gesturedeckCallback.onLongPress {}
             },
             activationKey: activationKey,
