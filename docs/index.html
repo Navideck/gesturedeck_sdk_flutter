@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 6.2.2">
+  <meta name="description" content="gesturedeck_flutter API docs, for the Dart programming language.">
+  <title>gesturedeck_flutter - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li class="self-crumb">gesturedeck_flutter package</li>
+  </ol>
+  <div class="self-name">gesturedeck_flutter</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <div class="toggle" id="theme-button">
+    <label for="theme">
+      <input type="checkbox" id="theme" value="light-theme">
+      <span id="dark-theme-button" class="material-symbols-outlined">
+        brightness_4
+      </span>
+      <span id="light-theme-button" class="material-symbols-outlined">
+        brightness_5
+      </span>
+    </label>
+  </div>
+</header>
+<main>
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="gesturedeck-flutter">Gesturedeck Flutter</h1>
+<p>This is a Flutter plugin for native <code>Gesturedeck Android</code> and <code>Gesturedeck IOS</code>. It provides a simple way to integrate Gesturedeck into your Flutter app.</p>
+<h2 id="key-features">Key Features</h2>
+<ul>
+<li>Intuitive touch gestures for seamless device control.</li>
+<li>Customizable gesture actions for enhanced user interactions.</li>
+<li>Integrated GesturedeckMedia for media app controls with overlay UI support.</li>
+<li>Support for volume button actions with GesturedeckMedia.</li>
+<li>Sensitivity settings for fine-tuning gesture responsiveness.</li>
+<li>Does not require internet connectivity</li>
+</ul>
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="setup-gesturedeck">Setup Gesturedeck</h3>
+<p>To use Gesturedeck, you need to initialize it with an activation key and set up actions for different gestures. Here's an example:</p>
+<pre class="language-dart"><code class="language-dart">// Initialize Gesturedeck
+var gesturedeck =  Gesturedeck(
+    activationKey: "",
+    autoStart: true,
+    tapAction: () {},
+    swipeLeftAction: () {},
+    swipeRightAction: () {},
+    panAction: () {},
+);
+
+// To start manually, if autoStart = false
+gesturedeck.start()
+
+// To stop
+gesturedeck.stop()
+</code></pre>
+<h3 id="setup-gesturedeckmedia">Setup GesturedeckMedia</h3>
+<pre class="language-dart"><code class="language-dart">// To get icon from assets
+var icon = await rootBundle.load("assets/icon.png");
+Uint8List iconBytes = testIcon.buffer.asUint8List();
+
+// Initialize GesturedeckMedia
+var gesturedeckMedia =  Gesturedeck(
+    activationKey: "",
+    autoStart: true,
+    reverseHorizontalSwipes: reverseHorizontalSwipes,
+    tapAction: () {},
+    swipeLeftAction: () {},
+    swipeRightAction: () {},
+    panAction: () {},
+    gesturedeckMediaOverlay: GesturedeckMediaOverlay(
+        tintColor: Colors.green,
+        topIcon: icon, 
+        iconSwipeLeft: ..,
+        iconSwipeRight: ..,
+        iconTap: ..,
+        iconTapToggled: ..,
+    ),
+);
+
+// To start manually, if autoStart = false
+gesturedeckMedia.start()
+
+// To stop
+gesturedeckMedia.stop()
+
+
+// To reverse horizontal swipes
+gesturedeckMedia.reverseHorizontalSwipes(true)
+</code></pre>
+<h2 id="generate-docs">Generate docs</h2>
+<pre class="language-dart"><code class="language-dart">dart doc --output docs
+</code></pre>
+<h2 id="free-to-use">Free to Use</h2>
+<p>Gesturedeck SDK is free to use, providing you with the full functionality of the SDK without any time limitations. You are welcome to integrate it into both personal and commercial projects. When using Gesturedeck SDK for free, a watermark will be presented during runtime. It is strictly prohibited  to hide, remove, or alter in any way the watermark from the free version of Gesturedeck SDK.</p>
+<h3 id="activation-key-and-watermark-removal">Activation Key and Watermark Removal</h3>
+<p>For those who wish to remove the watermark from their app, we offer an activation key that allows you to use the SDK without any watermarks. However, please be aware that the watermark-free version is not available for free and requires a purchase.</p>
+<p>To inquire about purchasing an activation key or if you have any other questions related to licensing and usage, please contact us at <a href="mailto:team@navideck.com">team@navideck.com</a>. We will be happy to assist you with the process and provide you with the necessary information.</p>
+<h2 id="contact">Contact</h2>
+<p>For questions or support, please contact us at <a href="mailto:team@navideck.com">team@navideck.com</a>. Thank you for choosing Volumedeck SDK!</p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="gesturedeck_flutter">
+  <span class="name"><a href="gesturedeck_flutter/gesturedeck_flutter-library.html">gesturedeck_flutter</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li class="self-crumb">gesturedeck_flutter package</li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">gesturedeck_flutter</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="gesturedeck_flutter/gesturedeck_flutter-library.html">gesturedeck_flutter</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    gesturedeck_flutter
+      0.0.1
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+
+
+</body>
+
+</html>
+

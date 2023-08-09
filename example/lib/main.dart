@@ -1,8 +1,8 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gesturedeck_flutter/gesturedeck_flutter.dart';
-import 'package:gesturedeck_flutter/overlay_config.dart';
 
 void main() {
   runApp(
@@ -21,30 +21,56 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool reverseHorizontalSwipes = false;
+  String gesturedeckMediaAction = "";
+  String gesturedeckAction = "";
 
   void initializeGesturedeck() async {
-    // var testIcon = await rootBundle.load("assets/test_icon.png");
-    // Uint8List testIconBytes = testIcon.buffer.asUint8List();
-    Gesturedeck.initialize(
+    await Gesturedeck.initialize(
       activationKey: "",
-      autoStart: false,
-      reverseHorizontalSwipes: reverseHorizontalSwipes,
-      enableGesturedeckMedia: true,
-      overlayConfig: OverlayConfig(
-          // tintColor: Colors.green,
-          // topIcon: testIconBytes,
-          // iconSwipeLeft: testIconBytes,
-          // iconSwipeRight: testIconBytes,
-          // iconTap: testIconBytes,
-          // iconTapToggled: testIconBytes,
-          ),
+      tapAction: () => setState(() => gesturedeckAction = "tap"),
+      swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
+      swipeRightAction: () => setState(() => gesturedeckAction = "swipeRight"),
+      panAction: () => setState(() => gesturedeckAction = "pan"),
+    );
+  }
+
+  void initializeGesturedeckMedia() async {
+    var testIcon = await rootBundle.load("assets/test_icon.png");
+    Uint8List testIconBytes = testIcon.buffer.asUint8List();
+    var gesturedeckMediaOverlay = GesturedeckMediaOverlay(
+      tintColor: Colors.green,
+      topIcon: testIconBytes,
+      iconSwipeLeft: testIconBytes,
+      iconSwipeRight: testIconBytes,
+      iconTap: testIconBytes,
+      iconTapToggled: testIconBytes,
+    );
+
+    await GesturedeckMedia.initialize(
+      activationKey: "",
+      tapAction: () {
+        setState(() => gesturedeckMediaAction = "tap");
+      },
+      swipeLeftAction: () {
+        setState(() => gesturedeckMediaAction = "swipeLeft");
+      },
+      swipeRightAction: () {
+        setState(() => gesturedeckMediaAction = "swipeRight");
+      },
+      panAction: () {
+        setState(() => gesturedeckMediaAction = "pan");
+      },
+      longPressAction: () {
+        setState(() => gesturedeckMediaAction = "longPress");
+      },
+      // gesturedeckMediaOverlay: gesturedeckMediaOverlay,
     );
   }
 
   @override
   void initState() {
-    initializeGesturedeck();
+    // initializeGesturedeck();
+    initializeGesturedeckMedia();
     super.initState();
   }
 
@@ -57,50 +83,50 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                  onPressed: () => Gesturedeck.start(),
-                  child: const Text("start")),
-              ElevatedButton(
-                  onPressed: () async {
-                    await Gesturedeck.reverseHorizontalSwipes(
-                        !reverseHorizontalSwipes);
-                    setState(() {
-                      reverseHorizontalSwipes = !reverseHorizontalSwipes;
-                    });
+          Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                ElevatedButton(
+                    onPressed: () {
+                      GesturedeckMedia.start();
+                    },
+                    child: const Text("Start")),
+                ElevatedButton(
+                  onPressed: () {
+                    GesturedeckMedia.stop();
                   },
-                  child: const Text("Reverse")),
-              ElevatedButton(
-                onPressed: () => Gesturedeck.stop(),
-                child: const Text("stop"),
-              ),
-            ],
+                  child: const Text("Stop"),
+                ),
+              ],
+            ),
           ),
-          const Divider(),
-          Text(
-              'Swipe ${reverseHorizontalSwipes ? 'left' : 'right'} to skip next'),
-          const Divider(),
           Expanded(
             child: Container(
-              color: Colors.grey.shade400,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: StreamBuilder(
-                    stream: Gesturedeck.gesturesStream,
-                    initialData: null,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      GestureType? gestureType = snapshot.data;
-                      return gestureType == null
+                color: Colors.grey.shade400,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: gesturedeckMediaAction.isEmpty
                           ? const Text('Swipe or Tap on Screen')
-                          : Text('Recognized Gesture : ${gestureType.name}');
-                    },
-                  ),
-                ),
-              ),
-            ),
+                          : Text(
+                              'Recognized GesturedeckMedia : $gesturedeckMediaAction',
+                            ),
+                    ),
+                    const Divider(),
+                    gesturedeckAction.isEmpty
+                        ? const SizedBox()
+                        : Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Recognized Gesturedeck : $gesturedeckAction',
+                            ),
+                          ),
+                  ],
+                )),
           ),
         ],
       ),
