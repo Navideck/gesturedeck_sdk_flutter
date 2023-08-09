@@ -4,10 +4,36 @@ import 'package:flutter/services.dart';
 import 'package:gesturedeck_flutter/src/models/gesturedeck_media_overlay.dart';
 import 'generated/gesturedeck_generated.g.dart';
 
+/// A subclass of [Gesturedeck] that provides media-specific functionality such as volume control and media playback actions.
+///
+/// Gesturedeck also includes support for media overlays, which can be used to display additional information or controls on top of the app's content.
 class GesturedeckMedia {
   static final _gesturedeckMediaChannel = GesturedeckMediaChannel();
   static bool _isInitialized = false;
 
+  /// Initializes GesturedeckMedia with the provided parameters.
+  ///
+  /// [tapAction] - The action to perform when tapping with two fingers.
+  ///
+  /// [swipeLeftAction] - The action to perform when swiping left with two fingers.
+  ///
+  /// [swipeRightAction] - The action to perform when swiping right with two fingers.
+  ///
+  /// [panAction] - The action to perform when panning vertically with two fingers or double tapping and sliding with a single finger.
+  ///
+  /// [panSensitivity] - The sensitivity of Gesturedeck when panning.
+  ///
+  /// [longPressAction] - The action to perform when long pressing with two fingers.
+  ///
+  /// [reverseHorizontalSwipes] - Whether to reverse the direction of horizontal swipes.
+  ///
+  /// [activationKey] - An optional activation key to remove watermarks. If not provided, Gesturedeck will present a watermark.
+  ///
+  /// [autoStart] - Determines whether Gesturedeck should automatically start detecting gestures when it is initialized. The default value is `true`.
+  ///
+  /// [gesturedeckMediaOverlay] - The overlay to display on top of Gesturedeck.
+  /// 
+  ///  Throws an exception if GesturedeckMedia is already initialized.
   static Future<void> initialize({
     VoidCallback? tapAction,
     VoidCallback? swipeLeftAction,
@@ -65,6 +91,7 @@ class GesturedeckMedia {
   }
 }
 
+/// An enum representing the sensitivity of Gesturedeck when performing a panning gesture.
 enum PanSensitivity {
   low(0),
   medium(1),

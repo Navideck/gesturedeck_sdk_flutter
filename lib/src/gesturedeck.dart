@@ -1,10 +1,36 @@
 import 'package:flutter/services.dart';
 import 'generated/gesturedeck_generated.g.dart';
 
+/// This is the low-level API that allows you to build custom functionalities on top of Gesturedeck, with seamless callbacks for Gesturedeck's gestures.
+///
+/// The library provides callbacks for each gesture, allowing developers to perform custom actions in response to user input.
+///
+/// It allows developers to easily add support for multi-finger and single-finger gestures such as taps, swipes, pans, and long presses to their apps, that are active on top of the entire UI and do not interfere with the apps' UI elements.
+///
+/// To use Gesturedeck, create an instance of the `Gesturedeck` class and pass in the required parameters. When a gesture is detected, the corresponding callback will be invoked.
+///
+/// Gesturedeck requires an activation key to remove watermarks. The activation key can be obtained by contacting Navideck, the creators of Gesturedeck. The watermarked mode is available for free for developers who want to use it without setting an activation key.
 class Gesturedeck {
   static final _gesturedeckFlutter = GesturedeckChannel();
   static bool _isInitialized = false;
 
+  /// Initializes Gesturedeck with the specified parameters.
+  ///
+  /// [tapAction] - The action to perform when tapping with two fingers.
+  ///
+  /// [swipeLeftAction] - The action to perform when swiping left with two fingers.
+  ///
+  /// [swipeRightAction] - The action to perform when swiping right with two fingers.
+  ///
+  /// [panAction] - The action to perform when panning with two fingers.
+  ///
+  /// [longPressAction] - The action to perform when long pressing with two fingers.
+  ///
+  /// [activationKey] - The activation key required to remove watermarks from Gesturedeck. The activation key can be obtained by contacting Navideck, the creators of Gesturedeck. The watermarked mode is available for free for developers who want to use it without setting an activation key.
+  ///
+  /// [autoStart] - Determines whether Gesturedeck should automatically start detecting gestures when it is initialized. The default value is `true`.
+  ///
+  /// Throws an exception if Gesturedeck is already initialized.
   static Future<void> initialize({
     VoidCallback? tapAction,
     VoidCallback? swipeLeftAction,
