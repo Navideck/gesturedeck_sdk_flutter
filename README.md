@@ -1,6 +1,6 @@
 # Gesturedeck Flutter
 
-This is a Flutter plugin for native `Gesturedeck Android` and `Gesturedeck IOS`. It provides a simple way to integrate Gesturedeck into your Flutter app.
+This Flutter plugin allows seamless integration of Gesturedeck into your Flutter app, providing intuitive touch gestures for enhanced user interactions. The plugin is compatible with both Android and iOS platforms.
 
 ## Key Features
 
@@ -9,83 +9,80 @@ This is a Flutter plugin for native `Gesturedeck Android` and `Gesturedeck IOS`.
 - Integrated GesturedeckMedia for media app controls with overlay UI support.
 - Support for volume button actions with GesturedeckMedia.
 - Sensitivity settings for fine-tuning gesture responsiveness.
-- Does not require internet connectivity
+- Does not require internet connectivity.
 
 ## Getting Started
 
 ### Setup Gesturedeck
 
-To use Gesturedeck, you need to initialize it with an activation key and set up actions for different gestures. Here's an example:
+Integrate Gesturedeck into your Flutter app with just a few steps:
 
+1. Initialize Gesturedeck:
 ```dart
-// Initialize Gesturedeck
-var gesturedeck =  Gesturedeck(
-    activationKey: "",
-    autoStart: true,
+var gesturedeck = Gesturedeck.initialize(
     tapAction: () {},
     swipeLeftAction: () {},
     swipeRightAction: () {},
     panAction: () {},
 );
+```
 
-// To start manually, if autoStart = false
-gesturedeck.start()
-
-// To stop
-gesturedeck.stop()
+2. Start and stop Gesturedeck detection:
+```dart
+gesturedeck.start();
+gesturedeck.stop();
 ```
 
 ### Setup GesturedeckMedia  
 
-```dart
-// To get icon from assets
-var icon = await rootBundle.load("assets/icon.png");
-Uint8List iconBytes = testIcon.buffer.asUint8List();
+Enhance media app controls using GesturedeckMedia:
 
-// Initialize GesturedeckMedia
-var gesturedeckMedia =  Gesturedeck(
-    activationKey: "",
-    autoStart: true,
-    reverseHorizontalSwipes: reverseHorizontalSwipes,
+1. Initialize GesturedeckMedia with overlay UI customization:
+```dart
+var gesturedeckMedia = GesturedeckMedia.initialize(
     tapAction: () {},
     swipeLeftAction: () {},
     swipeRightAction: () {},
     panAction: () {},
     gesturedeckMediaOverlay: GesturedeckMediaOverlay(
         tintColor: Colors.green,
-        topIcon: icon, 
-        iconSwipeLeft: ..,
-        iconSwipeRight: ..,
-        iconTap: ..,
-        iconTapToggled: ..,
+        topIcon: icon,
+        iconSwipeLeft: ...,
+        iconSwipeRight: ...,
+        iconTap: ...,
+        iconTapToggled: ...,
     ),
 );
-
-// To start manually, if autoStart = false
-gesturedeckMedia.start()
-
-// To stop
-gesturedeckMedia.stop()
-
-
-// To reverse horizontal swipes
-gesturedeckMedia.reverseHorizontalSwipes(true)
 ```
 
-## Generate docs
-
+2. Start and stop GesturedeckMedia detection:
 ```dart
+gesturedeckMedia.start();
+gesturedeckMedia.stop();
+```
+
+3. Customize reverse horizontal swipes:
+```dart
+gesturedeckMedia.reverseHorizontalSwipes = true;
+```
+
+## Generate Documentation
+
+Generate documentation for your Gesturedeck Flutter integration using the following command:
+```bash
 dart doc --output docs
 ```
 
 ## Free to Use
-Gesturedeck SDK is free to use, providing you with the full functionality of the SDK without any time limitations. You are welcome to integrate it into both personal and commercial projects. When using Gesturedeck SDK for free, a watermark will be presented during runtime. It is strictly prohibited  to hide, remove, or alter in any way the watermark from the free version of Gesturedeck SDK.
+
+Gesturedeck SDK is freely available for use in both personal and commercial projects, offering full functionality without time limitations. However, when using the free version, a watermark will be displayed during runtime. It is strictly prohibited to hide, remove, or alter the watermark from the free version of Gesturedeck SDK.
 
 ### Activation Key and Watermark Removal
-For those who wish to remove the watermark from their app, we offer an activation key that allows you to use the SDK without any watermarks. However, please be aware that the watermark-free version is not available for free and requires a purchase.
 
-To inquire about purchasing an activation key or if you have any other questions related to licensing and usage, please contact us at team@navideck.com. We will be happy to assist you with the process and provide you with the necessary information.
+To remove the watermark from your app, an activation key is available for purchase. The watermark-free version of Gesturedeck SDK can be obtained through this activation key.
+
+To inquire about purchasing an activation key or for any other questions related to licensing and usage, please reach out to us at team@navideck.com. We are here to assist you with the process and provide the necessary information.
 
 ## Contact
 
-For questions or support, please contact us at team@navideck.com. Thank you for choosing Volumedeck SDK!
+For any inquiries, questions, or support, please don't hesitate to contact our team at team@navideck.com. Thank you for choosing Gesturedeck Flutter Plugin!
