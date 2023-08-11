@@ -32,7 +32,7 @@ class GesturedeckMedia {
   /// [autoStart] - Determines whether Gesturedeck should automatically start detecting gestures when it is initialized. The default value is `true`.
   ///
   /// [gesturedeckMediaOverlay] - The overlay to display on top of Gesturedeck.
-  /// 
+  ///
   ///  Throws an exception if GesturedeckMedia is already initialized.
   static Future<void> initialize({
     VoidCallback? tapAction,
@@ -59,14 +59,7 @@ class GesturedeckMedia {
       autoStart,
       reverseHorizontalSwipes,
       panSensitivity?.value,
-      OverlayConfig(
-        tintColor: gesturedeckMediaOverlay?.tintColor?.value.toRadixString(16),
-        topIcon: gesturedeckMediaOverlay?.topIcon,
-        iconSwipeLeft: gesturedeckMediaOverlay?.iconSwipeLeft,
-        iconSwipeRight: gesturedeckMediaOverlay?.iconSwipeRight,
-        iconTap: gesturedeckMediaOverlay?.iconTap,
-        iconTapToggled: gesturedeckMediaOverlay?.iconTapToggled,
-      ),
+      gesturedeckMediaOverlay?.toOverlayConfig() ?? OverlayConfig(),
     );
     _isInitialized = true;
   }
@@ -79,6 +72,13 @@ class GesturedeckMedia {
   static Future<void> stop() async {
     _ensureInitialized();
     await _gesturedeckMediaChannel.stop();
+  }
+
+  static set gesturedeckMediaOverlay(GesturedeckMediaOverlay overlay) {
+    _ensureInitialized();
+    _gesturedeckMediaChannel.setGesturedeckMediaOverlay(
+      overlay.toOverlayConfig(),
+    );
   }
 
   static set reverseHorizontalSwipes(bool reverse) {
@@ -139,5 +139,18 @@ class _GesturedeckMediaCallbackHandler extends GesturedeckMediaCallback {
   @override
   void onTap() {
     tapAction?.call();
+  }
+}
+
+extension _OverlayConfigExtension on GesturedeckMediaOverlay {
+  OverlayConfig toOverlayConfig() {
+    return OverlayConfig(
+      tintColor: tintColor?.value.toRadixString(16),
+      topIcon: topIcon,
+      iconSwipeLeft: iconSwipeLeft,
+      iconSwipeRight: iconSwipeRight,
+      iconTap: iconTap,
+      iconTapToggled: iconTapToggled,
+    );
   }
 }

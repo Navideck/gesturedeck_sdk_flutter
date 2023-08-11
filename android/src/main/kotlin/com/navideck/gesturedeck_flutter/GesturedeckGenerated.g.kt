@@ -185,6 +185,7 @@ interface GesturedeckMediaChannel {
   fun stop()
   fun dispose()
   fun reverseHorizontalSwipes(value: Boolean)
+  fun setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?)
 
   companion object {
     /** The codec used by GesturedeckMediaChannel. */
@@ -277,6 +278,25 @@ interface GesturedeckMediaChannel {
             var wrapped: List<Any?>
             try {
               api.reverseHorizontalSwipes(valueArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.setGesturedeckMediaOverlay", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val overlayConfigArg = args[0] as OverlayConfig?
+            var wrapped: List<Any?>
+            try {
+              api.setGesturedeckMediaOverlay(overlayConfigArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

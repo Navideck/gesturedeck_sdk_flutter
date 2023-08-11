@@ -174,6 +174,7 @@ protocol GesturedeckMediaChannel {
   func stop() throws
   func dispose() throws
   func reverseHorizontalSwipes(value: Bool) throws
+  func setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?) throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -254,6 +255,21 @@ class GesturedeckMediaChannelSetup {
       }
     } else {
       reverseHorizontalSwipesChannel.setMessageHandler(nil)
+    }
+    let setGesturedeckMediaOverlayChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.setGesturedeckMediaOverlay", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      setGesturedeckMediaOverlayChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let overlayConfigArg: OverlayConfig? = nilOrValue(args[0])
+        do {
+          try api.setGesturedeckMediaOverlay(overlayConfig: overlayConfigArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      setGesturedeckMediaOverlayChannel.setMessageHandler(nil)
     }
   }
 }

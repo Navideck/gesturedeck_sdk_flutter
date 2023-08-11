@@ -46,6 +46,8 @@ abstract class GesturedeckMediaChannel {
   void dispose();
 
   void reverseHorizontalSwipes(bool value);
+
+  void setGesturedeckMediaOverlay(OverlayConfig? overlayConfig);
 }
 
 @FlutterApi()
