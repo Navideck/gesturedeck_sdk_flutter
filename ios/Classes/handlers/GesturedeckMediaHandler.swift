@@ -16,11 +16,6 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
     }
 
     func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws {
-        let tintColorValue: String? = overlayConfig?.tintColor as? String
-        var tintColor: UIColor? = nil
-        if tintColorValue != nil {
-            tintColor = UIColor(hexString: tintColorValue!)
-        }
         gesturedeckMedia = GesturedeckMedia(
             tapAction: {
                 self.gesturedeckMediaCallback.onTap {}
@@ -39,15 +34,7 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
             },
             activationKey: activationKey,
             autoStart: autoStart,
-            gesturedeckMediaOverlay: GesturedeckMediaOverlay(
-                tintColor: tintColor,
-                topIcon: overlayConfig?.topIcon?.toUIImage(),
-                iconTap: overlayConfig?.iconTap?.toUIImage(),
-                iconTapToggled: overlayConfig?.iconTapToggled?.toUIImage(),
-                iconSwipeLeft: overlayConfig?.iconSwipeLeft?.toUIImage(),
-                iconSwipeRight: overlayConfig?.iconSwipeRight?.toUIImage(),
-                reverseHorizontalSwipes: reverseHorizontalSwipes
-            ),
+            gesturedeckMediaOverlay: overlayConfig?.toGesturedeckMedia(reverseHorizontalSwipes),
             panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium
         )
     }
@@ -66,6 +53,30 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
 
     func reverseHorizontalSwipes(value: Bool) throws {
         gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value
+    }
+
+    func setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?) throws {
+        if overlayConfig == nil { return }
+        let reverseHorizontalSwipes = gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes ?? false
+        gesturedeckMedia?.gesturedeckMediaOverlay = overlayConfig!.toGesturedeckMedia(reverseHorizontalSwipes)
+    }
+}
+
+private extension OverlayConfig {
+    func toGesturedeckMedia(_ reverseHorizontalSwipes: Bool) -> GesturedeckMediaOverlay {
+        var tintUIColor: UIColor? = nil
+        if tintColor != nil {
+            tintUIColor = UIColor(hexString: tintColor!)
+        }
+        return GesturedeckMediaOverlay(
+            tintColor: tintUIColor,
+            topIcon: topIcon?.toUIImage(),
+            iconTap: iconTap?.toUIImage(),
+            iconTapToggled: iconTapToggled?.toUIImage(),
+            iconSwipeLeft: iconSwipeLeft?.toUIImage(),
+            iconSwipeRight: iconSwipeRight?.toUIImage(),
+            reverseHorizontalSwipes: reverseHorizontalSwipes
+        )
     }
 }
 

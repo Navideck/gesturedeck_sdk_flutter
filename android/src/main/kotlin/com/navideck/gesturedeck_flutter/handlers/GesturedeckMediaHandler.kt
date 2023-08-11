@@ -49,15 +49,7 @@ internal class GesturedeckMediaHandler(
             activationKey = activationKey,
             autoStart = autoStart,
             panSensitivity = panSensitivity?.toPanSensitivity(),
-            gesturedeckMediaOverlay = GesturedeckMediaOverlay(
-                activity = activity,
-                tintColor = tintColor,
-                iconTapToggled = argsToDrawable(overlayConfig?.iconTapToggled),
-                iconSwipeLeft = argsToDrawable(overlayConfig?.iconSwipeLeft),
-                iconSwipeRight = argsToDrawable(overlayConfig?.iconSwipeRight),
-                topIcon = argsToDrawable(overlayConfig?.topIcon),
-                bitmapCallback = { flutterRenderer.bitmap }
-            ),
+            gesturedeckMediaOverlay = overlayConfig?.toGesturedeckMediaOverlay(),
             tapAction = {
                 gesturedeckMediaCallback?.onTap { }
             },
@@ -98,11 +90,28 @@ internal class GesturedeckMediaHandler(
         gesturedeckMedia?.reverseHorizontalSwipes = value
     }
 
+    override fun setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?) {
+        gesturedeckMedia?.gesturedeckMediaOverlay?.dispose()
+        gesturedeckMedia?.gesturedeckMediaOverlay = overlayConfig?.toGesturedeckMediaOverlay()
+    }
+
     private fun argsToDrawable(args: Any?): Drawable? {
         if (args == null || args !is ByteArray) return null
         return BitmapDrawable(
             activity.resources,
             BitmapFactory.decodeByteArray(args, 0, args.size)
+        )
+    }
+
+    private fun OverlayConfig.toGesturedeckMediaOverlay(): GesturedeckMediaOverlay {
+        return GesturedeckMediaOverlay(
+            activity = activity,
+            tintColor = tintColor?.let { Color.parseColor("#$it") },
+            iconTapToggled = argsToDrawable(iconTapToggled),
+            iconSwipeLeft = argsToDrawable(iconSwipeLeft),
+            iconSwipeRight = argsToDrawable(iconSwipeRight),
+            topIcon = argsToDrawable(topIcon),
+            bitmapCallback = { flutterRenderer.bitmap }
         )
     }
 
