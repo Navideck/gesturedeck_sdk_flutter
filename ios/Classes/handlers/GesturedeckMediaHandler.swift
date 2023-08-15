@@ -65,11 +65,18 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
 private extension OverlayConfig {
     func toGesturedeckMedia(_ reverseHorizontalSwipes: Bool) -> GesturedeckMediaOverlay {
         var tintUIColor: UIColor? = nil
-        if tintColor != nil {
-            tintUIColor = UIColor(hexString: tintColor!)
+        var overlayBackgroundUIColor: UIColor? = nil
+        
+        if let tintColor = tintColor {
+            tintUIColor = UIColor(hexString: tintColor)
         }
+        if let overlayBackgroundColor = overlayBackgroundColor {
+            overlayBackgroundUIColor = UIColor(hexString: overlayBackgroundColor)
+        }
+        
         return GesturedeckMediaOverlay(
             tintColor: tintUIColor,
+            overlayBackgroundColor: overlayBackgroundUIColor,
             topIcon: topIcon?.toUIImage(),
             iconTap: iconTap?.toUIImage(),
             iconTapToggled: iconTapToggled?.toUIImage(),

@@ -107,6 +107,7 @@ internal class GesturedeckMediaHandler(
         return GesturedeckMediaOverlay(
             activity = activity,
             tintColor = tintColor?.let { Color.parseColor("#$it") },
+            overlayBackgroundColor = overlayBackgroundColor?.let { Color.parseColor("#$it") },
             iconTapToggled = argsToDrawable(iconTapToggled),
             iconSwipeLeft = argsToDrawable(iconSwipeLeft),
             iconSwipeRight = argsToDrawable(iconSwipeRight),

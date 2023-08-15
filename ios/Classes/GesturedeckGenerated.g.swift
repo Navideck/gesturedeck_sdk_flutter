@@ -37,6 +37,7 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
 /// Generated class from Pigeon that represents data sent in messages.
 struct OverlayConfig {
   var tintColor: String? = nil
+  var overlayBackgroundColor: String? = nil
   var topIcon: FlutterStandardTypedData? = nil
   var iconSwipeLeft: FlutterStandardTypedData? = nil
   var iconSwipeRight: FlutterStandardTypedData? = nil
@@ -45,14 +46,16 @@ struct OverlayConfig {
 
   static func fromList(_ list: [Any?]) -> OverlayConfig? {
     let tintColor: String? = nilOrValue(list[0])
-    let topIcon: FlutterStandardTypedData? = nilOrValue(list[1])
-    let iconSwipeLeft: FlutterStandardTypedData? = nilOrValue(list[2])
-    let iconSwipeRight: FlutterStandardTypedData? = nilOrValue(list[3])
-    let iconTap: FlutterStandardTypedData? = nilOrValue(list[4])
-    let iconTapToggled: FlutterStandardTypedData? = nilOrValue(list[5])
+    let overlayBackgroundColor: String? = nilOrValue(list[1])
+    let topIcon: FlutterStandardTypedData? = nilOrValue(list[2])
+    let iconSwipeLeft: FlutterStandardTypedData? = nilOrValue(list[3])
+    let iconSwipeRight: FlutterStandardTypedData? = nilOrValue(list[4])
+    let iconTap: FlutterStandardTypedData? = nilOrValue(list[5])
+    let iconTapToggled: FlutterStandardTypedData? = nilOrValue(list[6])
 
     return OverlayConfig(
       tintColor: tintColor,
+      overlayBackgroundColor: overlayBackgroundColor,
       topIcon: topIcon,
       iconSwipeLeft: iconSwipeLeft,
       iconSwipeRight: iconSwipeRight,
@@ -63,6 +66,7 @@ struct OverlayConfig {
   func toList() -> [Any?] {
     return [
       tintColor,
+      overlayBackgroundColor,
       topIcon,
       iconSwipeLeft,
       iconSwipeRight,

@@ -46,6 +46,7 @@ class FlutterError (
 /** Generated class from Pigeon that represents data sent in messages. */
 data class OverlayConfig (
   val tintColor: String? = null,
+  val overlayBackgroundColor: String? = null,
   val topIcon: ByteArray? = null,
   val iconSwipeLeft: ByteArray? = null,
   val iconSwipeRight: ByteArray? = null,
@@ -57,17 +58,19 @@ data class OverlayConfig (
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): OverlayConfig {
       val tintColor = list[0] as String?
-      val topIcon = list[1] as ByteArray?
-      val iconSwipeLeft = list[2] as ByteArray?
-      val iconSwipeRight = list[3] as ByteArray?
-      val iconTap = list[4] as ByteArray?
-      val iconTapToggled = list[5] as ByteArray?
-      return OverlayConfig(tintColor, topIcon, iconSwipeLeft, iconSwipeRight, iconTap, iconTapToggled)
+      val overlayBackgroundColor = list[1] as String?
+      val topIcon = list[2] as ByteArray?
+      val iconSwipeLeft = list[3] as ByteArray?
+      val iconSwipeRight = list[4] as ByteArray?
+      val iconTap = list[5] as ByteArray?
+      val iconTapToggled = list[6] as ByteArray?
+      return OverlayConfig(tintColor, overlayBackgroundColor, topIcon, iconSwipeLeft, iconSwipeRight, iconTap, iconTapToggled)
     }
   }
   fun toList(): List<Any?> {
     return listOf<Any?>(
       tintColor,
+      overlayBackgroundColor,
       topIcon,
       iconSwipeLeft,
       iconSwipeRight,
