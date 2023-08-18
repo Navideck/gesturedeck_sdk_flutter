@@ -81,6 +81,8 @@ Gesturedeck SDK is freely available for use in both personal and commercial proj
 
 To remove the watermark from your app, an activation key is available for purchase. The watermark-free version of Gesturedeck SDK can be obtained through this activation key.
 
+You need to set a different activation key for each platform.
+
 To inquire about purchasing an activation key or for any other questions related to licensing and usage, please reach out to us at team@navideck.com. We are here to assist you with the process and provide the necessary information.
 
 ## Contact
