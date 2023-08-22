@@ -70,12 +70,12 @@ class GesturedeckChannel {
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  Future<void> initialize(String? arg_activationKey, bool arg_autoStart) async {
+  Future<void> initialize(String? arg_androidActivationKey, String? arg_iosActivationKey, bool arg_autoStart) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_activationKey, arg_autoStart]) as List<Object?>?;
+        await channel.send(<Object?>[arg_androidActivationKey, arg_iosActivationKey, arg_autoStart]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -171,12 +171,12 @@ class GesturedeckMediaChannel {
 
   static const MessageCodec<Object?> codec = _GesturedeckMediaChannelCodec();
 
-  Future<void> initialize(String? arg_activationKey, bool arg_autoStart, bool arg_reverseHorizontalSwipes, int? arg_panSensitivity, OverlayConfig? arg_overlayConfig) async {
+  Future<void> initialize(String? arg_androidActivationKey, String? arg_iosActivationKey, bool arg_autoStart, bool arg_reverseHorizontalSwipes, int? arg_panSensitivity, OverlayConfig? arg_overlayConfig) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_activationKey, arg_autoStart, arg_reverseHorizontalSwipes, arg_panSensitivity, arg_overlayConfig]) as List<Object?>?;
+        await channel.send(<Object?>[arg_androidActivationKey, arg_iosActivationKey, arg_autoStart, arg_reverseHorizontalSwipes, arg_panSensitivity, arg_overlayConfig]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

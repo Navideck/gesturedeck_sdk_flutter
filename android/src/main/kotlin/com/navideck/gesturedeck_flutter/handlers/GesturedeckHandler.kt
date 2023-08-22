@@ -16,10 +16,14 @@ internal class GesturedeckHandler(
         gesturedeck?.onTouchEvent(event)
     }
 
-    override fun initialize(activationKey: String?, autoStart: Boolean) {
+    override fun initialize(
+        androidActivationKey: String?,
+        iosActivationKey: String?,
+        autoStart: Boolean
+    ) {
         gesturedeck = Gesturedeck(
             context = activity,
-            activationKey = activationKey,
+            activationKey = androidActivationKey,
             autoStart = autoStart,
             tapAction = {
                 gestureCallback?.onTap { }
@@ -38,6 +42,7 @@ internal class GesturedeckHandler(
             }
         )
     }
+
 
     override fun start() {
         gesturedeck?.start()

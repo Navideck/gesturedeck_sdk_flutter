@@ -15,7 +15,7 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
         gesturedeckMediaCallback = gesturedeckCallback
     }
 
-    func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws {
+    func initialize(androidActivationKey: String?, iosActivationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws {
         gesturedeckMedia = GesturedeckMedia(
             tapAction: {
                 self.gesturedeckMediaCallback.onTap {}
@@ -32,7 +32,7 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
             longPressAction: { _ in
                 self.gesturedeckMediaCallback.onLongPress {}
             },
-            activationKey: activationKey,
+            activationKey: iosActivationKey,
             autoStart: autoStart,
             gesturedeckMediaOverlay: overlayConfig?.toGesturedeckMedia(reverseHorizontalSwipes),
             panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium

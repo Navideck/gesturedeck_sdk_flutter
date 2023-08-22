@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - gesturedeck_flutter (0.0.1):
+  - gesturedeck_flutter (1.0.0):
     - Flutter
 
 DEPENDENCIES:
@@ -15,7 +15,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  gesturedeck_flutter: 67194511c154bf214ae5d4236aa734435206faad
+  gesturedeck_flutter: 03937d4a493c6e03aba8f6fab0e362b656cedde6
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 

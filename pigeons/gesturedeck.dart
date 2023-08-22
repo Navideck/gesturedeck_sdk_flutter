@@ -19,7 +19,8 @@ import 'package:pigeon/pigeon.dart';
 @HostApi()
 abstract class GesturedeckChannel {
   void initialize(
-    String? activationKey,
+    String? androidActivationKey,
+    String? iosActivationKey,
     bool autoStart,
   );
 
@@ -32,7 +33,8 @@ abstract class GesturedeckChannel {
 @HostApi()
 abstract class GesturedeckMediaChannel {
   void initialize(
-    String? activationKey,
+    String? androidActivationKey,
+    String? iosActivationKey,
     bool autoStart,
     bool reverseHorizontalSwipes,
     int? panSensitivity,

@@ -79,7 +79,7 @@ struct OverlayConfig {
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol GesturedeckChannel {
-  func initialize(activationKey: String?, autoStart: Bool) throws
+  func initialize(androidActivationKey: String?, iosActivationKey: String?, autoStart: Bool) throws
   func start() throws
   func stop() throws
 }
@@ -93,10 +93,11 @@ class GesturedeckChannelSetup {
     if let api = api {
       initializeChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
-        let activationKeyArg: String? = nilOrValue(args[0])
-        let autoStartArg = args[1] as! Bool
+        let androidActivationKeyArg: String? = nilOrValue(args[0])
+        let iosActivationKeyArg: String? = nilOrValue(args[1])
+        let autoStartArg = args[2] as! Bool
         do {
-          try api.initialize(activationKey: activationKeyArg, autoStart: autoStartArg)
+          try api.initialize(androidActivationKey: androidActivationKeyArg, iosActivationKey: iosActivationKeyArg, autoStart: autoStartArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
@@ -173,7 +174,7 @@ class GesturedeckMediaChannelCodec: FlutterStandardMessageCodec {
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol GesturedeckMediaChannel {
-  func initialize(activationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws
+  func initialize(androidActivationKey: String?, iosActivationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws
   func start() throws
   func stop() throws
   func dispose() throws
@@ -191,13 +192,14 @@ class GesturedeckMediaChannelSetup {
     if let api = api {
       initializeChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
-        let activationKeyArg: String? = nilOrValue(args[0])
-        let autoStartArg = args[1] as! Bool
-        let reverseHorizontalSwipesArg = args[2] as! Bool
-        let panSensitivityArg: Int64? = args[3] is NSNull ? nil : (args[3] is Int64? ? args[3] as! Int64? : Int64(args[3] as! Int32))
-        let overlayConfigArg: OverlayConfig? = nilOrValue(args[4])
+        let androidActivationKeyArg: String? = nilOrValue(args[0])
+        let iosActivationKeyArg: String? = nilOrValue(args[1])
+        let autoStartArg = args[2] as! Bool
+        let reverseHorizontalSwipesArg = args[3] as! Bool
+        let panSensitivityArg: Int64? = args[4] is NSNull ? nil : (args[4] is Int64? ? args[4] as! Int64? : Int64(args[4] as! Int32))
+        let overlayConfigArg: OverlayConfig? = nilOrValue(args[5])
         do {
-          try api.initialize(activationKey: activationKeyArg, autoStart: autoStartArg, reverseHorizontalSwipes: reverseHorizontalSwipesArg, panSensitivity: panSensitivityArg, overlayConfig: overlayConfigArg)
+          try api.initialize(androidActivationKey: androidActivationKeyArg, iosActivationKey: iosActivationKeyArg, autoStart: autoStartArg, reverseHorizontalSwipes: reverseHorizontalSwipesArg, panSensitivity: panSensitivityArg, overlayConfig: overlayConfigArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))

@@ -26,7 +26,8 @@ class _MyAppState extends State<MyApp> {
 
   void initializeGesturedeck() async {
     await Gesturedeck.initialize(
-      activationKey: "",
+      androidActivationKey: "",
+      iosActivationKey: "",
       tapAction: () => setState(() => gesturedeckAction = "tap"),
       swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
       swipeRightAction: () => setState(() => gesturedeckAction = "swipeRight"),
@@ -47,7 +48,8 @@ class _MyAppState extends State<MyApp> {
     );
 
     await GesturedeckMedia.initialize(
-      activationKey: "",
+      androidActivationKey: "",
+      iosActivationKey: "",
       tapAction: () {
         setState(() => gesturedeckMediaAction = "tap");
       },

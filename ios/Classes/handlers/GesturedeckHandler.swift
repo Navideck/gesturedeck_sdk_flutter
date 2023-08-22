@@ -15,7 +15,7 @@ class GesturedeckHandler: NSObject, GesturedeckChannel {
         self.gesturedeckCallback = gesturedeckCallback
     }
 
-    func initialize(activationKey: String?, autoStart: Bool) throws {
+    func initialize(androidActivationKey: String?, iosActivationKey: String?, autoStart: Bool) throws {
         gesturedeck = Gesturedeck(
             tapAction: {
                 self.gesturedeckCallback.onTap {}
@@ -32,7 +32,7 @@ class GesturedeckHandler: NSObject, GesturedeckChannel {
             longPressAction: { _ in
                 self.gesturedeckCallback.onLongPress {}
             },
-            activationKey: activationKey,
+            activationKey: iosActivationKey,
             autoStart: autoStart
         )
     }
