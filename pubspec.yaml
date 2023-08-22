@@ -1,0 +1,30 @@
+name: gesturedeck_flutter
+description: Gesturedeck empowers users to effortlessly control their devices through intuitive touch gestures, without even needing to look at the screen..
+version: 1.0.0
+homepage: https://navideck.com
+repository: https://github.com/Navideck/gesturedeck_sdk_flutter
+issue_tracker: https://github.com/Navideck/gesturedeck_sdk_flutter/issues
+documentation: https://navideck.github.io/gesturedeck_sdk_flutter/doc
+
+environment:
+  sdk: '>=3.1.0 <4.0.0'
+  flutter: '>=3.3.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  pigeon: ^10.1.4  
+
+flutter:
+  plugin:
+    platforms:
+      android:
+        package: com.navideck.gesturedeck_flutter
+        pluginClass: GesturedeckFlutterPlugin
+      ios:
+        pluginClass: GesturedeckFlutterPlugin
