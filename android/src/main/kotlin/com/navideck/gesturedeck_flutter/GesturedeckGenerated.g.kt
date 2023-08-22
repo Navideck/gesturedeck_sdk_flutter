@@ -85,7 +85,7 @@ data class OverlayConfig (
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
 interface GesturedeckChannel {
-  fun initialize(androidActivationKey: String?, iosActivationKey: String?, autoStart: Boolean)
+  fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean)
   fun start()
   fun stop()
 
@@ -103,11 +103,11 @@ interface GesturedeckChannel {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val androidActivationKeyArg = args[0] as String?
-            val iosActivationKeyArg = args[1] as String?
+            val iOSActivationKeyArg = args[1] as String?
             val autoStartArg = args[2] as Boolean
             var wrapped: List<Any?>
             try {
-              api.initialize(androidActivationKeyArg, iosActivationKeyArg, autoStartArg)
+              api.initialize(androidActivationKeyArg, iOSActivationKeyArg, autoStartArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
@@ -184,7 +184,7 @@ private object GesturedeckMediaChannelCodec : StandardMessageCodec() {
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
 interface GesturedeckMediaChannel {
-  fun initialize(androidActivationKey: String?, iosActivationKey: String?, autoStart: Boolean, reverseHorizontalSwipes: Boolean, panSensitivity: Long?, overlayConfig: OverlayConfig?)
+  fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean, reverseHorizontalSwipes: Boolean, panSensitivity: Long?, overlayConfig: OverlayConfig?)
   fun start()
   fun stop()
   fun dispose()
@@ -205,14 +205,14 @@ interface GesturedeckMediaChannel {
           channel.setMessageHandler { message, reply ->
             val args = message as List<Any?>
             val androidActivationKeyArg = args[0] as String?
-            val iosActivationKeyArg = args[1] as String?
+            val iOSActivationKeyArg = args[1] as String?
             val autoStartArg = args[2] as Boolean
             val reverseHorizontalSwipesArg = args[3] as Boolean
             val panSensitivityArg = args[4].let { if (it is Int) it.toLong() else it as Long? }
             val overlayConfigArg = args[5] as OverlayConfig?
             var wrapped: List<Any?>
             try {
-              api.initialize(androidActivationKeyArg, iosActivationKeyArg, autoStartArg, reverseHorizontalSwipesArg, panSensitivityArg, overlayConfigArg)
+              api.initialize(androidActivationKeyArg, iOSActivationKeyArg, autoStartArg, reverseHorizontalSwipesArg, panSensitivityArg, overlayConfigArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

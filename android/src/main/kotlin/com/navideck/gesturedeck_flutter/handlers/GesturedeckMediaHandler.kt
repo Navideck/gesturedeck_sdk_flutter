@@ -34,7 +34,7 @@ internal class GesturedeckMediaHandler(
 
     override fun initialize(
         androidActivationKey: String?,
-        iosActivationKey: String?,
+        iOSActivationKey: String?,
         autoStart: Boolean,
         reverseHorizontalSwipes: Boolean,
         panSensitivity: Long?,

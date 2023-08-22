@@ -43,7 +43,7 @@ class GesturedeckMedia {
     VoidCallback? longPressAction,
     bool reverseHorizontalSwipes = false,
     String? androidActivationKey,
-    String? iosActivationKey,
+    String? iOSActivationKey,
     bool autoStart = true,
     GesturedeckMediaOverlay? gesturedeckMediaOverlay,
   }) async {
@@ -57,7 +57,7 @@ class GesturedeckMedia {
     ));
     await _gesturedeckMediaChannel.initialize(
       androidActivationKey,
-      iosActivationKey,
+      iOSActivationKey,
       autoStart,
       reverseHorizontalSwipes,
       panSensitivity?.value,

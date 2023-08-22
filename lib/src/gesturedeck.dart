@@ -38,7 +38,7 @@ class Gesturedeck {
     VoidCallback? panAction,
     VoidCallback? longPressAction,
     String? androidActivationKey,
-    String? iosActivationKey,
+    String? iOSActivationKey,
     bool autoStart = true,
   }) async {
     if (_isInitialized) throw Exception("Gesturedeck is already initialized");
@@ -51,7 +51,7 @@ class Gesturedeck {
     ));
     await _gesturedeckFlutter.initialize(
       androidActivationKey,
-      iosActivationKey,
+      iOSActivationKey,
       autoStart,
     );
     _isInitialized = true;

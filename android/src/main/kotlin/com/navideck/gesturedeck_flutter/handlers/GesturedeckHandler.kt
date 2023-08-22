@@ -18,7 +18,7 @@ internal class GesturedeckHandler(
 
     override fun initialize(
         androidActivationKey: String?,
-        iosActivationKey: String?,
+        iOSActivationKey: String?,
         autoStart: Boolean
     ) {
         gesturedeck = Gesturedeck(
