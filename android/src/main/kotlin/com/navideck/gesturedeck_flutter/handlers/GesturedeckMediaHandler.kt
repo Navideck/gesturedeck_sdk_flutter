@@ -7,8 +7,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.view.KeyEvent
 import android.view.MotionEvent
-import com.navideck.gesturedeck_android.gesturedeck_media.GesturedeckMedia
-import com.navideck.gesturedeck_android.gesturedeck_media.GesturedeckMediaOverlay
+import com.navideck.gesturedeck_android.GesturedeckMedia
+import com.navideck.gesturedeck_android.GesturedeckMediaOverlay
 import com.navideck.gesturedeck_android.model.PanSensitivity
 import com.navideck.gesturedeck_flutter.GesturedeckMediaCallback
 import com.navideck.gesturedeck_flutter.GesturedeckMediaChannel
@@ -105,16 +105,17 @@ internal class GesturedeckMediaHandler(
     }
 
     private fun OverlayConfig.toGesturedeckMediaOverlay(): GesturedeckMediaOverlay {
-        return GesturedeckMediaOverlay(
+        val gesturedeckMediaOverlay = GesturedeckMediaOverlay(
             activity = activity,
             tintColor = tintColor?.let { Color.parseColor("#$it") },
-            overlayBackgroundColor = overlayBackgroundColor?.let { Color.parseColor("#$it") },
+            backgroundColor = backgroundColor?.let { Color.parseColor("#$it") },
             iconTapToggled = argsToDrawable(iconTapToggled),
             iconSwipeLeft = argsToDrawable(iconSwipeLeft),
             iconSwipeRight = argsToDrawable(iconSwipeRight),
             topIcon = argsToDrawable(topIcon),
-            bitmapCallback = { flutterRenderer.bitmap }
         )
+        gesturedeckMediaOverlay.setBitmapCallback { flutterRenderer.bitmap }
+        return gesturedeckMediaOverlay
     }
 
     private fun Long.toPanSensitivity(): PanSensitivity? {

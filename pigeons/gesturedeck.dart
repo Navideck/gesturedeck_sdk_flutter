@@ -72,7 +72,7 @@ abstract class GesturedeckMediaCallback {
 
 class OverlayConfig {
   String? tintColor;
-  String? overlayBackgroundColor;
+  String? backgroundColor;
   Uint8List? topIcon;
   Uint8List? iconSwipeLeft;
   Uint8List? iconSwipeRight;

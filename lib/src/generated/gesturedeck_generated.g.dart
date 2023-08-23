@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 class OverlayConfig {
   OverlayConfig({
     this.tintColor,
-    this.overlayBackgroundColor,
+    this.backgroundColor,
     this.topIcon,
     this.iconSwipeLeft,
     this.iconSwipeRight,
@@ -21,7 +21,7 @@ class OverlayConfig {
 
   String? tintColor;
 
-  String? overlayBackgroundColor;
+  String? backgroundColor;
 
   Uint8List? topIcon;
 
@@ -36,7 +36,7 @@ class OverlayConfig {
   Object encode() {
     return <Object?>[
       tintColor,
-      overlayBackgroundColor,
+      backgroundColor,
       topIcon,
       iconSwipeLeft,
       iconSwipeRight,
@@ -49,7 +49,7 @@ class OverlayConfig {
     result as List<Object?>;
     return OverlayConfig(
       tintColor: result[0] as String?,
-      overlayBackgroundColor: result[1] as String?,
+      backgroundColor: result[1] as String?,
       topIcon: result[2] as Uint8List?,
       iconSwipeLeft: result[3] as Uint8List?,
       iconSwipeRight: result[4] as Uint8List?,
