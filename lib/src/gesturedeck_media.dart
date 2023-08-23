@@ -150,7 +150,7 @@ extension _OverlayConfigExtension on GesturedeckMediaOverlay {
   OverlayConfig toOverlayConfig() {
     return OverlayConfig(
       tintColor: tintColor?.value.toRadixString(16),
-      overlayBackgroundColor: overlayBackgroundColor?.value.toRadixString(16),
+      backgroundColor: backgroundColor?.value.toRadixString(16),
       topIcon: topIcon,
       iconSwipeLeft: iconSwipeLeft,
       iconSwipeRight: iconSwipeRight,

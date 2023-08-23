@@ -7,7 +7,7 @@ class GesturedeckMediaOverlay {
   Color? tintColor;
 
   /// The background color of the overlay.
-  Color? overlayBackgroundColor;
+  Color? backgroundColor;
 
   /// The icon displayed at the top of the media overlay.
   Uint8List? topIcon;
@@ -27,7 +27,7 @@ class GesturedeckMediaOverlay {
   /// Creates a new instance of [GesturedeckMediaOverlay].
   ///
   /// [tintColor] specifies the color used to tint the overlay elements.
-  /// [overlayBackgroundColor] specifies the background color of the overlay.
+  /// [backgroundColor] specifies the background color of the overlay.
   /// [topIcon] specifies the icon displayed at the top of the media overlay.
   /// [iconSwipeLeft] specifies the icon displayed for the swipe left gesture.
   /// [iconSwipeRight] specifies the icon displayed for the swipe right gesture.
@@ -35,7 +35,7 @@ class GesturedeckMediaOverlay {
   /// [iconTapToggled] specifies the icon displayed for the toggled tap gesture.
   GesturedeckMediaOverlay({
     this.tintColor,
-    this.overlayBackgroundColor,
+    this.backgroundColor,
     this.topIcon,
     this.iconSwipeLeft,
     this.iconSwipeRight,

@@ -70,13 +70,13 @@ private extension OverlayConfig {
         if let tintColor = tintColor {
             tintUIColor = UIColor(hexString: tintColor)
         }
-        if let overlayBackgroundColor = overlayBackgroundColor {
+        if let overlayBackgroundColor = backgroundColor {
             overlayBackgroundUIColor = UIColor(hexString: overlayBackgroundColor)
         }
         
         return GesturedeckMediaOverlay(
             tintColor: tintUIColor,
-            overlayBackgroundColor: overlayBackgroundUIColor,
+            backgroundColor: overlayBackgroundUIColor,
             topIcon: topIcon?.toUIImage(),
             iconTap: iconTap?.toUIImage(),
             iconTapToggled: iconTapToggled?.toUIImage(),
