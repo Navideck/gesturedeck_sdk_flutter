@@ -73,7 +73,7 @@ gesturedeckMedia.reverseHorizontalSwipes = true;
 
 ## API reference
 
-You can find the API reference [here](https://navideck.github.io/gesturedeck_sdk_flutter/doc).
+You can find the API reference [here](https://pub.dev/documentation/gesturedeck_flutter/latest/).
 
 ## Free to Use
 
