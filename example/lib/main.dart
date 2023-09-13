@@ -26,8 +26,6 @@ class _MyAppState extends State<MyApp> {
 
   void initializeGesturedeck() async {
     await Gesturedeck.initialize(
-      androidActivationKey: "",
-      iOSActivationKey: "",
       tapAction: () => setState(() => gesturedeckAction = "tap"),
       swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
       swipeRightAction: () => setState(() => gesturedeckAction = "swipeRight"),
@@ -37,6 +35,7 @@ class _MyAppState extends State<MyApp> {
 
   void initializeGesturedeckMedia() async {
     var testIcon = await rootBundle.load("assets/test_icon.png");
+
     Uint8List testIconBytes = testIcon.buffer.asUint8List();
     var gesturedeckMediaOverlay = GesturedeckMediaOverlay(
       tintColor: Colors.green,
@@ -47,9 +46,14 @@ class _MyAppState extends State<MyApp> {
       iconTapToggled: testIconBytes,
     );
 
+    var androidActivationKey =
+        "HYeVdkywQiF1LJ-UN9obGZ-UtL71p2wdasCRnmZTVNBIykpYeuYEXOYlbwcy_gj7TJjdCgbg09DpD8VIUiaX8FxJNlx1GvjR3rCC70C1YSrUxoFNCr0lLCTMJiLloJA4QuAAi-m0AZCkmr8dpjGOTOt15Q4JKe2ZvXkbsvdCNcjyZ0TPAewx8-xIJ4k9llv52zENg3MtQLufvH7INzoWu5ZbsWiQnAx6RbASUtjhcIwp9ZN2-FrKw-NBi-jvOnVGVEP2CcyOLwrvj3AJDQ-sMP6MyC_fPaXycX7vwT_8WsZnP972mNSCrgFcF2IwRkTfjTmA7wDhiPpv5c9IuxgNklowECxKPmn-ZYMlkob7VQ84TovzHGaIjLCKumaeHXoUSZ_IvvXMJLtY1tI8rKoQM0c9lqr1q6SuswFYGFhZBvDRuZU3HYYHIB0rNiGkUi_ZLEgQnhSBtH0EeON-kpPAwTCiULVFs9CPvJ9r86ysju5O1BpU2cHI1E9jxz3ybFL8mkJYbitgCg2e3KBHsTSHjIuFjRZQoy_qh5P3dVcZS49SZDrqRVmEneJvesjTxoemPNlrCrqSad19xImZi4BeMQTD4mUWOBbNEUyX9austnx5gfoUoW5QNKFpuIg21LP1_oGsbW39AgcngWU8T7PhWNMKt6vz82WVwK4uFN8LEko";
+    var iOSActivationKey =
+        "UcId71-0_2lW6IxWUmOr477c0nghOWSyEJB4VZdwPcUVdWPeMCxWF-FzkLGsACYR1a7IQgwXsFfGpk6_YhKcRh2B4t2FNEBQyG5Af-YQwgWlcfZfjEYBVcblIFb1S3BYYn7PSiNIGwWqpP_F-0PNRpzO-nfoGnbm8j4-vBXR1Pa-WMVIx2N2xokM_fbMOq8hXVg-E-eA0AdT26y1YYp-VVF4ot8inxDb4OMwnHnaJMJcUQQTtpaqHNEPytxdDbDyiGymIf1mckkH8VttgdCJtAviXPDUUYiDO_u764vp9D_-fMs6R4QhhskPZYnc6I5YKqjJ8hGjnDL80k3p_196FzhJKFtVdl6CPG6T4kGecUsPKcKyC_wEYVZXvSUlbeDrFlgB0VgoVJZZsEwTfjCvO3k2Tc13qSdqIDxATxlHSPVDnslhQ6fOu2M7-vQCsAAP4sVVxcCNsUgnl_zDaGkPQnIxfjI2kyDiOR5w4-9Sq8nwGPI33t7z0d1zYLpcmpbxTlVJL1L8vBS73KApzvctjHctX3nYFVArFemCHhpi097g08_foUPvbVt7Jvd6DAowdWftX7knbrLVZ_UBJ68BDOA2OvPfXzCcUUDTPFEmSBptdhaseKikQhncqosxOkmuH9dpoAi450bkrURizKXgnZrXv0VVjK599JkKdzB5S2A";
+
     await GesturedeckMedia.initialize(
-      androidActivationKey: "",
-      iOSActivationKey: "",
+      androidActivationKey: androidActivationKey,
+      iOSActivationKey: iOSActivationKey,
       tapAction: () {
         setState(() => gesturedeckMediaAction = "tap");
       },

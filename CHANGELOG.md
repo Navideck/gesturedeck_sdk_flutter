@@ -1,8 +1,11 @@
+## 1.1.4
+* Bump native libraries to 1.4.0
+
 ## 1.1.3
-Update docs location
+* Update docs location
 
 ## 1.1.2
-Bump native android library to 1.3.1
+* Bump native android library to 1.3.1
 
 ## 1.1.1
 * update docs
