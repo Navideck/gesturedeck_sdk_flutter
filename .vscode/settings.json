@@ -4,7 +4,6 @@
         "appcompat",
         "Compat",
         "dimen",
-        "dotenv",
         "gesturedeck",
         "lateinit",
         "mapbox",

@@ -9,7 +9,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_dotenv: ^5.1.0  
   gesturedeck_flutter:
     path: ../
 
@@ -22,4 +21,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
-    - .env
