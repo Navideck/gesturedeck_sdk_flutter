@@ -32,8 +32,8 @@ class GesturedeckHandler: NSObject, GesturedeckChannel {
             longPressAction: { _ in
                 self.gesturedeckCallback.onLongPress {}
             },
-            activationKey: iOSActivationKey,
-            autoStart: autoStart
+            autoStart: autoStart,
+            activationKey: iOSActivationKey
         )
     }
 

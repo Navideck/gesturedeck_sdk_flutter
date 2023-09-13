@@ -29,13 +29,13 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
             panAction: { _ in
                 self.gesturedeckMediaCallback.onPan {}
             },
+            panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium,
             longPressAction: { _ in
                 self.gesturedeckMediaCallback.onLongPress {}
             },
-            activationKey: iOSActivationKey,
             autoStart: autoStart,
             gesturedeckMediaOverlay: overlayConfig?.toGesturedeckMedia(reverseHorizontalSwipes),
-            panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium
+            activationKey: iOSActivationKey
         )
     }
 
@@ -66,14 +66,14 @@ private extension OverlayConfig {
     func toGesturedeckMedia(_ reverseHorizontalSwipes: Bool) -> GesturedeckMediaOverlay {
         var tintUIColor: UIColor? = nil
         var overlayBackgroundUIColor: UIColor? = nil
-        
+
         if let tintColor = tintColor {
             tintUIColor = UIColor(hexString: tintColor)
         }
         if let overlayBackgroundColor = backgroundColor {
             overlayBackgroundUIColor = UIColor(hexString: overlayBackgroundColor)
         }
-        
+
         return GesturedeckMediaOverlay(
             tintColor: tintUIColor,
             backgroundColor: overlayBackgroundUIColor,

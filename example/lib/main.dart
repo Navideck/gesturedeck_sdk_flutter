@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gesturedeck_flutter/gesturedeck_flutter.dart';
 
 void main() {
@@ -26,8 +27,6 @@ class _MyAppState extends State<MyApp> {
 
   void initializeGesturedeck() async {
     await Gesturedeck.initialize(
-      androidActivationKey: "",
-      iOSActivationKey: "",
       tapAction: () => setState(() => gesturedeckAction = "tap"),
       swipeLeftAction: () => setState(() => gesturedeckAction = "swipeLeft"),
       swipeRightAction: () => setState(() => gesturedeckAction = "swipeRight"),
@@ -37,6 +36,9 @@ class _MyAppState extends State<MyApp> {
 
   void initializeGesturedeckMedia() async {
     var testIcon = await rootBundle.load("assets/test_icon.png");
+    // Make sure to add .env file in the root of the project
+    await dotenv.load(fileName: ".env");
+
     Uint8List testIconBytes = testIcon.buffer.asUint8List();
     var gesturedeckMediaOverlay = GesturedeckMediaOverlay(
       tintColor: Colors.green,
@@ -48,8 +50,8 @@ class _MyAppState extends State<MyApp> {
     );
 
     await GesturedeckMedia.initialize(
-      androidActivationKey: "",
-      iOSActivationKey: "",
+      androidActivationKey: dotenv.env['ANDROID_ACTIVATION_KEY'],
+      iOSActivationKey: dotenv.env['IOS_ACTIVATION_KEY'],
       tapAction: () {
         setState(() => gesturedeckMediaAction = "tap");
       },

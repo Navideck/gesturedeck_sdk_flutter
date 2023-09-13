@@ -40,10 +40,6 @@ internal class GesturedeckMediaHandler(
         panSensitivity: Long?,
         overlayConfig: OverlayConfig?
     ) {
-        var tintColor: Int? = null
-        overlayConfig?.tintColor?.let {
-            tintColor = Color.parseColor("#$it")
-        }
         gesturedeckMedia = GesturedeckMedia(
             context = activity,
             reverseHorizontalSwipes = reverseHorizontalSwipes,
