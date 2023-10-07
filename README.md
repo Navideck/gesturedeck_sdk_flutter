@@ -1,6 +1,18 @@
 # Gesturedeck Flutter
 
+<p align="center">
+  <img src="https://navideck.com/sites/navideck.com/files/2023-10/Gesturedeck%20SDK%20icon.png" height=150 />
+</p>
+
+## Overview
+
 Revolutionize your iOS app's user experience with the extraordinary power of Gesturedeck! Seamlessly integrated into your iOS application, Gesturedeck empowers users to effortlessly control their devices through intuitive touch gestures, without even needing to look at the screen.
+
+<p align="center">
+  <img src="https://navideck.com/sites/navideck.com/files/2023-10/Gesturedeck%20touch%20gestures%20list.png" height=300 /> &nbsp;
+  <img src="https://navideck.com/sites/navideck.com/files/2023-10/Gesturedeck%20volume%20gesture.png" height=300 /> &nbsp;
+  <img src="https://navideck.com/sites/navideck.com/files/2023-10/Gesturedeck%20play%20pause%20gesture.png" height=300 />
+</p>
 
 Imagine enhancing your app with the ability to adjust volume, skip tracks, and perform various actions effortlessly, making interactions smoother and more natural than ever before. Whether users are driving, biking, or engaged in any activity that demands their full attention, Gesturedeck ensures a seamless experience that enhances productivity and safety.
 
