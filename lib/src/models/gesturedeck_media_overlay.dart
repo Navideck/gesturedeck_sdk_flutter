@@ -3,7 +3,7 @@ import 'dart:ui';
 
 /// A model representing a media overlay in the Gesturedeck SDK.
 class GesturedeckMediaOverlay {
-  /// The color used to tint the overlay elements.
+  /// The color used to tint the overlay elements. Has effect only when an activation key is set.
   Color? tintColor;
 
   /// The background color of the overlay.

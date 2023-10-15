@@ -6,7 +6,11 @@ import 'generated/gesturedeck_generated.g.dart';
 
 /// A subclass of [Gesturedeck] that provides media-specific functionality such as volume control and media playback actions.
 ///
-/// Gesturedeck also includes support for media overlays, which can be used to display additional information or controls on top of the app's content.
+/// GesturedeckMedia also includes support for media overlays, which can be used to display additional information or controls on top of the app's content.
+/// 
+/// You can set any action to null to disable it.
+/// 
+/// When using an activation key, `gesturedeckMediaOverlay` can be set to null to not appear.
 class GesturedeckMedia {
   static final _gesturedeckMediaChannel = GesturedeckMediaChannel();
   static bool _isInitialized = false;

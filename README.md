@@ -61,7 +61,6 @@ var gesturedeckMedia = GesturedeckMedia.initialize(
     swipeRightAction: () {},
     panAction: () {},
     gesturedeckMediaOverlay: GesturedeckMediaOverlay(
-        tintColor: Colors.green,
         topIcon: icon,
         iconSwipeLeft: ...,
         iconSwipeRight: ...,
