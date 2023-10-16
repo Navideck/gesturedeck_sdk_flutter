@@ -6,7 +6,7 @@
 
 ## Overview
 
-Revolutionize your iOS app's user experience with the extraordinary power of Gesturedeck! Seamlessly integrated into your iOS application, Gesturedeck empowers users to effortlessly control their devices through intuitive touch gestures, without even needing to look at the screen.
+Revolutionize your app's user experience with the extraordinary power of Gesturedeck! Seamlessly integrated into your application, Gesturedeck empowers users to effortlessly control their devices through intuitive touch gestures, without even needing to look at the screen.
 
 <p align="center">
   <img src="https://navideck.com/sites/navideck.com/files/2023-10/Gesturedeck%20touch%20gestures%20list.png" height=300 /> &nbsp;
@@ -81,6 +81,8 @@ gesturedeckMedia.stop();
 gesturedeckMedia.reverseHorizontalSwipes = true;
 ```
 
+#### iOS only
+When using the default gesture actions you need to add the `NSAppleMusicUsageDescription` key in your project's `Info` tab with a value explaining why you need this permission (e.g. `"Control music playback"`).
 
 ## API reference
 
