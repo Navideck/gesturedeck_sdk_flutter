@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.navideck.gesturedeck_flutter_example">
    <application
-        android:label="gesturedeck_flutter_example"
+        android:label="Gesturedeck Example Flutter"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

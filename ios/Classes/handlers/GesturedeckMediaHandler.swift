@@ -52,12 +52,12 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
     }
 
     func reverseHorizontalSwipes(value: Bool) throws {
-        gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes = value
+        gesturedeckMedia?.gesturedeckMediaOverlay?.reverseHorizontalSwipes = value
     }
 
     func setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?) throws {
         if overlayConfig == nil { return }
-        let reverseHorizontalSwipes = gesturedeckMedia?.gesturedeckMediaOverlay.reverseHorizontalSwipes ?? false
+        let reverseHorizontalSwipes = gesturedeckMedia?.gesturedeckMediaOverlay?.reverseHorizontalSwipes ?? false
         gesturedeckMedia?.gesturedeckMediaOverlay = overlayConfig!.toGesturedeckMedia(reverseHorizontalSwipes)
     }
 }
