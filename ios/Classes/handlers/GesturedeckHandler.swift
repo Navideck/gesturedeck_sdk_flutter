@@ -15,21 +15,26 @@ class GesturedeckHandler: NSObject, GesturedeckChannel {
         self.gesturedeckCallback = gesturedeckCallback
     }
 
-    func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool) throws {
+    func initialize(
+        androidActivationKey _: String?,
+        iOSActivationKey: String?,
+        autoStart: Bool,
+        gestureActionConfig: GestureActionConfig
+    ) throws {
         gesturedeck = Gesturedeck(
-            tapAction: {
+            tapAction: !gestureActionConfig.enableTapAction ? nil : {
                 self.gesturedeckCallback.onTap {}
             },
-            swipeLeftAction: {
+            swipeLeftAction: !gestureActionConfig.enableSwipeLeftAction ? nil : {
                 self.gesturedeckCallback.onSwipeLeft {}
             },
-            swipeRightAction: {
+            swipeRightAction: !gestureActionConfig.enableSwipeRightAction ? nil : {
                 self.gesturedeckCallback.onSwipeRight {}
             },
-            panAction: { _ in
+            panAction: !gestureActionConfig.enablePanAction ? nil : { _ in
                 self.gesturedeckCallback.onPan {}
             },
-            longPressAction: { _ in
+            longPressAction: !gestureActionConfig.enableLongPressAction ? nil : { _ in
                 self.gesturedeckCallback.onLongPress {}
             },
             autoStart: autoStart,

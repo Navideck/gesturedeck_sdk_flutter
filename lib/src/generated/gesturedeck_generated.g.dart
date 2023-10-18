@@ -59,6 +59,70 @@ class OverlayConfig {
   }
 }
 
+class GestureActionConfig {
+  GestureActionConfig({
+    required this.enableTapAction,
+    required this.enableSwipeLeftAction,
+    required this.enableSwipeRightAction,
+    required this.enablePanAction,
+    required this.enableLongPressAction,
+  });
+
+  bool enableTapAction;
+
+  bool enableSwipeLeftAction;
+
+  bool enableSwipeRightAction;
+
+  bool enablePanAction;
+
+  bool enableLongPressAction;
+
+  Object encode() {
+    return <Object?>[
+      enableTapAction,
+      enableSwipeLeftAction,
+      enableSwipeRightAction,
+      enablePanAction,
+      enableLongPressAction,
+    ];
+  }
+
+  static GestureActionConfig decode(Object result) {
+    result as List<Object?>;
+    return GestureActionConfig(
+      enableTapAction: result[0]! as bool,
+      enableSwipeLeftAction: result[1]! as bool,
+      enableSwipeRightAction: result[2]! as bool,
+      enablePanAction: result[3]! as bool,
+      enableLongPressAction: result[4]! as bool,
+    );
+  }
+}
+
+class _GesturedeckChannelCodec extends StandardMessageCodec {
+  const _GesturedeckChannelCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is GestureActionConfig) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else {
+      super.writeValue(buffer, value);
+    }
+  }
+
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128: 
+        return GestureActionConfig.decode(readValue(buffer)!);
+      default:
+        return super.readValueOfType(type, buffer);
+    }
+  }
+}
+
 /// Gesturedeck
 class GesturedeckChannel {
   /// Constructor for [GesturedeckChannel].  The [binaryMessenger] named argument is
@@ -68,14 +132,14 @@ class GesturedeckChannel {
       : _binaryMessenger = binaryMessenger;
   final BinaryMessenger? _binaryMessenger;
 
-  static const MessageCodec<Object?> codec = StandardMessageCodec();
+  static const MessageCodec<Object?> codec = _GesturedeckChannelCodec();
 
-  Future<void> initialize(String? arg_androidActivationKey, String? arg_iOSActivationKey, bool arg_autoStart) async {
+  Future<void> initialize(String? arg_androidActivationKey, String? arg_iOSActivationKey, bool arg_autoStart, GestureActionConfig arg_gestureActionConfig) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_androidActivationKey, arg_iOSActivationKey, arg_autoStart]) as List<Object?>?;
+        await channel.send(<Object?>[arg_androidActivationKey, arg_iOSActivationKey, arg_autoStart, arg_gestureActionConfig]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -141,8 +205,11 @@ class _GesturedeckMediaChannelCodec extends StandardMessageCodec {
   const _GesturedeckMediaChannelCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is OverlayConfig) {
+    if (value is GestureActionConfig) {
       buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else if (value is OverlayConfig) {
+      buffer.putUint8(129);
       writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
@@ -153,6 +220,8 @@ class _GesturedeckMediaChannelCodec extends StandardMessageCodec {
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
       case 128: 
+        return GestureActionConfig.decode(readValue(buffer)!);
+      case 129: 
         return OverlayConfig.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
@@ -171,12 +240,12 @@ class GesturedeckMediaChannel {
 
   static const MessageCodec<Object?> codec = _GesturedeckMediaChannelCodec();
 
-  Future<void> initialize(String? arg_androidActivationKey, String? arg_iOSActivationKey, bool arg_autoStart, bool arg_reverseHorizontalSwipes, int? arg_panSensitivity, OverlayConfig? arg_overlayConfig) async {
+  Future<void> initialize(String? arg_androidActivationKey, String? arg_iOSActivationKey, bool arg_autoStart, bool arg_reverseHorizontalSwipes, int? arg_panSensitivity, GestureActionConfig arg_gestureActionConfig, OverlayConfig? arg_overlayConfig) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.initialize', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
-        await channel.send(<Object?>[arg_androidActivationKey, arg_iOSActivationKey, arg_autoStart, arg_reverseHorizontalSwipes, arg_panSensitivity, arg_overlayConfig]) as List<Object?>?;
+        await channel.send(<Object?>[arg_androidActivationKey, arg_iOSActivationKey, arg_autoStart, arg_reverseHorizontalSwipes, arg_panSensitivity, arg_gestureActionConfig, arg_overlayConfig]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

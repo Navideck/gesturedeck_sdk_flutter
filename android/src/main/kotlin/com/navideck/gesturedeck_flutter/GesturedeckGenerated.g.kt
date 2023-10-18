@@ -79,20 +79,74 @@ data class OverlayConfig (
     )
   }
 }
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class GestureActionConfig (
+  val enableTapAction: Boolean,
+  val enableSwipeLeftAction: Boolean,
+  val enableSwipeRightAction: Boolean,
+  val enablePanAction: Boolean,
+  val enableLongPressAction: Boolean
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): GestureActionConfig {
+      val enableTapAction = list[0] as Boolean
+      val enableSwipeLeftAction = list[1] as Boolean
+      val enableSwipeRightAction = list[2] as Boolean
+      val enablePanAction = list[3] as Boolean
+      val enableLongPressAction = list[4] as Boolean
+      return GestureActionConfig(enableTapAction, enableSwipeLeftAction, enableSwipeRightAction, enablePanAction, enableLongPressAction)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      enableTapAction,
+      enableSwipeLeftAction,
+      enableSwipeRightAction,
+      enablePanAction,
+      enableLongPressAction,
+    )
+  }
+}
+@Suppress("UNCHECKED_CAST")
+private object GesturedeckChannelCodec : StandardMessageCodec() {
+  override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
+    return when (type) {
+      128.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          GestureActionConfig.fromList(it)
+        }
+      }
+      else -> super.readValueOfType(type, buffer)
+    }
+  }
+  override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
+    when (value) {
+      is GestureActionConfig -> {
+        stream.write(128)
+        writeValue(stream, value.toList())
+      }
+      else -> super.writeValue(stream, value)
+    }
+  }
+}
+
 /**
  * Gesturedeck
  *
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
 interface GesturedeckChannel {
-  fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean)
+  fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean, gestureActionConfig: GestureActionConfig)
   fun start()
   fun stop()
 
   companion object {
     /** The codec used by GesturedeckChannel. */
     val codec: MessageCodec<Any?> by lazy {
-      StandardMessageCodec()
+      GesturedeckChannelCodec
     }
     /** Sets up an instance of `GesturedeckChannel` to handle messages through the `binaryMessenger`. */
     @Suppress("UNCHECKED_CAST")
@@ -105,9 +159,10 @@ interface GesturedeckChannel {
             val androidActivationKeyArg = args[0] as String?
             val iOSActivationKeyArg = args[1] as String?
             val autoStartArg = args[2] as Boolean
+            val gestureActionConfigArg = args[3] as GestureActionConfig
             var wrapped: List<Any?>
             try {
-              api.initialize(androidActivationKeyArg, iOSActivationKeyArg, autoStartArg)
+              api.initialize(androidActivationKeyArg, iOSActivationKeyArg, autoStartArg, gestureActionConfigArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)
@@ -161,6 +216,11 @@ private object GesturedeckMediaChannelCodec : StandardMessageCodec() {
     return when (type) {
       128.toByte() -> {
         return (readValue(buffer) as? List<Any?>)?.let {
+          GestureActionConfig.fromList(it)
+        }
+      }
+      129.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
           OverlayConfig.fromList(it)
         }
       }
@@ -169,8 +229,12 @@ private object GesturedeckMediaChannelCodec : StandardMessageCodec() {
   }
   override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
     when (value) {
-      is OverlayConfig -> {
+      is GestureActionConfig -> {
         stream.write(128)
+        writeValue(stream, value.toList())
+      }
+      is OverlayConfig -> {
+        stream.write(129)
         writeValue(stream, value.toList())
       }
       else -> super.writeValue(stream, value)
@@ -184,7 +248,7 @@ private object GesturedeckMediaChannelCodec : StandardMessageCodec() {
  * Generated interface from Pigeon that represents a handler of messages from Flutter.
  */
 interface GesturedeckMediaChannel {
-  fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean, reverseHorizontalSwipes: Boolean, panSensitivity: Long?, overlayConfig: OverlayConfig?)
+  fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean, reverseHorizontalSwipes: Boolean, panSensitivity: Long?, gestureActionConfig: GestureActionConfig, overlayConfig: OverlayConfig?)
   fun start()
   fun stop()
   fun dispose()
@@ -209,10 +273,11 @@ interface GesturedeckMediaChannel {
             val autoStartArg = args[2] as Boolean
             val reverseHorizontalSwipesArg = args[3] as Boolean
             val panSensitivityArg = args[4].let { if (it is Int) it.toLong() else it as Long? }
-            val overlayConfigArg = args[5] as OverlayConfig?
+            val gestureActionConfigArg = args[5] as GestureActionConfig
+            val overlayConfigArg = args[6] as OverlayConfig?
             var wrapped: List<Any?>
             try {
-              api.initialize(androidActivationKeyArg, iOSActivationKeyArg, autoStartArg, reverseHorizontalSwipesArg, panSensitivityArg, overlayConfigArg)
+              api.initialize(androidActivationKeyArg, iOSActivationKeyArg, autoStartArg, reverseHorizontalSwipesArg, panSensitivityArg, gestureActionConfigArg, overlayConfigArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

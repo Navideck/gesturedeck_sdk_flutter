@@ -49,6 +49,16 @@ gesturedeck.start();
 gesturedeck.stop();
 ```
 
+To disable an action, either don't set it or set as null
+
+```dart
+var gesturedeck = Gesturedeck.initialize(
+    tapAction: null,
+);
+```
+
+
+
 ### Setup GesturedeckMedia  
 
 Enhance media app controls using GesturedeckMedia:

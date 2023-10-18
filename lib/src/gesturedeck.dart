@@ -55,6 +55,13 @@ class Gesturedeck {
       androidActivationKey,
       iOSActivationKey,
       autoStart,
+      GestureActionConfig(
+        enableTapAction: tapAction != null,
+        enableSwipeLeftAction: swipeLeftAction != null,
+        enableSwipeRightAction: swipeRightAction != null,
+        enablePanAction: panAction != null,
+        enableLongPressAction: longPressAction != null,
+      ),
     );
     _isInitialized = true;
   }

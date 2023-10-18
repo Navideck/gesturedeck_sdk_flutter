@@ -22,6 +22,7 @@ abstract class GesturedeckChannel {
     String? androidActivationKey,
     String? iOSActivationKey,
     bool autoStart,
+    GestureActionConfig gestureActionConfig,
   );
 
   void start();
@@ -38,6 +39,7 @@ abstract class GesturedeckMediaChannel {
     bool autoStart,
     bool reverseHorizontalSwipes,
     int? panSensitivity,
+    GestureActionConfig gestureActionConfig,
     OverlayConfig? overlayConfig,
   );
 
@@ -78,4 +80,19 @@ class OverlayConfig {
   Uint8List? iconSwipeRight;
   Uint8List? iconTap;
   Uint8List? iconTapToggled;
+}
+
+class GestureActionConfig {
+  bool enableTapAction;
+  bool enableSwipeLeftAction;
+  bool enableSwipeRightAction;
+  bool enablePanAction;
+  bool enableLongPressAction;
+  GestureActionConfig({
+    required this.enableTapAction,
+    required this.enableSwipeLeftAction,
+    required this.enableSwipeRightAction,
+    required this.enablePanAction,
+    required this.enableLongPressAction,
+  });
 }

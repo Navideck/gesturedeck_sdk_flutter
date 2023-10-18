@@ -15,22 +15,30 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
         gesturedeckMediaCallback = gesturedeckCallback
     }
 
-    func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws {
+    func initialize(
+        androidActivationKey _: String?,
+        iOSActivationKey: String?,
+        autoStart: Bool,
+        reverseHorizontalSwipes: Bool,
+        panSensitivity: Int64?,
+        gestureActionConfig: GestureActionConfig,
+        overlayConfig: OverlayConfig?
+    ) throws {
         gesturedeckMedia = GesturedeckMedia(
-            tapAction: {
+            tapAction: !gestureActionConfig.enableTapAction ? nil : {
                 self.gesturedeckMediaCallback.onTap {}
             },
-            swipeLeftAction: {
+            swipeLeftAction: !gestureActionConfig.enableSwipeLeftAction ? nil : {
                 self.gesturedeckMediaCallback.onSwipeLeft {}
             },
-            swipeRightAction: {
+            swipeRightAction: !gestureActionConfig.enableSwipeRightAction ? nil : {
                 self.gesturedeckMediaCallback.onSwipeRight {}
             },
-            panAction: { _ in
+            panAction: !gestureActionConfig.enablePanAction ? nil : { _ in
                 self.gesturedeckMediaCallback.onPan {}
             },
             panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium,
-            longPressAction: { _ in
+            longPressAction: !gestureActionConfig.enableLongPressAction ? nil : { _ in
                 self.gesturedeckMediaCallback.onLongPress {}
             },
             autoStart: autoStart,

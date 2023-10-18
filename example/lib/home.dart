@@ -17,7 +17,13 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    GesturedeckMedia.initialize();
+    GesturedeckMedia.initialize(
+      tapAction: () {},
+      swipeLeftAction: () {},
+      swipeRightAction: () {},
+      panAction: () {},
+      longPressAction: () {},
+    );
     super.initState();
   }
 

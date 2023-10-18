@@ -10,6 +10,7 @@ import android.view.MotionEvent
 import com.navideck.gesturedeck_android.GesturedeckMedia
 import com.navideck.gesturedeck_android.GesturedeckMediaOverlay
 import com.navideck.gesturedeck_android.model.PanSensitivity
+import com.navideck.gesturedeck_flutter.GestureActionConfig
 import com.navideck.gesturedeck_flutter.GesturedeckMediaCallback
 import com.navideck.gesturedeck_flutter.GesturedeckMediaChannel
 import com.navideck.gesturedeck_flutter.OverlayConfig
@@ -38,7 +39,8 @@ internal class GesturedeckMediaHandler(
         autoStart: Boolean,
         reverseHorizontalSwipes: Boolean,
         panSensitivity: Long?,
-        overlayConfig: OverlayConfig?
+        gestureActionConfig: GestureActionConfig,
+        overlayConfig: OverlayConfig?,
     ) {
         gesturedeckMedia = GesturedeckMedia(
             context = activity,
@@ -47,21 +49,21 @@ internal class GesturedeckMediaHandler(
             autoStart = autoStart,
             panSensitivity = panSensitivity?.toPanSensitivity(),
             gesturedeckMediaOverlay = overlayConfig?.toGesturedeckMediaOverlay(),
-            tapAction = {
-                gesturedeckMediaCallback?.onTap { }
-            },
-            swipeLeftAction = {
-                gesturedeckMediaCallback?.onSwipeRight { }
-            },
-            swipeRightAction = {
-                gesturedeckMediaCallback?.onSwipeLeft { }
-            },
-            panAction = { _, _, _ ->
-                gesturedeckMediaCallback?.onPan { }
-            },
-            longPressAction = {
-                gesturedeckMediaCallback?.onLongPress { }
-            }
+            tapAction = if (gestureActionConfig.enableTapAction) {
+                { gesturedeckMediaCallback?.onTap { } }
+            } else null,
+            swipeLeftAction = if (gestureActionConfig.enableSwipeLeftAction) {
+                { gesturedeckMediaCallback?.onSwipeLeft { } }
+            } else null,
+            swipeRightAction = if (gestureActionConfig.enableSwipeRightAction) {
+                { gesturedeckMediaCallback?.onSwipeRight { } }
+            } else null,
+            panAction = if (gestureActionConfig.enablePanAction) {
+                { _, _, _ -> gesturedeckMediaCallback?.onPan { } }
+            } else null,
+            longPressAction = if (gestureActionConfig.enableLongPressAction) {
+                { gesturedeckMediaCallback?.onLongPress { } }
+            } else null,
         )
 
         universalVolume?.let {
