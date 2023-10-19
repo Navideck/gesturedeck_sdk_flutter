@@ -82,21 +82,21 @@ data class OverlayConfig (
 
 /** Generated class from Pigeon that represents data sent in messages. */
 data class GestureActionConfig (
-  val enableTapAction: Boolean,
-  val enableSwipeLeftAction: Boolean,
-  val enableSwipeRightAction: Boolean,
-  val enablePanAction: Boolean,
-  val enableLongPressAction: Boolean
+  val enableTapAction: Boolean? = null,
+  val enableSwipeLeftAction: Boolean? = null,
+  val enableSwipeRightAction: Boolean? = null,
+  val enablePanAction: Boolean? = null,
+  val enableLongPressAction: Boolean? = null
 
 ) {
   companion object {
     @Suppress("UNCHECKED_CAST")
     fun fromList(list: List<Any?>): GestureActionConfig {
-      val enableTapAction = list[0] as Boolean
-      val enableSwipeLeftAction = list[1] as Boolean
-      val enableSwipeRightAction = list[2] as Boolean
-      val enablePanAction = list[3] as Boolean
-      val enableLongPressAction = list[4] as Boolean
+      val enableTapAction = list[0] as Boolean?
+      val enableSwipeLeftAction = list[1] as Boolean?
+      val enableSwipeRightAction = list[2] as Boolean?
+      val enablePanAction = list[3] as Boolean?
+      val enableLongPressAction = list[4] as Boolean?
       return GestureActionConfig(enableTapAction, enableSwipeLeftAction, enableSwipeRightAction, enablePanAction, enableLongPressAction)
     }
   }
@@ -142,6 +142,7 @@ interface GesturedeckChannel {
   fun initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Boolean, gestureActionConfig: GestureActionConfig)
   fun start()
   fun stop()
+  fun updateActionConfig(gestureActionConfig: GestureActionConfig)
 
   companion object {
     /** The codec used by GesturedeckChannel. */
@@ -207,6 +208,25 @@ interface GesturedeckChannel {
           channel.setMessageHandler(null)
         }
       }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.updateActionConfig", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val gestureActionConfigArg = args[0] as GestureActionConfig
+            var wrapped: List<Any?>
+            try {
+              api.updateActionConfig(gestureActionConfigArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
     }
   }
 }
@@ -254,6 +274,7 @@ interface GesturedeckMediaChannel {
   fun dispose()
   fun reverseHorizontalSwipes(value: Boolean)
   fun setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?)
+  fun updateActionConfig(gestureActionConfig: GestureActionConfig)
 
   companion object {
     /** The codec used by GesturedeckMediaChannel. */
@@ -367,6 +388,25 @@ interface GesturedeckMediaChannel {
             var wrapped: List<Any?>
             try {
               api.setGesturedeckMediaOverlay(overlayConfigArg)
+              wrapped = listOf<Any?>(null)
+            } catch (exception: Throwable) {
+              wrapped = wrapError(exception)
+            }
+            reply.reply(wrapped)
+          }
+        } else {
+          channel.setMessageHandler(null)
+        }
+      }
+      run {
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.updateActionConfig", codec)
+        if (api != null) {
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val gestureActionConfigArg = args[0] as GestureActionConfig
+            var wrapped: List<Any?>
+            try {
+              api.updateActionConfig(gestureActionConfigArg)
               wrapped = listOf<Any?>(null)
             } catch (exception: Throwable) {
               wrapped = wrapError(exception)

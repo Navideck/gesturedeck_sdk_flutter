@@ -28,6 +28,8 @@ abstract class GesturedeckChannel {
   void start();
 
   void stop();
+
+  void updateActionConfig(GestureActionConfig gestureActionConfig);
 }
 
 /// GesturedeckMedia
@@ -52,6 +54,8 @@ abstract class GesturedeckMediaChannel {
   void reverseHorizontalSwipes(bool value);
 
   void setGesturedeckMediaOverlay(OverlayConfig? overlayConfig);
+
+  void updateActionConfig(GestureActionConfig gestureActionConfig);
 }
 
 @FlutterApi()
@@ -83,16 +87,9 @@ class OverlayConfig {
 }
 
 class GestureActionConfig {
-  bool enableTapAction;
-  bool enableSwipeLeftAction;
-  bool enableSwipeRightAction;
-  bool enablePanAction;
-  bool enableLongPressAction;
-  GestureActionConfig({
-    required this.enableTapAction,
-    required this.enableSwipeLeftAction,
-    required this.enableSwipeRightAction,
-    required this.enablePanAction,
-    required this.enableLongPressAction,
-  });
+  bool? enableTapAction;
+  bool? enableSwipeLeftAction;
+  bool? enableSwipeRightAction;
+  bool? enablePanAction;
+  bool? enableLongPressAction;
 }

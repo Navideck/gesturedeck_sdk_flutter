@@ -78,18 +78,18 @@ struct OverlayConfig {
 
 /// Generated class from Pigeon that represents data sent in messages.
 struct GestureActionConfig {
-  var enableTapAction: Bool
-  var enableSwipeLeftAction: Bool
-  var enableSwipeRightAction: Bool
-  var enablePanAction: Bool
-  var enableLongPressAction: Bool
+  var enableTapAction: Bool? = nil
+  var enableSwipeLeftAction: Bool? = nil
+  var enableSwipeRightAction: Bool? = nil
+  var enablePanAction: Bool? = nil
+  var enableLongPressAction: Bool? = nil
 
   static func fromList(_ list: [Any?]) -> GestureActionConfig? {
-    let enableTapAction = list[0] as! Bool
-    let enableSwipeLeftAction = list[1] as! Bool
-    let enableSwipeRightAction = list[2] as! Bool
-    let enablePanAction = list[3] as! Bool
-    let enableLongPressAction = list[4] as! Bool
+    let enableTapAction: Bool? = nilOrValue(list[0])
+    let enableSwipeLeftAction: Bool? = nilOrValue(list[1])
+    let enableSwipeRightAction: Bool? = nilOrValue(list[2])
+    let enablePanAction: Bool? = nilOrValue(list[3])
+    let enableLongPressAction: Bool? = nilOrValue(list[4])
 
     return GestureActionConfig(
       enableTapAction: enableTapAction,
@@ -152,6 +152,7 @@ protocol GesturedeckChannel {
   func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool, gestureActionConfig: GestureActionConfig) throws
   func start() throws
   func stop() throws
+  func updateActionConfig(gestureActionConfig: GestureActionConfig) throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -203,6 +204,21 @@ class GesturedeckChannelSetup {
       }
     } else {
       stopChannel.setMessageHandler(nil)
+    }
+    let updateActionConfigChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.updateActionConfig", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      updateActionConfigChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let gestureActionConfigArg = args[0] as! GestureActionConfig
+        do {
+          try api.updateActionConfig(gestureActionConfig: gestureActionConfigArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      updateActionConfigChannel.setMessageHandler(nil)
     }
   }
 }
@@ -257,6 +273,7 @@ protocol GesturedeckMediaChannel {
   func dispose() throws
   func reverseHorizontalSwipes(value: Bool) throws
   func setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?) throws
+  func updateActionConfig(gestureActionConfig: GestureActionConfig) throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -354,6 +371,21 @@ class GesturedeckMediaChannelSetup {
       }
     } else {
       setGesturedeckMediaOverlayChannel.setMessageHandler(nil)
+    }
+    let updateActionConfigChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.updateActionConfig", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      updateActionConfigChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let gestureActionConfigArg = args[0] as! GestureActionConfig
+        do {
+          try api.updateActionConfig(gestureActionConfig: gestureActionConfigArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      updateActionConfigChannel.setMessageHandler(nil)
     }
   }
 }

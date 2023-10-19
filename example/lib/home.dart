@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -15,15 +17,17 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isGesturedeckRunning = true;
 
+  void initializeGesturedeck() async {
+    await GesturedeckMedia.initialize();
+
+    GesturedeckMedia.tapAction = () {
+      print("Tap Action");
+    };
+  }
+
   @override
   void initState() {
-    GesturedeckMedia.initialize(
-      tapAction: () {},
-      swipeLeftAction: () {},
-      swipeRightAction: () {},
-      panAction: () {},
-      longPressAction: () {},
-    );
+    initializeGesturedeck();
     super.initState();
   }
 

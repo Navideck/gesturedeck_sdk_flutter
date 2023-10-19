@@ -61,22 +61,22 @@ class OverlayConfig {
 
 class GestureActionConfig {
   GestureActionConfig({
-    required this.enableTapAction,
-    required this.enableSwipeLeftAction,
-    required this.enableSwipeRightAction,
-    required this.enablePanAction,
-    required this.enableLongPressAction,
+    this.enableTapAction,
+    this.enableSwipeLeftAction,
+    this.enableSwipeRightAction,
+    this.enablePanAction,
+    this.enableLongPressAction,
   });
 
-  bool enableTapAction;
+  bool? enableTapAction;
 
-  bool enableSwipeLeftAction;
+  bool? enableSwipeLeftAction;
 
-  bool enableSwipeRightAction;
+  bool? enableSwipeRightAction;
 
-  bool enablePanAction;
+  bool? enablePanAction;
 
-  bool enableLongPressAction;
+  bool? enableLongPressAction;
 
   Object encode() {
     return <Object?>[
@@ -91,11 +91,11 @@ class GestureActionConfig {
   static GestureActionConfig decode(Object result) {
     result as List<Object?>;
     return GestureActionConfig(
-      enableTapAction: result[0]! as bool,
-      enableSwipeLeftAction: result[1]! as bool,
-      enableSwipeRightAction: result[2]! as bool,
-      enablePanAction: result[3]! as bool,
-      enableLongPressAction: result[4]! as bool,
+      enableTapAction: result[0] as bool?,
+      enableSwipeLeftAction: result[1] as bool?,
+      enableSwipeRightAction: result[2] as bool?,
+      enablePanAction: result[3] as bool?,
+      enableLongPressAction: result[4] as bool?,
     );
   }
 }
@@ -184,6 +184,28 @@ class GesturedeckChannel {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> updateActionConfig(GestureActionConfig arg_gestureActionConfig) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.updateActionConfig', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_gestureActionConfig]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -356,6 +378,28 @@ class GesturedeckMediaChannel {
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(<Object?>[arg_overlayConfig]) as List<Object?>?;
+    if (replyList == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    } else if (replyList.length > 1) {
+      throw PlatformException(
+        code: replyList[0]! as String,
+        message: replyList[1] as String?,
+        details: replyList[2],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> updateActionConfig(GestureActionConfig arg_gestureActionConfig) async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.updateActionConfig', codec,
+        binaryMessenger: _binaryMessenger);
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_gestureActionConfig]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',

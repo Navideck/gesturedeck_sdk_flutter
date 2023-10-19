@@ -25,26 +25,34 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
         overlayConfig: OverlayConfig?
     ) throws {
         gesturedeckMedia = GesturedeckMedia(
-            tapAction: !gestureActionConfig.enableTapAction ? nil : {
-                self.gesturedeckMediaCallback.onTap {}
-            },
-            swipeLeftAction: !gestureActionConfig.enableSwipeLeftAction ? nil : {
-                self.gesturedeckMediaCallback.onSwipeLeft {}
-            },
-            swipeRightAction: !gestureActionConfig.enableSwipeRightAction ? nil : {
-                self.gesturedeckMediaCallback.onSwipeRight {}
-            },
-            panAction: !gestureActionConfig.enablePanAction ? nil : { _ in
-                self.gesturedeckMediaCallback.onPan {}
-            },
+            tapAction: gestureActionConfig.tapAction(gesturedeckMediaCallback),
+            swipeLeftAction: gestureActionConfig.swipeLeftAction(gesturedeckMediaCallback),
+            swipeRightAction: gestureActionConfig.swipeRightAction(gesturedeckMediaCallback),
+            panAction: gestureActionConfig.panAction(gesturedeckMediaCallback),
             panSensitivity: panSensitivity?.toPanSensitivity() ?? .medium,
-            longPressAction: !gestureActionConfig.enableLongPressAction ? nil : { _ in
-                self.gesturedeckMediaCallback.onLongPress {}
-            },
+            longPressAction: gestureActionConfig.longPressAction(gesturedeckMediaCallback),
             autoStart: autoStart,
             gesturedeckMediaOverlay: overlayConfig?.toGesturedeckMedia(reverseHorizontalSwipes),
             activationKey: iOSActivationKey
         )
+    }
+
+    func updateActionConfig(gestureActionConfig: GestureActionConfig) throws {
+        if gestureActionConfig.enableTapAction != nil {
+            gesturedeckMedia?.tapAction = gestureActionConfig.tapAction(gesturedeckMediaCallback)
+        }
+        if gestureActionConfig.enableSwipeLeftAction != nil {
+            gesturedeckMedia?.swipeLeftAction = gestureActionConfig.swipeLeftAction(gesturedeckMediaCallback)
+        }
+        if gestureActionConfig.enableSwipeRightAction != nil {
+            gesturedeckMedia?.swipeRightAction = gestureActionConfig.swipeRightAction(gesturedeckMediaCallback)
+        }
+        if gestureActionConfig.enablePanAction != nil {
+            gesturedeckMedia?.panAction = gestureActionConfig.panAction(gesturedeckMediaCallback)
+        }
+        if gestureActionConfig.enableLongPressAction != nil {
+            gesturedeckMedia?.longPressAction = gestureActionConfig.longPressAction(gesturedeckMediaCallback)
+        }
     }
 
     func start() throws {
@@ -67,6 +75,38 @@ class GesturedeckMediaHandler: NSObject, GesturedeckMediaChannel {
         if overlayConfig == nil { return }
         let reverseHorizontalSwipes = gesturedeckMedia?.gesturedeckMediaOverlay?.reverseHorizontalSwipes ?? false
         gesturedeckMedia?.gesturedeckMediaOverlay = overlayConfig!.toGesturedeckMedia(reverseHorizontalSwipes)
+    }
+}
+
+private extension GestureActionConfig {
+    func tapAction(_ callback: GesturedeckMediaCallback) -> (() -> Void)? {
+        return enableTapAction != false ? {
+            callback.onTap {}
+        } : nil
+    }
+
+    func swipeLeftAction(_ callback: GesturedeckMediaCallback) -> (() -> Void)? {
+        return enableSwipeLeftAction != false ? {
+            callback.onSwipeLeft {}
+        } : nil
+    }
+
+    func swipeRightAction(_ callback: GesturedeckMediaCallback) -> (() -> Void)? {
+        return enableSwipeRightAction != false ? {
+            callback.onSwipeRight {}
+        } : nil
+    }
+
+    func panAction(_ callback: GesturedeckMediaCallback) -> ((_ gestureRecognizer: UIPanGestureRecognizer) -> Void)? {
+        return enablePanAction != false ? { _ in
+            callback.onPan {}
+        } : nil
+    }
+
+    func longPressAction(_ callback: GesturedeckMediaCallback) -> ((_ sender: UILongPressGestureRecognizer) -> Void)? {
+        return enableLongPressAction != false ? { _ in
+            callback.onLongPress {}
+        } : nil
     }
 }
 
