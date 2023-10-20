@@ -35,29 +35,36 @@ Integrate Gesturedeck into your Flutter app with just a few steps:
 
 1. Initialize Gesturedeck:
 ```dart
-var gesturedeck = Gesturedeck.initialize(
+await Gesturedeck.initialize(
     tapAction: () {},
     swipeLeftAction: () {},
     swipeRightAction: () {},
     panAction: () {},
 );
+
+// Or set actions after initialization
+Gesturedeck.tapAction = (){}
 ```
 
 2. Start and stop Gesturedeck detection:
 ```dart
-gesturedeck.start();
-gesturedeck.stop();
+Gesturedeck.start();
+Gesturedeck.stop();
 ```
 
-To disable an action, either don't set it or set as null
+To disable a gesture action, set its corresponding parameter to null when initializing Gesturedeck, like this:
 
 ```dart
-var gesturedeck = Gesturedeck.initialize(
+await Gesturedeck.initialize(
     tapAction: null,
 );
 ```
 
+Alternatively, you can disable a gesture action by setting its corresponding property to null after Gesturedeck has been initialized, like this:
 
+```dart
+Gesturedeck.tapAction = null
+```
 
 ### Setup GesturedeckMedia  
 
@@ -65,7 +72,7 @@ Enhance media app controls using GesturedeckMedia:
 
 1. Initialize GesturedeckMedia with overlay UI customization:
 ```dart
-var gesturedeckMedia = GesturedeckMedia.initialize(
+await GesturedeckMedia.initialize(
     tapAction: () {},
     swipeLeftAction: () {},
     swipeRightAction: () {},
@@ -82,13 +89,13 @@ var gesturedeckMedia = GesturedeckMedia.initialize(
 
 2. Start and stop GesturedeckMedia detection:
 ```dart
-gesturedeckMedia.start();
-gesturedeckMedia.stop();
+GesturedeckMedia.start();
+GesturedeckMedia.stop();
 ```
 
 3. Customize reverse horizontal swipes:
 ```dart
-gesturedeckMedia.reverseHorizontalSwipes = true;
+GesturedeckMedia.reverseHorizontalSwipes = true;
 ```
 
 #### iOS only
