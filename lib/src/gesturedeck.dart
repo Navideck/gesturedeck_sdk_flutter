@@ -13,6 +13,11 @@ import 'generated/gesturedeck_generated.g.dart';
 class Gesturedeck {
   static final _gesturedeckFlutter = GesturedeckChannel();
   static bool _isInitialized = false;
+  static VoidCallback? _tapAction;
+  static VoidCallback? _swipeLeftAction;
+  static VoidCallback? _swipeRightAction;
+  static VoidCallback? _panAction;
+  static VoidCallback? _longPressAction;
 
   /// Initializes Gesturedeck with the specified parameters.
   ///
@@ -34,29 +39,75 @@ class Gesturedeck {
   ///
   /// Throws an exception if Gesturedeck is already initialized.
   static Future<void> initialize({
-    VoidCallback? tapAction,
-    VoidCallback? swipeLeftAction,
-    VoidCallback? swipeRightAction,
-    VoidCallback? panAction,
-    VoidCallback? longPressAction,
+    VoidCallback? tapAction = _defaultAction,
+    VoidCallback? swipeLeftAction = _defaultAction,
+    VoidCallback? swipeRightAction = _defaultAction,
+    VoidCallback? panAction = _defaultAction,
+    VoidCallback? longPressAction = _defaultAction,
     String? androidActivationKey,
     String? iOSActivationKey,
     bool autoStart = true,
   }) async {
     if (_isInitialized) throw Exception("Gesturedeck is already initialized");
-    GesturedeckCallback.setup(_GesturedeckCallbackHandler(
-      tapAction: tapAction,
-      swipeLeftAction: swipeLeftAction,
-      swipeRightAction: swipeRightAction,
-      panAction: panAction,
-      longPressAction: longPressAction,
-    ));
+    _tapAction = tapAction;
+    _swipeLeftAction = swipeLeftAction;
+    _swipeRightAction = swipeRightAction;
+    _panAction = panAction;
+    _longPressAction = longPressAction;
+    _setupGesturedeckActionListener();
     await _gesturedeckFlutter.initialize(
       androidActivationKey,
       iOSActivationKey,
       autoStart,
+      GestureActionConfig(
+        enableTapAction: tapAction != null,
+        enableSwipeLeftAction: swipeLeftAction != null,
+        enableSwipeRightAction: swipeRightAction != null,
+        enablePanAction: panAction != null,
+        enableLongPressAction: longPressAction != null,
+      ),
     );
     _isInitialized = true;
+  }
+
+  static set tapAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _tapAction = callback;
+    _gesturedeckFlutter.updateActionConfig(GestureActionConfig(
+      enableTapAction: _tapAction != null,
+    ));
+  }
+
+  static set swipeLeftAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _swipeLeftAction = callback;
+    _gesturedeckFlutter.updateActionConfig(GestureActionConfig(
+      enableSwipeLeftAction: _swipeLeftAction != null,
+    ));
+  }
+
+  static set swipeRightAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _swipeRightAction = callback;
+    _gesturedeckFlutter.updateActionConfig(GestureActionConfig(
+      enableSwipeRightAction: _swipeRightAction != null,
+    ));
+  }
+
+  static set panAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _panAction = callback;
+    _gesturedeckFlutter.updateActionConfig(GestureActionConfig(
+      enablePanAction: _panAction != null,
+    ));
+  }
+
+  static set longPressAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _longPressAction = callback;
+    _gesturedeckFlutter.updateActionConfig(GestureActionConfig(
+      enableLongPressAction: _longPressAction != null,
+    ));
   }
 
   static Future<void> start() async {
@@ -69,9 +120,21 @@ class Gesturedeck {
     await _gesturedeckFlutter.stop();
   }
 
+  static void _setupGesturedeckActionListener() async {
+    GesturedeckCallback.setup(_GesturedeckCallbackHandler(
+      tapAction: () => _tapAction?.call(),
+      swipeLeftAction: () => _swipeLeftAction?.call(),
+      swipeRightAction: () => _swipeRightAction?.call(),
+      panAction: () => _panAction?.call(),
+      longPressAction: () => _longPressAction?.call(),
+    ));
+  }
+
   static void _ensureInitialized() {
     if (!_isInitialized) throw Exception("Gesturedeck is not initialized");
   }
+
+  static void _defaultAction() {}
 }
 
 class _GesturedeckCallbackHandler extends GesturedeckCallback {

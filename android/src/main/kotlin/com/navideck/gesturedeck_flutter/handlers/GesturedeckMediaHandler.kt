@@ -5,11 +5,15 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import com.navideck.gesturedeck_android.GesturedeckMedia
 import com.navideck.gesturedeck_android.GesturedeckMediaOverlay
+import com.navideck.gesturedeck_android.model.GestureState
 import com.navideck.gesturedeck_android.model.PanSensitivity
+import com.navideck.gesturedeck_android.model.SwipeDirection
+import com.navideck.gesturedeck_flutter.GestureActionConfig
 import com.navideck.gesturedeck_flutter.GesturedeckMediaCallback
 import com.navideck.gesturedeck_flutter.GesturedeckMediaChannel
 import com.navideck.gesturedeck_flutter.OverlayConfig
@@ -38,7 +42,8 @@ internal class GesturedeckMediaHandler(
         autoStart: Boolean,
         reverseHorizontalSwipes: Boolean,
         panSensitivity: Long?,
-        overlayConfig: OverlayConfig?
+        gestureActionConfig: GestureActionConfig,
+        overlayConfig: OverlayConfig?,
     ) {
         gesturedeckMedia = GesturedeckMedia(
             context = activity,
@@ -47,25 +52,32 @@ internal class GesturedeckMediaHandler(
             autoStart = autoStart,
             panSensitivity = panSensitivity?.toPanSensitivity(),
             gesturedeckMediaOverlay = overlayConfig?.toGesturedeckMediaOverlay(),
-            tapAction = {
-                gesturedeckMediaCallback?.onTap { }
-            },
-            swipeLeftAction = {
-                gesturedeckMediaCallback?.onSwipeRight { }
-            },
-            swipeRightAction = {
-                gesturedeckMediaCallback?.onSwipeLeft { }
-            },
-            panAction = { _, _, _ ->
-                gesturedeckMediaCallback?.onPan { }
-            },
-            longPressAction = {
-                gesturedeckMediaCallback?.onLongPress { }
-            }
+            tapAction = gestureActionConfig.tapAction(),
+            swipeLeftAction = gestureActionConfig.swipeLeftAction(),
+            swipeRightAction = gestureActionConfig.swipeRightAction(),
+            panAction = gestureActionConfig.panAction(),
+            longPressAction = gestureActionConfig.longPressAction(),
         )
-
         universalVolume?.let {
             gesturedeckMedia?.setUniversalVolumeInstance(it)
+        }
+    }
+
+    override fun updateActionConfig(gestureActionConfig: GestureActionConfig) {
+        if (gestureActionConfig.enableTapAction != null) {
+            gesturedeckMedia?.tapAction = gestureActionConfig.tapAction()
+        }
+        if (gestureActionConfig.enableSwipeLeftAction != null) {
+            gesturedeckMedia?.swipeLeftAction = gestureActionConfig.swipeLeftAction()
+        }
+        if (gestureActionConfig.enableSwipeRightAction != null) {
+            gesturedeckMedia?.swipeRightAction = gestureActionConfig.swipeRightAction()
+        }
+        if (gestureActionConfig.enablePanAction != null) {
+            gesturedeckMedia?.panAction = gestureActionConfig.panAction()
+        }
+        if (gestureActionConfig.enableLongPressAction != null) {
+            gesturedeckMedia?.longPressAction = gestureActionConfig.longPressAction()
         }
     }
 
@@ -92,12 +104,34 @@ internal class GesturedeckMediaHandler(
         gesturedeckMedia?.gesturedeckMediaOverlay = overlayConfig?.toGesturedeckMediaOverlay()
     }
 
-    private fun argsToDrawable(args: Any?): Drawable? {
-        if (args == null || args !is ByteArray) return null
-        return BitmapDrawable(
-            activity.resources,
-            BitmapFactory.decodeByteArray(args, 0, args.size)
-        )
+    private fun GestureActionConfig.tapAction(): (() -> Unit)? {
+        return if (enableTapAction != false) {
+            { gesturedeckMediaCallback?.onTap { } }
+        } else null
+    }
+
+    private fun GestureActionConfig.swipeLeftAction(): (() -> Unit)? {
+        return if (enableSwipeLeftAction != false) {
+            { gesturedeckMediaCallback?.onSwipeLeft { } }
+        } else null
+    }
+
+    private fun GestureActionConfig.swipeRightAction(): (() -> Unit)? {
+        return if (enableSwipeRightAction != false) {
+            { gesturedeckMediaCallback?.onSwipeRight { } }
+        } else null
+    }
+
+    private fun GestureActionConfig.panAction(): ((MotionEvent, SwipeDirection, GestureState) -> Unit)? {
+        return if (enablePanAction != false) {
+            { _, _, _ -> gesturedeckMediaCallback?.onPan { } }
+        } else null
+    }
+
+    private fun GestureActionConfig.longPressAction(): ((GestureState) -> Unit)? {
+        return if (enableLongPressAction != false) {
+            { gesturedeckMediaCallback?.onLongPress { } }
+        } else null
     }
 
     private fun OverlayConfig.toGesturedeckMediaOverlay(): GesturedeckMediaOverlay {
@@ -112,6 +146,14 @@ internal class GesturedeckMediaHandler(
         )
         gesturedeckMediaOverlay.setBitmapCallback { flutterRenderer.bitmap }
         return gesturedeckMediaOverlay
+    }
+
+    private fun argsToDrawable(args: Any?): Drawable? {
+        if (args == null || args !is ByteArray) return null
+        return BitmapDrawable(
+            activity.resources,
+            BitmapFactory.decodeByteArray(args, 0, args.size)
+        )
     }
 
     private fun Long.toPanSensitivity(): PanSensitivity? {

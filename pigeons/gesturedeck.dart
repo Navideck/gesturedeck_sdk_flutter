@@ -22,11 +22,14 @@ abstract class GesturedeckChannel {
     String? androidActivationKey,
     String? iOSActivationKey,
     bool autoStart,
+    GestureActionConfig gestureActionConfig,
   );
 
   void start();
 
   void stop();
+
+  void updateActionConfig(GestureActionConfig gestureActionConfig);
 }
 
 /// GesturedeckMedia
@@ -38,6 +41,7 @@ abstract class GesturedeckMediaChannel {
     bool autoStart,
     bool reverseHorizontalSwipes,
     int? panSensitivity,
+    GestureActionConfig gestureActionConfig,
     OverlayConfig? overlayConfig,
   );
 
@@ -50,6 +54,8 @@ abstract class GesturedeckMediaChannel {
   void reverseHorizontalSwipes(bool value);
 
   void setGesturedeckMediaOverlay(OverlayConfig? overlayConfig);
+
+  void updateActionConfig(GestureActionConfig gestureActionConfig);
 }
 
 @FlutterApi()
@@ -78,4 +84,12 @@ class OverlayConfig {
   Uint8List? iconSwipeRight;
   Uint8List? iconTap;
   Uint8List? iconTapToggled;
+}
+
+class GestureActionConfig {
+  bool? enableTapAction;
+  bool? enableSwipeLeftAction;
+  bool? enableSwipeRightAction;
+  bool? enablePanAction;
+  bool? enableLongPressAction;
 }

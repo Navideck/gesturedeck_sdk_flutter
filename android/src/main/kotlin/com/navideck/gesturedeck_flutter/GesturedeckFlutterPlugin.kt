@@ -2,7 +2,9 @@ package com.navideck.gesturedeck_flutter
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.view.WindowManager
 import androidx.core.view.allViews
 import com.navideck.gesturedeck_flutter.handlers.GesturedeckHandler
@@ -24,7 +26,6 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
 
     private lateinit var flutterPluginBinding: FlutterPluginBinding
     private var activityBinding: ActivityPluginBinding? = null
-
     private var universalVolume: UniversalVolume? = null
     private var gesturedeckHandler: GesturedeckHandler? = null
     private var gesturedeckMediaHandler: GesturedeckMediaHandler? = null
@@ -66,6 +67,7 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
             gesturedeckMediaHandler
         )
     }
+
 
     private val flutterUiListener = object : FlutterUiDisplayListener {
         override fun onFlutterUiDisplayed() {

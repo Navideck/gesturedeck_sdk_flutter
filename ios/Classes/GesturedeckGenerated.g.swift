@@ -75,29 +75,102 @@ struct OverlayConfig {
     ]
   }
 }
+
+/// Generated class from Pigeon that represents data sent in messages.
+struct GestureActionConfig {
+  var enableTapAction: Bool? = nil
+  var enableSwipeLeftAction: Bool? = nil
+  var enableSwipeRightAction: Bool? = nil
+  var enablePanAction: Bool? = nil
+  var enableLongPressAction: Bool? = nil
+
+  static func fromList(_ list: [Any?]) -> GestureActionConfig? {
+    let enableTapAction: Bool? = nilOrValue(list[0])
+    let enableSwipeLeftAction: Bool? = nilOrValue(list[1])
+    let enableSwipeRightAction: Bool? = nilOrValue(list[2])
+    let enablePanAction: Bool? = nilOrValue(list[3])
+    let enableLongPressAction: Bool? = nilOrValue(list[4])
+
+    return GestureActionConfig(
+      enableTapAction: enableTapAction,
+      enableSwipeLeftAction: enableSwipeLeftAction,
+      enableSwipeRightAction: enableSwipeRightAction,
+      enablePanAction: enablePanAction,
+      enableLongPressAction: enableLongPressAction
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      enableTapAction,
+      enableSwipeLeftAction,
+      enableSwipeRightAction,
+      enablePanAction,
+      enableLongPressAction,
+    ]
+  }
+}
+private class GesturedeckChannelCodecReader: FlutterStandardReader {
+  override func readValue(ofType type: UInt8) -> Any? {
+    switch type {
+      case 128:
+        return GestureActionConfig.fromList(self.readValue() as! [Any?])
+      default:
+        return super.readValue(ofType: type)
+    }
+  }
+}
+
+private class GesturedeckChannelCodecWriter: FlutterStandardWriter {
+  override func writeValue(_ value: Any) {
+    if let value = value as? GestureActionConfig {
+      super.writeByte(128)
+      super.writeValue(value.toList())
+    } else {
+      super.writeValue(value)
+    }
+  }
+}
+
+private class GesturedeckChannelCodecReaderWriter: FlutterStandardReaderWriter {
+  override func reader(with data: Data) -> FlutterStandardReader {
+    return GesturedeckChannelCodecReader(data: data)
+  }
+
+  override func writer(with data: NSMutableData) -> FlutterStandardWriter {
+    return GesturedeckChannelCodecWriter(data: data)
+  }
+}
+
+class GesturedeckChannelCodec: FlutterStandardMessageCodec {
+  static let shared = GesturedeckChannelCodec(readerWriter: GesturedeckChannelCodecReaderWriter())
+}
+
 /// Gesturedeck
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol GesturedeckChannel {
-  func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool) throws
+  func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool, gestureActionConfig: GestureActionConfig) throws
   func start() throws
   func stop() throws
+  func updateActionConfig(gestureActionConfig: GestureActionConfig) throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
 class GesturedeckChannelSetup {
   /// The codec used by GesturedeckChannel.
+  static var codec: FlutterStandardMessageCodec { GesturedeckChannelCodec.shared }
   /// Sets up an instance of `GesturedeckChannel` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: GesturedeckChannel?) {
-    let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize", binaryMessenger: binaryMessenger)
+    let initializeChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.initialize", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       initializeChannel.setMessageHandler { message, reply in
         let args = message as! [Any?]
         let androidActivationKeyArg: String? = nilOrValue(args[0])
         let iOSActivationKeyArg: String? = nilOrValue(args[1])
         let autoStartArg = args[2] as! Bool
+        let gestureActionConfigArg = args[3] as! GestureActionConfig
         do {
-          try api.initialize(androidActivationKey: androidActivationKeyArg, iOSActivationKey: iOSActivationKeyArg, autoStart: autoStartArg)
+          try api.initialize(androidActivationKey: androidActivationKeyArg, iOSActivationKey: iOSActivationKeyArg, autoStart: autoStartArg, gestureActionConfig: gestureActionConfigArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
@@ -106,7 +179,7 @@ class GesturedeckChannelSetup {
     } else {
       initializeChannel.setMessageHandler(nil)
     }
-    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.start", binaryMessenger: binaryMessenger)
+    let startChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.start", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       startChannel.setMessageHandler { _, reply in
         do {
@@ -119,7 +192,7 @@ class GesturedeckChannelSetup {
     } else {
       startChannel.setMessageHandler(nil)
     }
-    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.stop", binaryMessenger: binaryMessenger)
+    let stopChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.stop", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
       stopChannel.setMessageHandler { _, reply in
         do {
@@ -132,12 +205,29 @@ class GesturedeckChannelSetup {
     } else {
       stopChannel.setMessageHandler(nil)
     }
+    let updateActionConfigChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckChannel.updateActionConfig", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      updateActionConfigChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let gestureActionConfigArg = args[0] as! GestureActionConfig
+        do {
+          try api.updateActionConfig(gestureActionConfig: gestureActionConfigArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      updateActionConfigChannel.setMessageHandler(nil)
+    }
   }
 }
 private class GesturedeckMediaChannelCodecReader: FlutterStandardReader {
   override func readValue(ofType type: UInt8) -> Any? {
     switch type {
       case 128:
+        return GestureActionConfig.fromList(self.readValue() as! [Any?])
+      case 129:
         return OverlayConfig.fromList(self.readValue() as! [Any?])
       default:
         return super.readValue(ofType: type)
@@ -147,8 +237,11 @@ private class GesturedeckMediaChannelCodecReader: FlutterStandardReader {
 
 private class GesturedeckMediaChannelCodecWriter: FlutterStandardWriter {
   override func writeValue(_ value: Any) {
-    if let value = value as? OverlayConfig {
+    if let value = value as? GestureActionConfig {
       super.writeByte(128)
+      super.writeValue(value.toList())
+    } else if let value = value as? OverlayConfig {
+      super.writeByte(129)
       super.writeValue(value.toList())
     } else {
       super.writeValue(value)
@@ -174,12 +267,13 @@ class GesturedeckMediaChannelCodec: FlutterStandardMessageCodec {
 ///
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol GesturedeckMediaChannel {
-  func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, overlayConfig: OverlayConfig?) throws
+  func initialize(androidActivationKey: String?, iOSActivationKey: String?, autoStart: Bool, reverseHorizontalSwipes: Bool, panSensitivity: Int64?, gestureActionConfig: GestureActionConfig, overlayConfig: OverlayConfig?) throws
   func start() throws
   func stop() throws
   func dispose() throws
   func reverseHorizontalSwipes(value: Bool) throws
   func setGesturedeckMediaOverlay(overlayConfig: OverlayConfig?) throws
+  func updateActionConfig(gestureActionConfig: GestureActionConfig) throws
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -197,9 +291,10 @@ class GesturedeckMediaChannelSetup {
         let autoStartArg = args[2] as! Bool
         let reverseHorizontalSwipesArg = args[3] as! Bool
         let panSensitivityArg: Int64? = args[4] is NSNull ? nil : (args[4] is Int64? ? args[4] as! Int64? : Int64(args[4] as! Int32))
-        let overlayConfigArg: OverlayConfig? = nilOrValue(args[5])
+        let gestureActionConfigArg = args[5] as! GestureActionConfig
+        let overlayConfigArg: OverlayConfig? = nilOrValue(args[6])
         do {
-          try api.initialize(androidActivationKey: androidActivationKeyArg, iOSActivationKey: iOSActivationKeyArg, autoStart: autoStartArg, reverseHorizontalSwipes: reverseHorizontalSwipesArg, panSensitivity: panSensitivityArg, overlayConfig: overlayConfigArg)
+          try api.initialize(androidActivationKey: androidActivationKeyArg, iOSActivationKey: iOSActivationKeyArg, autoStart: autoStartArg, reverseHorizontalSwipes: reverseHorizontalSwipesArg, panSensitivity: panSensitivityArg, gestureActionConfig: gestureActionConfigArg, overlayConfig: overlayConfigArg)
           reply(wrapResult(nil))
         } catch {
           reply(wrapError(error))
@@ -276,6 +371,21 @@ class GesturedeckMediaChannelSetup {
       }
     } else {
       setGesturedeckMediaOverlayChannel.setMessageHandler(nil)
+    }
+    let updateActionConfigChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.gesturedeck_flutter.GesturedeckMediaChannel.updateActionConfig", binaryMessenger: binaryMessenger, codec: codec)
+    if let api = api {
+      updateActionConfigChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let gestureActionConfigArg = args[0] as! GestureActionConfig
+        do {
+          try api.updateActionConfig(gestureActionConfig: gestureActionConfigArg)
+          reply(wrapResult(nil))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      updateActionConfigChannel.setMessageHandler(nil)
     }
   }
 }

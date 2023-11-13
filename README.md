@@ -35,18 +35,35 @@ Integrate Gesturedeck into your Flutter app with just a few steps:
 
 1. Initialize Gesturedeck:
 ```dart
-var gesturedeck = Gesturedeck.initialize(
+await Gesturedeck.initialize(
     tapAction: () {},
     swipeLeftAction: () {},
     swipeRightAction: () {},
     panAction: () {},
 );
+
+// Or set actions after initialization
+Gesturedeck.tapAction = (){}
 ```
 
 2. Start and stop Gesturedeck detection:
 ```dart
-gesturedeck.start();
-gesturedeck.stop();
+Gesturedeck.start();
+Gesturedeck.stop();
+```
+
+To disable a gesture action, set its corresponding parameter to null when initializing Gesturedeck, like this:
+
+```dart
+await Gesturedeck.initialize(
+    tapAction: null,
+);
+```
+
+Alternatively, you can disable a gesture action by setting its corresponding property to null after Gesturedeck has been initialized, like this:
+
+```dart
+Gesturedeck.tapAction = null
 ```
 
 ### Setup GesturedeckMedia  
@@ -55,7 +72,7 @@ Enhance media app controls using GesturedeckMedia:
 
 1. Initialize GesturedeckMedia with overlay UI customization:
 ```dart
-var gesturedeckMedia = GesturedeckMedia.initialize(
+await GesturedeckMedia.initialize(
     tapAction: () {},
     swipeLeftAction: () {},
     swipeRightAction: () {},
@@ -72,14 +89,16 @@ var gesturedeckMedia = GesturedeckMedia.initialize(
 
 2. Start and stop GesturedeckMedia detection:
 ```dart
-gesturedeckMedia.start();
-gesturedeckMedia.stop();
+GesturedeckMedia.start();
+GesturedeckMedia.stop();
 ```
 
 3. Customize reverse horizontal swipes:
 ```dart
-gesturedeckMedia.reverseHorizontalSwipes = true;
+GesturedeckMedia.reverseHorizontalSwipes = true;
 ```
+
+To display GesturedeckMedia UI when pressing volume buttons in Android, replace `class MainActivity : FlutterActivity()` with `class MainActivity : GesturedeckFlutterActivity()` in native Android.
 
 #### iOS only
 When using the default gesture actions you need to add the `NSAppleMusicUsageDescription` key in your project's `Info` tab with a value explaining why you need this permission (e.g. `"Control music playback"`).

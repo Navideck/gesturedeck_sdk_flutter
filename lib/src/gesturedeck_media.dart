@@ -2,18 +2,24 @@
 
 import 'package:flutter/services.dart';
 import 'package:gesturedeck_flutter/src/models/gesturedeck_media_overlay.dart';
+import 'package:gesturedeck_flutter/src/models/pan_sensitivity.dart';
 import 'generated/gesturedeck_generated.g.dart';
 
 /// A subclass of [Gesturedeck] that provides media-specific functionality such as volume control and media playback actions.
 ///
 /// GesturedeckMedia also includes support for media overlays, which can be used to display additional information or controls on top of the app's content.
-/// 
+///
 /// You can set any action to null to disable it.
-/// 
+///
 /// When using an activation key, `gesturedeckMediaOverlay` can be set to null to not appear.
 class GesturedeckMedia {
   static final _gesturedeckMediaChannel = GesturedeckMediaChannel();
   static bool _isInitialized = false;
+  static VoidCallback? _tapAction;
+  static VoidCallback? _swipeLeftAction;
+  static VoidCallback? _swipeRightAction;
+  static VoidCallback? _panAction;
+  static VoidCallback? _longPressAction;
 
   /// Initializes GesturedeckMedia with the provided parameters.
   ///
@@ -41,12 +47,12 @@ class GesturedeckMedia {
   ///
   ///  Throws an exception if GesturedeckMedia is already initialized.
   static Future<void> initialize({
-    VoidCallback? tapAction,
-    VoidCallback? swipeLeftAction,
-    VoidCallback? swipeRightAction,
-    VoidCallback? panAction,
+    VoidCallback? tapAction = _defaultAction,
+    VoidCallback? swipeLeftAction = _defaultAction,
+    VoidCallback? swipeRightAction = _defaultAction,
+    VoidCallback? panAction = _defaultAction,
     PanSensitivity? panSensitivity,
-    VoidCallback? longPressAction,
+    VoidCallback? longPressAction = _defaultAction,
     bool reverseHorizontalSwipes = false,
     String? androidActivationKey,
     String? iOSActivationKey,
@@ -54,22 +60,69 @@ class GesturedeckMedia {
     GesturedeckMediaOverlay? gesturedeckMediaOverlay,
   }) async {
     if (_isInitialized) throw Exception("Gesturedeck is already initialized");
-    GesturedeckMediaCallback.setup(_GesturedeckMediaCallbackHandler(
-      tapAction: tapAction,
-      swipeLeftAction: swipeLeftAction,
-      swipeRightAction: swipeRightAction,
-      panAction: panAction,
-      longPressAction: longPressAction,
-    ));
+    _tapAction = tapAction;
+    _swipeLeftAction = swipeLeftAction;
+    _swipeRightAction = swipeRightAction;
+    _panAction = panAction;
+    _longPressAction = longPressAction;
+    _setupGesturedeckActionListener();
     await _gesturedeckMediaChannel.initialize(
       androidActivationKey,
       iOSActivationKey,
       autoStart,
       reverseHorizontalSwipes,
       panSensitivity?.value,
+      GestureActionConfig(
+        enableTapAction: _tapAction != null,
+        enableSwipeLeftAction: _swipeLeftAction != null,
+        enableSwipeRightAction: _swipeRightAction != null,
+        enablePanAction: _panAction != null,
+        enableLongPressAction: _longPressAction != null,
+      ),
+      // TODO: add support for setting null overlayConfig
       gesturedeckMediaOverlay?.toOverlayConfig() ?? OverlayConfig(),
     );
     _isInitialized = true;
+  }
+
+  static set tapAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _tapAction = callback;
+    _gesturedeckMediaChannel.updateActionConfig(GestureActionConfig(
+      enableTapAction: _tapAction != null,
+    ));
+  }
+
+  static set swipeLeftAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _swipeLeftAction = callback;
+    _gesturedeckMediaChannel.updateActionConfig(GestureActionConfig(
+      enableSwipeLeftAction: _swipeLeftAction != null,
+    ));
+  }
+
+  static set swipeRightAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _swipeRightAction = callback;
+    _gesturedeckMediaChannel.updateActionConfig(GestureActionConfig(
+      enableSwipeRightAction: _swipeRightAction != null,
+    ));
+  }
+
+  static set panAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _panAction = callback;
+    _gesturedeckMediaChannel.updateActionConfig(GestureActionConfig(
+      enablePanAction: _panAction != null,
+    ));
+  }
+
+  static set longPressAction(VoidCallback? callback) {
+    _ensureInitialized();
+    _longPressAction = callback;
+    _gesturedeckMediaChannel.updateActionConfig(GestureActionConfig(
+      enableLongPressAction: _longPressAction != null,
+    ));
   }
 
   static Future<void> start() async {
@@ -94,19 +147,24 @@ class GesturedeckMedia {
     _gesturedeckMediaChannel.reverseHorizontalSwipes(reverse);
   }
 
-  static void _ensureInitialized() {
-    if (!_isInitialized) throw Exception("Gesturedeck is not initialized");
+  static void _setupGesturedeckActionListener() async {
+    GesturedeckMediaCallback.setup(
+      _GesturedeckMediaCallbackHandler(
+        tapAction: () => _tapAction?.call(),
+        swipeLeftAction: () => _swipeLeftAction?.call(),
+        swipeRightAction: () => _swipeRightAction?.call(),
+        panAction: () => _panAction?.call(),
+        longPressAction: () => _longPressAction?.call(),
+      ),
+    );
   }
-}
 
-/// An enum representing the sensitivity of Gesturedeck when performing a panning gesture.
-enum PanSensitivity {
-  low(0),
-  medium(1),
-  high(2);
+  /// Default action for all gestures
+  static void _defaultAction() {}
 
-  const PanSensitivity(this.value);
-  final int value;
+  static void _ensureInitialized() {
+    if (!_isInitialized) throw Exception("Gesturedeck is not initialized yet");
+  }
 }
 
 class _GesturedeckMediaCallbackHandler extends GesturedeckMediaCallback {
