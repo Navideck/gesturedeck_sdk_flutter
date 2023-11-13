@@ -98,7 +98,7 @@ GesturedeckMedia.stop();
 GesturedeckMedia.reverseHorizontalSwipes = true;
 ```
 
-To display GesturedeckMedia UI when pressing volume buttons in android, replace `class MainActivity : FlutterActivity()` with `class MainActivity : GesturedeckFlutterActivity()` in native android 
+To display GesturedeckMedia UI when pressing volume buttons in Android, replace `class MainActivity : FlutterActivity()` with `class MainActivity : GesturedeckFlutterActivity()` in native Android.
 
 #### iOS only
 When using the default gesture actions you need to add the `NSAppleMusicUsageDescription` key in your project's `Info` tab with a value explaining why you need this permission (e.g. `"Control music playback"`).
