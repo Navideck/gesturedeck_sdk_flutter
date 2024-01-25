@@ -1,3 +1,6 @@
+## 1.2.1
+* Improve readme
+
 ## 1.2.0
 * Bump Android library to 1.8.0
 * Bump iOS library to 1.6.1

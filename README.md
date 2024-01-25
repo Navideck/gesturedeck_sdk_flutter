@@ -1,8 +1,10 @@
-# Gesturedeck Flutter
-
 <p align="center">
   <img src="https://navideck.com/sites/navideck.com/files/2023-10/Gesturedeck%20SDK%20icon.png" height=150 />
 </p>
+
+# Gesturedeck Flutter
+[![gesturedeck_flutter version](https://img.shields.io/pub/v/gesturedeck_flutter?label=gesturedeck_flutter)](https://pub.dev/packages/gesturedeck_flutter)
+
 
 ## Overview
 
