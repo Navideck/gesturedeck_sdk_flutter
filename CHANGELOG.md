@@ -1,3 +1,8 @@
+## 1.2.2
+* Bump Android compileSdkVersion to 35
+* Add namespace to fix compilation with latest AGP
+* Fix Android compilation with latest Flutter
+
 ## 1.2.1
 * Improve readme
 
