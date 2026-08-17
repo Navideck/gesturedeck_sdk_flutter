@@ -211,8 +211,8 @@ class _GesturedeckMediaCallbackHandler extends GesturedeckMediaCallback {
 extension _OverlayConfigExtension on GesturedeckMediaOverlay {
   OverlayConfig toOverlayConfig() {
     return OverlayConfig(
-      tintColor: tintColor?.value.toRadixString(16),
-      backgroundColor: backgroundColor?.value.toRadixString(16),
+      tintColor: tintColor?.toARGB32().toRadixString(16),
+      backgroundColor: backgroundColor?.toARGB32().toRadixString(16),
       topIcon: topIcon,
       iconSwipeLeft: iconSwipeLeft,
       iconSwipeRight: iconSwipeRight,

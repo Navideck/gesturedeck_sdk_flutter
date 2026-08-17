@@ -102,7 +102,7 @@ class AdaptiveButton extends StatelessWidget {
         ? CupertinoButton(
             onPressed: !isEnabled ? null : onPressed,
             color: primaryColor,
-            disabledColor: Colors.grey.withOpacity(0.5),
+            disabledColor: Colors.grey.withValues(alpha: 0.5),
             padding: const EdgeInsets.symmetric(horizontal: 40),
             child: Text(text),
           )

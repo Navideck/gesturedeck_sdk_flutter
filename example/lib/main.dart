@@ -23,7 +23,6 @@ void main() {
           scrolledUnderElevation: Platform.isIOS ? .1 : null,
         ),
         colorScheme: const ColorScheme.light(primary: primaryColor),
-        useMaterial3: true,
       ),
       home: const Home(),
     ),
