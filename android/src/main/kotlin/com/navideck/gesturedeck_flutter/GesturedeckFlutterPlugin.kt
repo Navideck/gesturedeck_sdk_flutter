@@ -5,8 +5,9 @@ import android.os.Build
 import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
-import androidx.core.view.allViews
 import com.navideck.gesturedeck_flutter.handlers.GesturedeckHandler
 import com.navideck.gesturedeck_flutter.handlers.GesturedeckMediaHandler
 import com.navideck.universal_volume.UniversalVolume
@@ -69,16 +70,29 @@ class GesturedeckFlutterPlugin : FlutterPlugin, ActivityAware {
     }
 
 
+    private fun findFlutterView(view: View): FlutterView? {
+        if (view is FlutterView) {
+            return view
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val child = view.getChildAt(i)
+                val flutterView = findFlutterView(child)
+                if (flutterView != null) {
+                    return flutterView
+                }
+            }
+        }
+        return null
+    }
+
     private val flutterUiListener = object : FlutterUiDisplayListener {
         override fun onFlutterUiDisplayed() {
             val activity = activityBinding?.activity ?: return
-            var flutterView: FlutterView? = null
-            activity.window.decorView.rootView.allViews.forEach {
-                if (it is FlutterView) flutterView = it
-            }
-            if (flutterView == null) throw Exception("FlutterView not found")
+            val flutterView = findFlutterView(activity.window.decorView.rootView)
+                ?: throw Exception("FlutterView not found")
             // Set up touch listeners
-            flutterView?.setOnTouchListener { v, event ->
+            flutterView.setOnTouchListener { v, event ->
                 gesturedeckMediaHandler?.onTouchEvent(event)
                 gesturedeckHandler?.onTouchEvent(event)
                 v.performClick()
